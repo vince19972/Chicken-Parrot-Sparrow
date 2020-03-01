@@ -1,0 +1,17 @@
+@import './GridSection.scss';
+
+$g-horizontal-gutter-height: 0.13;
+$g-horizontal-row-height: 0.305;
+$g-vertical-gutter-width: 0.57;
+
+$f-size-lead-val: 1;
+$f-size-main-val: 0.5;
+$f-size-sub-val: 0.412;
+$f-size-lead: 1em;
+$f-size-main: 0.5em;
+$f-size-sub: 0.412em;
+
+$size-root: 10vh;
+$gutter: calc(#{$size-root} * #{$g-horizontal-gutter-height});
+$row: calc(#{$size-root} * #{$g-horizontal-row-height});
+$v-gutter: calc(#{$size-root} * #{$g-vertical-gutter-width});
