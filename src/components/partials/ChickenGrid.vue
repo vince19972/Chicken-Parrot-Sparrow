@@ -1,7 +1,9 @@
 <template>
   <div class="grid">
-    <div class="grid__container -grid">
-      <Produce></Produce>
+    <div class="grid__container -grid-">
+      <div class="grid-v">
+        <Produce v-for="n in 10" :key="n" />
+      </div>
     </div>
   </div>
 </template>
@@ -15,7 +17,6 @@ import Produce from "@/components/comps/Chicken/Produce.vue";
     Produce
   }
 })
-
 export default class ChickenGrid extends Vue {}
 </script>
 
@@ -38,7 +39,8 @@ export default class ChickenGrid extends Vue {}
       transparent 0 $gutter,
       green $gutter calc(#{$gutter} + 0.1vh),
       transparent $gutter calc(#{$size-root} - #{$gutter}),
-      green calc(#{$size-root} - #{$gutter}) calc(#{$size-root} - #{$gutter} + 0.1vh),
+      green calc(#{$size-root} - #{$gutter})
+        calc(#{$size-root} - #{$gutter} + 0.1vh),
       transparent calc(#{$size-root} - #{$gutter}) $size-root
     );
   }
@@ -54,9 +56,22 @@ export default class ChickenGrid extends Vue {}
       transparent 0 calc(#{$gutter} + #{$row}),
       purple calc(#{$gutter} + #{$row}) calc(#{$gutter} + #{$row} + 0.1vh),
       transparent calc(#{$gutter} + #{$row}) calc(#{$gutter} * 2 + #{$row}),
-      purple calc(#{$gutter} * 2 + #{$row}) calc(#{$gutter} * 2 + #{$row} + 0.1vh),
+      purple calc(#{$gutter} * 2 + #{$row})
+        calc(#{$gutter} * 2 + #{$row} + 0.1vh),
       transparent calc(#{$gutter} * 2 + #{$row}) $size-root
     );
   }
+}
+
+.grid-v {
+  width: 90vw;
+  margin: 0 auto;
+  font-size: $size-root-v;
+  display: flex;
+}
+
+.produce {
+  display: flex;
+  align-items: center;
 }
 </style>

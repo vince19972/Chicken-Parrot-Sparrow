@@ -1,5 +1,5 @@
 <template>
-  <div class="produce">
+  <div class="Stack">
     <div class="lead">
       <div class="lead-input -bar"></div>
       <p class="lead-text -f-condensed" ref="textLead">CHICKEN</p>
@@ -7,7 +7,7 @@
     <div class="sub">
       <div class="sub-container">
         <div class="sub-output -bar"></div>
-        <p class="sub-text">CHIKKEN</p>
+        <p class="sub-text">{{ updateWindowWidth }}</p>
       </div>
       <div class="sub-container -btm">
         <div class="sub-output -bar"></div>
@@ -21,7 +21,7 @@
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
-export default class Produce extends Vue {
+export default class Stack extends Vue {
   setLength = 1;
   windowWidth = 0;
 
@@ -44,22 +44,22 @@ export default class Produce extends Vue {
 <style scoped lang="scss">
 @import "@/assets/styles/components/ChickenGrid.scss";
 
-.produce {
+.stack {
   display: flex;
-  writing-mode: vertical-rl;
 }
 
 .-bar {
   background-color: black;
+  width: 0;
 }
 .lead-input.-bar {
-  width: calc(#{$gutter-v} / 2);
-  margin-bottom: calc(#{$v-gutter-v} / 6);
+  height: calc(#{$gutter} / 2);
+  margin-right: calc(#{$v-gutter} / 6);
 }
 .sub-output.-bar {
-  width: calc(#{$gutter-v} / 4);
-  margin-top: calc(#{$v-gutter-v} / 10);
-  margin-bottom: calc(#{$v-gutter-v} / 8);
+  height: calc(#{$gutter} / 4);
+  margin-left: calc(#{$v-gutter} / 10);
+  margin-right: calc(#{$v-gutter} / 8);
 }
 
 .lead {
@@ -76,47 +76,46 @@ export default class Produce extends Vue {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  width: calc(#{$row-v} * 2 + #{$gutter-v});
+  height: calc(#{$row} * 2 + #{$gutter});
 
   &-container {
     display: flex;
     align-items: center;
   }
   &-container.-btm {
-    margin-right: calc(#{$gutter-v} * -0.8);
+    margin-top: calc(#{$gutter} * -0.8);
   }
 
   &-text {
     font-size: calc(#{$f-size-sub-val} * 1em);
     line-height: calc(
-      (#{$g-horizontal-row-height} + #{$g-horizontal-gutter-height} * 2) * #{$size-root-v}
+      (#{$g-horizontal-row-height} + #{$g-horizontal-gutter-height} * 2) * #{$size-root}
     );
   }
 }
 
 $bar-duration: 1s;
-$output-bar-length: calc(#{$v-gutter-v} * 4);
+$output-bar-length: calc(#{$v-gutter} * 4);
 $output-duration: 1s;
-$input-bar-length: $v-gutter-v;
+$input-bar-length: $v-gutter;
 
 @keyframes moveInputBar {
   0% {
-    height: 0;
+    width: 0;
   }
   25%,
   100% {
-    height: $input-bar-length;
+    width: $input-bar-length;
   }
 }
 @keyframes moveOutputBar {
   0%,
   25% {
-    height: 0;
+    width: 0;
   }
   50%,
   100% {
-    height: $output-bar-length;
+    width: $output-bar-length;
   }
 }
 
