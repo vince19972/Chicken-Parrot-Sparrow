@@ -25,17 +25,7 @@ export default {
 		}
 	},
 	getters: {
-		// mediaQuery: ({ width, screen }) => (defaultVal, breakpoint) => {
-		// 	switch (true) {
-		// 		case ('mobile' in breakpoint && width <= screen.mobile): return breakpoint.mobile
-		// 		case ('tablet' in breakpoint && width <= screen.tablet): return breakpoint.tablet
-		// 		case ('small' in breakpoint && width <= screen.small): return breakpoint.small
-		// 		case ('desktop' in breakpoint && width <= screen.desktop): return breakpoint.desktop
-		// 		case ('medium' in breakpoint && width <= screen.medium): return breakpoint.medium
-		// 		case ('large' in breakpoint && width <= screen.large): return breakpoint.large
-		// 		default: return defaultVal
-		// 	}
-		// }
+		windowSize: ({ width, height }: { width: number, height: number }) => ({ width, height })
 	},
 	mutations: {
 		[CommitKey.Scroll]: (state: ScrollState) => state.position = window.scrollY,
