@@ -1,6 +1,28 @@
 <template>
-  <div class="Stack">
-    <div class="lead">
+  <div class="stack">
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+    <!-- <div class="lead">
       <div class="lead-input -bar"></div>
       <p class="lead-text -f-condensed" ref="textLead">CHICKEN</p>
     </div>
@@ -13,7 +35,7 @@
         <div class="sub-output -bar"></div>
         <p class="sub-text" ref="textSub">CHICKEN</p>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -45,7 +67,7 @@ export default class Stack extends Vue {
 @import "@/assets/styles/components/ChickenGrid.scss";
 
 .stack {
-  display: flex;
+  // display: flex;
 }
 
 .-bar {
@@ -89,7 +111,7 @@ export default class Stack extends Vue {
   &-text {
     font-size: calc(#{$f-size-sub-val} * 1em);
     line-height: calc(
-      (#{$g-horizontal-row-height} + #{$g-horizontal-gutter-height} * 2) * #{$size-root}
+      (#{$horizontal-row-height} + #{$horizontal-gutter-height} * 2) * #{$size-root}
     );
   }
 }

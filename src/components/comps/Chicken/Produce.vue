@@ -46,6 +46,7 @@ export default class Produce extends Vue {
 
 .produce {
   display: flex;
+  align-items: center;
   writing-mode: vertical-rl;
 }
 
@@ -53,11 +54,11 @@ export default class Produce extends Vue {
   background-color: black;
 }
 .lead-input.-bar {
-  width: calc(#{$gutter-v} / 2);
+  width: calc(#{$gutter-v} / 4);
   margin-bottom: calc(#{$v-gutter-v} / 6);
 }
 .sub-output.-bar {
-  width: calc(#{$gutter-v} / 4);
+  width: calc(#{$gutter-v} / 6);
   margin-top: calc(#{$v-gutter-v} / 10);
   margin-bottom: calc(#{$v-gutter-v} / 8);
 }
@@ -90,15 +91,15 @@ export default class Produce extends Vue {
   &-text {
     font-size: calc(#{$f-size-sub-val} * 1em);
     line-height: calc(
-      (#{$g-horizontal-row-height} + #{$g-horizontal-gutter-height} * 2) * #{$size-root-v}
+      (#{$horizontal-row-height} + #{$horizontal-gutter-height} * 2) * #{$size-root-v}
     );
   }
 }
 
 $bar-duration: 1s;
-$output-bar-length: calc(#{$v-gutter-v} * 4);
-$output-duration: 1s;
 $input-bar-length: $v-gutter-v;
+$output-duration: 1s;
+$output-bar-length: calc(#{$v-gutter-v} * 4);
 
 @keyframes moveInputBar {
   0% {

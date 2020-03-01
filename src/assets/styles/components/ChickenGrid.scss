@@ -1,6 +1,8 @@
-$g-horizontal-gutter-height: 0.13;
-$g-horizontal-row-height: 0.305;
-$g-vertical-gutter-width: 0.57;
+@import './GridSection.scss';
+
+$horizontal-gutter-height: 0.13;
+$horizontal-row-height: 0.305;
+$vertical-gutter-width: 0.57;
 
 $f-size-lead-val: 1;
 $f-size-main-val: 0.5;
@@ -11,19 +13,19 @@ $f-size-sub: 0.412em;
 
 $size-root-val: 8;
 $size-root: calc(#{$size-root-val} * 1vh);
-$gutter: calc(#{$size-root} * #{$g-horizontal-gutter-height});
-$row: calc(#{$size-root} * #{$g-horizontal-row-height});
-$v-gutter: calc(#{$size-root} * #{$g-vertical-gutter-width});
+$gutter: calc(#{$size-root} * #{$horizontal-gutter-height});
+$row: calc(#{$size-root} * #{$horizontal-row-height});
+$v-gutter: calc(#{$size-root} * #{$vertical-gutter-width});
 
 :export {
 	rootFontSize: $size-root-val;
-	horizontalGutterHeight: $g-horizontal-gutter-height;
-	verticalGutterWidth: $g-vertical-gutter-width;
-	rowHeight: $g-horizontal-row-height;
+	horizontalGutterHeight: $horizontal-gutter-height;
+	verticalGutterWidth: $vertical-gutter-width;
+	rowHeight: $horizontal-row-height;
 }
 
 $size-root-val-v: 8;
-$size-root-v: calc((90vw - #{$v-gutter}*11) / #{$size-root-val-v});
-$gutter-v: calc(#{$size-root-v} * #{$g-horizontal-gutter-height});
-$row-v: calc(#{$size-root-v} * #{$g-horizontal-row-height});
-$v-gutter-v: calc(#{$size-root-v} * #{$g-vertical-gutter-width});
+$size-root-v: calc((#{$container-width} - #{$gutter} * 11) / 12);
+$gutter-v: calc(#{$size-root-v} * #{$horizontal-gutter-height});
+$row-v: calc(#{$size-root-v} * #{$horizontal-row-height});
+$v-gutter-v: calc(#{$size-root-v} * #{$vertical-gutter-width});
