@@ -36,3 +36,5 @@ export interface ScrollState {
 export interface MouseState {
 	mouse: MouseShape
 }
+
+export type CommitData = MouseShape | null

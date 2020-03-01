@@ -1,5 +1,6 @@
 import {
 	CommitKey,
+	CommitData,
 	ResizeState,
 	ScrollState,
 	MouseState,
@@ -49,16 +50,16 @@ export default {
 	}
 }
 
-export function browserEvent(store: { commit: (arg0: string, arg1: any) => void; }) {
+export function browserEvent(store: { commit: (arg0: string, arg1: CommitData) => void; }) {
 	const throttleWindowEvent = (commitKey: CommitKey) => {
 		let trigger = false
 
-		const callbackEvent = (data: MouseShape | null) => {
+		const callbackEvent = (data: CommitData) => {
 			store.commit(`browser/${commitKey}`, data)
 			trigger = false
 		}
 
-		return (data: MouseShape | null) => {
+		return (data: CommitData) => {
 			if (!trigger) {
 				trigger = true
 
