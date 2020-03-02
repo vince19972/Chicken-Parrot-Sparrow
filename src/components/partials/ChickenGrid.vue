@@ -1,11 +1,11 @@
 <template>
   <div class="chicken">
-    <div class="grid-v">
+    <div class="grid-v -full-height">
       <Produce v-for="n in 12" :key="n" />
     </div>
-    <div class="grid">
+    <div class="grid -full-height">
       <div class="grid__container -grid-">
-        <Stack />
+        <Selection />
       </div>
     </div>
   </div>
@@ -14,12 +14,12 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import Produce from "@/components/comps/Chicken/Produce.vue";
-import Stack from "@/components/comps/Chicken/Stack.vue";
+import Selection from "@/components/comps/Chicken/Selection.vue";
 
 @Component({
   components: {
     Produce,
-    Stack
+    Selection
   }
 })
 export default class ChickenGrid extends Vue {}
@@ -28,10 +28,6 @@ export default class ChickenGrid extends Vue {}
 <style scoped lang="scss">
 @import "@/assets/styles/components/GridSection.scss";
 @import "@/assets/styles/components/ChickenGrid.scss";
-
-.chicken {
-  height: 100%;
-}
 
 .grid {
   font-size: $size-root;
@@ -77,5 +73,10 @@ export default class ChickenGrid extends Vue {}
   font-size: $size-root-v;
   display: flex;
   justify-content: space-between;
+}
+
+.-full-height {
+  min-height: 100vh;
+  overflow: hidden;
 }
 </style>

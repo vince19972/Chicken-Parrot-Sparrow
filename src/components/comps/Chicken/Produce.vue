@@ -21,24 +21,7 @@
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
-export default class Produce extends Vue {
-  setLength = 1;
-  windowWidth = 0;
-
-  mounted() {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    // const styles = require("../../../assets/styles/components/ChickenGrid.scss");
-
-    const textLead = this.$refs.textLead as HTMLElement;
-    const textSub = this.$refs.textSub as HTMLElement;
-    this.setLength = textLead.offsetWidth + textSub.offsetWidth;
-  }
-
-  get updateWindowWidth () {
-    this.windowWidth = this.$store.getters["browser/windowSize"].width;
-    return this.windowWidth
-  }
-}
+export default class Produce extends Vue {}
 </script>
 
 <style scoped lang="scss">
@@ -99,7 +82,7 @@ $output-bar-length: calc(#{$v-gutter-v});
   }
 
   &-text {
-    font-size: calc(#{$f-size-sub-val} * 1em);
+    font-size: $f-size-sub;
     line-height: calc(
       (#{$horizontal-row-height} + #{$horizontal-gutter-height} * 2) * #{$size-root-v}
     );
@@ -152,7 +135,7 @@ $output-bar-length: calc(#{$v-gutter-v});
   animation-iteration-count: infinite;
 }
 .sub-text {
-  animation-name: moveOutputText;
+  // animation-name: moveOutputText;
   animation-timing-function: ease-out;
   animation-duration: $bar-duration;
   animation-iteration-count: infinite;
