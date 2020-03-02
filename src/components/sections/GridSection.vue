@@ -20,6 +20,6 @@ export default class GridSection extends Vue {}
 .section {
   width: 100%;
   height: 100vh;
-  padding: 24px 0;
+  padding: 8px 0;
 }
 </style>

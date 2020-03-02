@@ -7,7 +7,7 @@
     <div class="sub">
       <div class="sub-container">
         <div class="sub-output -bar"></div>
-        <p class="sub-text">CHIKKEN</p>
+        <p class="sub-text">CHIKCEN</p>
       </div>
       <div class="sub-container -btm">
         <div class="sub-output -bar"></div>
@@ -44,9 +44,16 @@ export default class Produce extends Vue {
 <style scoped lang="scss">
 @import "@/assets/styles/components/ChickenGrid.scss";
 
+$bar-duration: 1s;
+$input-bar-length: calc(#{$v-gutter-v} / 2);
+$output-duration: 1s;
+$output-bar-length: calc(#{$v-gutter-v});
+
 .produce {
+  height: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   writing-mode: vertical-rl;
 }
 
@@ -54,11 +61,13 @@ export default class Produce extends Vue {
   background-color: black;
 }
 .lead-input.-bar {
-  width: calc(#{$gutter-v} / 4);
+  width: calc(#{$gutter-v} / 3);
+  // height: $input-bar-length;
   margin-bottom: calc(#{$v-gutter-v} / 6);
 }
 .sub-output.-bar {
-  width: calc(#{$gutter-v} / 6);
+  width: calc(#{$gutter-v} / 4);
+  height: 100%;
   margin-top: calc(#{$v-gutter-v} / 10);
   margin-bottom: calc(#{$v-gutter-v} / 8);
 }
@@ -79,6 +88,7 @@ export default class Produce extends Vue {
   flex-direction: column;
   justify-content: center;
   width: calc(#{$row-v} * 2 + #{$gutter-v});
+  height: 100%;
 
   &-container {
     display: flex;
@@ -96,11 +106,6 @@ export default class Produce extends Vue {
   }
 }
 
-$bar-duration: 1s;
-$input-bar-length: $v-gutter-v;
-$output-duration: 1s;
-$output-bar-length: calc(#{$v-gutter-v} * 4);
-
 @keyframes moveInputBar {
   0% {
     height: 0;
@@ -117,7 +122,20 @@ $output-bar-length: calc(#{$v-gutter-v} * 4);
   }
   50%,
   100% {
-    height: $output-bar-length;
+    height: 100%;
+  }
+}
+@keyframes moveOutputText {
+  0%,
+  45% {
+    // width: 0;
+    // height: 0;
+    opacity: 0;
+  }
+  100% {
+    // width: 100%;
+    // height: 100%;
+    opacity: 1;
   }
 }
 
@@ -130,6 +148,12 @@ $output-bar-length: calc(#{$v-gutter-v} * 4);
 .sub-output {
   animation-name: moveOutputBar;
   animation-timing-function: ease-in-out;
+  animation-duration: $bar-duration;
+  animation-iteration-count: infinite;
+}
+.sub-text {
+  animation-name: moveOutputText;
+  animation-timing-function: ease-out;
   animation-duration: $bar-duration;
   animation-iteration-count: infinite;
 }
