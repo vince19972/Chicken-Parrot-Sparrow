@@ -1,7 +1,7 @@
 <template>
   <div class="selection">
     <div class="text-group" v-for="x in 10" :key="x">
-      <p class="text" v-for="n in 10" :key="n">CHICKEN</p>
+      <p class="text" v-for="n in 20" :key="n">CHICKEN</p>
     </div>
   </div>
 </template>
@@ -17,13 +17,11 @@ export default class Selection extends Vue {}
 @import "@/assets/styles/components/ChickenGrid.scss";
 
 .selection {
-	font-size: 10vh;
+  font-size: $f-size-sub;
+  display: flex;
 }
-// .text-group {
-// 	display: flex;
-// 	justify-content: space-between;
-// }
-// .text:not(:last-child) {
-//   margin-right: $gutter;
-// }
+
+.text {
+  // font-size: $f-size-sub;
+}
 </style>
