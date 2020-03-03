@@ -1,4 +1,4 @@
-@import './GridSection.scss';
+@import "./GridSection.scss";
 
 $horizontal-gutter-height: 0.13;
 $horizontal-row-height: 0.305;
@@ -28,5 +28,5 @@ $v-gutter-val: 5;
 $v-gutter-v: 5vh;
 
 :export {
-	verticalGutterVal: $v-gutter-val;
+  verticalGutterVal: $v-gutter-val;
 }

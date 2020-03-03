@@ -4,16 +4,6 @@
       <div class="lead-input -bar"></div>
       <p class="lead-text -f-condensed" ref="textLead">CHICKEN</p>
     </div>
-    <div class="sub">
-      <div class="sub-container">
-        <div class="sub-output -bar"></div>
-        <p class="sub-text">CHIKCEN</p>
-      </div>
-      <div class="sub-container -btm">
-        <div class="sub-output -bar"></div>
-        <p class="sub-text" ref="textSub">CHICKEN</p>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -28,97 +18,50 @@ export default class Produce extends Vue {}
 @import "@/assets/styles/components/ChickenGrid.scss";
 
 $bar-duration: 1s;
-$input-bar-length: calc(#{$v-gutter-v} / 2);
-$output-duration: 1s;
-$output-bar-length: calc(#{$v-gutter-v});
+$input-bar-length: 100%;
 
 .produce {
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   writing-mode: vertical-rl;
+  border-right: calc(#{$gutter-v} / 2) solid black;
 }
 
 .-bar {
   background-color: black;
 }
 .lead-input.-bar {
-  width: calc(#{$gutter-v} / 3);
-  // height: $input-bar-length;
+  height: $input-bar-length;
+  width: calc(#{$gutter-v});
   margin-bottom: calc(#{$v-gutter-v} / 6);
-}
-.sub-output.-bar {
-  width: calc(#{$gutter-v} / 4);
-  height: 100%;
-  margin-top: calc(#{$v-gutter-v} / 10);
-  margin-bottom: calc(#{$v-gutter-v} / 8);
+  border-radius: 0 0 calc(#{$gutter-v}* 0.5) calc(#{$gutter-v}* 0.5);
 }
 
 .lead {
   display: flex;
   align-items: center;
-
-  &-text {
-    font-size: $f-size-lead;
-    line-height: $f-size-lead;
-  }
+  justify-content: space-between;
 }
-
-.sub {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: calc(#{$row-v} * 2 + #{$gutter-v});
-  height: 100%;
-
-  &-container {
-    display: flex;
-    align-items: center;
-  }
-  &-container.-btm {
-    margin-right: calc(#{$gutter-v} * -0.8);
-  }
-
-  &-text {
-    font-size: $f-size-sub;
-    line-height: calc(
-      (#{$horizontal-row-height} + #{$horizontal-gutter-height} * 2) * #{$size-root-v}
-    );
-  }
+.lead-text {
+  font-size: $f-size-lead;
+  line-height: $f-size-lead;
 }
 
 @keyframes moveInputBar {
-  0% {
-    height: 0;
-  }
-  25%,
+  0%,
   100% {
-    height: $input-bar-length;
+    transform: translate3d(0, -100%, 0);
+  }
+  50% {
+    transform: translate3d(0, 0, 0);
   }
 }
-@keyframes moveOutputBar {
+@keyframes moveLeadText {
   0%,
-  25% {
-    height: 0;
-  }
-  50%,
   100% {
-    height: 100%;
+    letter-spacing: normal;
   }
-}
-@keyframes moveOutputText {
-  0%,
-  45% {
-    // width: 0;
-    // height: 0;
-    opacity: 0;
-  }
-  100% {
-    // width: 100%;
-    // height: 100%;
-    opacity: 1;
+  50% {
+    letter-spacing: -0.2rem;
   }
 }
 
@@ -128,15 +71,9 @@ $output-bar-length: calc(#{$v-gutter-v});
   animation-duration: $bar-duration;
   animation-iteration-count: infinite;
 }
-.sub-output {
-  animation-name: moveOutputBar;
+.lead-text {
+  animation-name: moveLeadText;
   animation-timing-function: ease-in-out;
-  animation-duration: $bar-duration;
-  animation-iteration-count: infinite;
-}
-.sub-text {
-  // animation-name: moveOutputText;
-  animation-timing-function: ease-out;
   animation-duration: $bar-duration;
   animation-iteration-count: infinite;
 }
