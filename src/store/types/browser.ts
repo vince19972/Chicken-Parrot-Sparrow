@@ -1,40 +1,45 @@
 export enum CommitKey {
-	Resize = 'resize',
-	Scroll = 'scroll',
-	Mouse = 'mouse'
+  Resize = "resize",
+  Scroll = "scroll",
+  Mouse = "mouse"
 }
 
 export interface MouseShape {
-	x: number,
-	y: number
+  x: number;
+  y: number;
 }
 
 interface States {
-	width: number,
-	height: number,
-	ratio: number,
-	position: number,
-	mouse: MouseShape,
-	screen: {
-		large: number
-		medium: number
-		desktop: number
-		small: number
-		tablet: number
-		mobile: number
-	}
+  width: number;
+  height: number;
+  ratio: number;
+  position: number;
+  mouse: MouseShape;
+  screen: {
+    large: number;
+    medium: number;
+    desktop: number;
+    small: number;
+    tablet: number;
+    mobile: number;
+  };
+}
+
+export interface WindowSize {
+  width: number;
+  height: number;
 }
 
 export interface ResizeState {
-	width: number
-	height: number
-	ratio: number
+  width: number;
+  height: number;
+  ratio: number;
 }
 export interface ScrollState {
-	position: number
+  position: number;
 }
 export interface MouseState {
-	mouse: MouseShape
+  mouse: MouseShape;
 }
 
-export type CommitData = MouseShape | null
+export type CommitData = MouseShape | null;
