@@ -3,7 +3,9 @@
     <div class="text-group">
       <div class="text-row" v-for="r in textCount.row" :key="r + 'row'">
         <div class="text-col" v-for="c in textCount.col" :key="c + 'col'">
-          <p class="text-col__text">{{ textType(c) }}</p>
+          <p :class="['text-col__text', { '-is-useless': !(c % 2) }]">
+            {{ textType(c) }}
+          </p>
         </div>
       </div>
     </div>
@@ -55,6 +57,7 @@ export default class Selection extends Vue {
 .selection {
   font-size: $f-size-lead;
   display: flex;
+  // background-color: black;
 }
 
 .text-row {
@@ -91,56 +94,110 @@ export default class Selection extends Vue {
     border-radius: 100%;
   }
 }
+.text-col__text {
+  text-align: center;
+}
 
 /*
 ** animation
 */
 
-$egg-duration: 2s;
+$egg-duration: 5s;
 
 @keyframes scaleEgg {
-  0% {
+  0%,
+  10% {
     transform: scale3d(1, 1, 1);
   }
-  50% {
-    transform: scale3d(1, 2, 1);
+  30% {
+    transform: scale3d(1, 5, 1);
   }
-  51%,
+  31%,
   100% {
     transform: scale3d(1, 1, 1);
   }
 }
 @keyframes colorEgg {
   0%,
-  48% {
-    background-color: #f0f0f0;
+  28% {
+    background-color: black;
   }
-  49%,
-  100% {
+  28.5% {
+    background-color: white;
+  }
+  29%,
+  98% {
     background-color: transparent;
   }
 }
 @keyframes showText {
   0%,
-  48%,
+  28%,
+  89.1%,
   100% {
     opacity: 0;
   }
-  49%,
-  99% {
+  29%,
+  89% {
     opacity: 1;
+  }
+}
+@keyframes eliminateText {
+  0%,
+  28%,
+  89.1%,
+  100% {
+    opacity: 0;
+    color: black;
+    // transform: scale3d(1, 1, 1);
+    letter-spacing: normal;
+    width: inherit;
+  }
+  29% {
+    opacity: 1;
+    // transform: scale3d(1, 1, 1);
+    letter-spacing: normal;
+    width: inherit;
+  }
+  60% {
+    opacity: 1;
+    color: red;
+    // transform: scale3d(1, 1, 1);
+    letter-spacing: normal;
+    width: inherit;
+  }
+  65% {
+    opacity: 1;
+    // transform: scale3d(1, 0, 1);
+    letter-spacing: -0.5em;
+    width: 0px;
+    // margin-right: calc(#{$v-gutter} * -2);
+  }
+  80%,
+  89% {
+    opacity: 0;
+    color: red;
+    // transform: scale3d(1, 0, 1);
+    letter-spacing: -0.5em;
+    width: 0px;
+    // margin-right: calc(#{$v-gutter} * -2);
   }
 }
 
 .text-col:after,
-.text-col__text {
+.text-col__text,
+.text-col__text.-is-useless {
   animation-duration: $egg-duration;
   animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
 }
 .text-col:after {
   animation-name: scaleEgg, colorEgg;
 }
 .text-col__text {
   animation-name: showText;
+}
+.text-col__text.-is-useless {
+  animation-name: eliminateText;
 }
 </style>
