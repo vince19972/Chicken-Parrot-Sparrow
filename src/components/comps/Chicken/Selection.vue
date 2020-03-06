@@ -22,7 +22,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { WindowSize as WindowSizeState } from "@/store/types/browser";
-import { TimelineMax } from "gsap";
+import { TimelineMax, SteppedEase } from "gsap";
 
 @Component
 export default class Selection extends Vue {
@@ -60,23 +60,51 @@ export default class Selection extends Vue {
   }
   updated() {
     // gsap
+    const textCol = ".text-col";
+    const text = `${textCol}__text`;
+
     const tl = new TimelineMax({ repeat: -1 });
     const $selection = ".selection";
-    const $textCover = ".text-col__cover";
-    const $textColUseless = ".text-col.-is-useless";
-    const $text = ".text-col__text";
-    const $textUseless = ".text-col.-is-useless .text-col__text";
-    tl.staggerFromTo($text, 0.1, { opacity: 0 }, { opacity: 1 }, 0.01, "-=0.5")
-      .staggerTo($text, 1, { fontWeight: "normal" }, 0.01, "hatched")
-      .to($selection, 0.5, { backgroundColor: "black" }, "hatched+=0.5")
-      .to($selection, 0.5, { backgroundColor: "white" }, "hatched+=1")
-      .addLabel("filter", "-=0.5")
-      .staggerTo($textUseless, 0.1, { color: "red" }, 0.01, "filter")
-      .staggerTo($textCover, 0.1, { width: "100%" }, 0.01, "filter+=0.5")
-      .staggerTo($textUseless, 0.1, { opacity: 0 }, 0, "filter+=0.5")
-      .staggerTo($textCover, 0.1, { width: "0" }, 0.01, "filter+=1")
-      .staggerTo($textUseless, 0.25, { width: "0" }, 0, "filter+=1")
-      .staggerTo($textColUseless, 0.1, { marginRight: 0 }, 0.01, "filter+=0.5");
+    const $textCover = `${textCol}__cover`;
+    const $textColUseless = `${textCol}.-is-useless`;
+    const $text = text;
+    const $textUseless = `${textCol}.-is-useless ${text}`;
+
+    tl.staggerFromTo(
+      $text,
+      0.1,
+      { opacity: 0, y: "-100%" },
+      { opacity: 1, y: "0" },
+      0.01,
+      "hatched"
+    )
+      .to($selection, 0.5, { backgroundColor: "black" }, "hatched+=1")
+      .addLabel("filtering", "+=0")
+      .to($selection, 0.5, { backgroundColor: "white" }, "filtering+=0.5")
+      .addLabel("filtered", "+=0")
+      .staggerTo($textUseless, 0.1, { color: "red" }, 0.01, "filtered-=0.5")
+      .staggerTo(
+        $textCover,
+        0.1,
+        { width: "100%", ease: SteppedEase.config(4) },
+        0.025,
+        "filtered+=0.25"
+      )
+      .addLabel("eliminating", "+=0")
+      .staggerTo($textUseless, 0.1, { opacity: 0 }, 0, "eliminating+=0")
+      .staggerTo($textCover, 0.1, { width: "0" }, 0.01, "eliminating+=1")
+      .staggerTo($textUseless, 0.1, { width: "0" }, 0, "eliminating+=1")
+      .staggerTo(
+        $textColUseless,
+        0.1,
+        { marginRight: 0 },
+        0.01,
+        "eliminating+=1"
+      );
+    // .addLabel("eliminated", "+=0")
+    // .staggerTo($text, 0.25, { y: "200%" }, 0.01, "eliminated+=0");
+
+    console.log(tl);
   }
 }
 </script>
@@ -128,108 +156,5 @@ export default class Selection extends Vue {
 
   // animation
   width: 0;
-}
-
-/*
-** animation
-*/
-
-$egg-duration: 5s;
-
-@keyframes scaleEgg {
-  0%,
-  10% {
-    transform: scale3d(1, 1, 1);
-  }
-  30% {
-    transform: scale3d(1, 5, 1);
-  }
-  31%,
-  100% {
-    transform: scale3d(1, 1, 1);
-  }
-}
-@keyframes colorEgg {
-  0%,
-  28% {
-    background-color: black;
-  }
-  28.5% {
-    background-color: white;
-  }
-  29%,
-  98% {
-    background-color: transparent;
-  }
-}
-@keyframes showText {
-  0%,
-  28%,
-  89.1%,
-  100% {
-    opacity: 0;
-  }
-  29%,
-  89% {
-    opacity: 1;
-  }
-}
-@keyframes eliminateText {
-  0%,
-  28%,
-  89.1%,
-  100% {
-    opacity: 0;
-    color: black;
-    // transform: scale3d(1, 1, 1);
-    letter-spacing: normal;
-    width: inherit;
-  }
-  29% {
-    opacity: 1;
-    // transform: scale3d(1, 1, 1);
-    letter-spacing: normal;
-    width: inherit;
-  }
-  60% {
-    opacity: 1;
-    color: red;
-    // transform: scale3d(1, 1, 1);
-    letter-spacing: normal;
-    width: inherit;
-  }
-  65% {
-    opacity: 1;
-    // transform: scale3d(1, 0, 1);
-    letter-spacing: -0.5em;
-    width: 0px;
-    // margin-right: calc(#{$v-gutter} * -2);
-  }
-  80%,
-  89% {
-    opacity: 0;
-    color: red;
-    // transform: scale3d(1, 0, 1);
-    letter-spacing: -0.5em;
-    width: 0px;
-    // margin-right: calc(#{$v-gutter} * -2);
-  }
-}
-
-.text-col__egg,
-.text-col__text,
-.text-col.-is-useless .text-col__text {
-  animation-duration: $egg-duration;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-}
-.text-col__egg {
-  // animation-name: scaleEgg, colorEgg;
-}
-.text-col__text {
-  // animation-name: showText;
-}
-.text-col.-is-useless .text-col__text {
-  // animation-name: eliminateText;
 }
 </style>
