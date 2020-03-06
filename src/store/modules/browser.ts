@@ -62,7 +62,7 @@ export function browserEvent(store: {
 
         window.requestAnimationFrame
           ? window.requestAnimationFrame(() => callbackEvent(data))
-          : setTimeout(() => callbackEvent(data), 66);
+          : setTimeout(() => callbackEvent(data), 330);
       }
     };
   };
