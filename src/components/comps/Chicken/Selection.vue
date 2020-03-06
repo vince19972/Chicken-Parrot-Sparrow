@@ -44,26 +44,9 @@ export default class Selection extends Vue {
   textType(index: number) {
     return this.isUseless(index) ? "chicken" : "chicKen";
   }
-
-  // data
-  textValue = {
-    width: this.windowSize.width,
-    height: this.windowSize.height
-  };
-
-  // life cycle
-  mounted() {
-    // text values
-    const text = this.$refs.textHidden as HTMLElement;
-    this.textValue.width = text.offsetWidth;
-    this.textValue.height = text.offsetHeight;
-  }
-  updated() {
-    // gsap
+  moveTimeline(tl: TimelineMax) {
     const textCol = ".text-col";
     const text = `${textCol}__text`;
-
-    const tl = new TimelineMax({ repeat: -1 });
     const $selection = ".selection";
     const $textCover = `${textCol}__cover`;
     const $textColUseless = `${textCol}.-is-useless`;
@@ -100,11 +83,37 @@ export default class Selection extends Vue {
         { marginRight: 0 },
         0.01,
         "eliminating+=1"
-      );
-    // .addLabel("eliminated", "+=0")
-    // .staggerTo($text, 0.25, { y: "200%" }, 0.01, "eliminated+=0");
+      )
+      .addLabel("eliminated", "+=0")
+      .staggerTo($text, 0.05, { y: "100%" }, 0.01, "eliminated+=0")
+      .staggerTo($text, 0.01, { y: "0", opacity: 0 }, 0.01, "eliminated+=0.05");
+  }
 
-    console.log(tl);
+  // data
+  textValue = {
+    width: this.windowSize.width,
+    height: this.windowSize.height
+  };
+  timeline: TimelineMax = new TimelineMax({ repeat: -1 });
+
+  // life cycle
+  mounted() {
+    // text values
+    const text = this.$refs.textHidden as HTMLElement;
+    this.textValue.width = text.offsetWidth;
+    this.textValue.height = text.offsetHeight;
+  }
+  updated() {
+    // gsap
+    /*
+    // we need to restart the timeline,
+    // bringing it back to step 0 before invalidating/clearing it,
+    // preventing timeline keeps the state before updated.
+    */
+    this.timeline.restart().invalidate();
+    this.timeline.clear();
+    this.moveTimeline(this.timeline);
+    this.timeline.restart();
   }
 }
 </script>
