@@ -49,21 +49,25 @@ export function browserEvent(store: {
   commit: (arg0: string, arg1: CommitData) => void;
 }) {
   const throttleWindowEvent = (commitKey: CommitKey) => {
-    let trigger = false;
+    let start = 0;
 
     const callbackEvent = (data: CommitData) => {
       store.commit(`browser/${commitKey}`, data);
-      trigger = false;
     };
 
     return (data: CommitData) => {
-      if (!trigger) {
-        trigger = true;
+      const step = (timestamp: number) => {
+        if (start === 0) start = timestamp;
+        const progress = timestamp - start;
 
-        window.requestAnimationFrame
-          ? window.requestAnimationFrame(() => callbackEvent(data))
-          : setTimeout(() => callbackEvent(data), 330);
-      }
+        if (progress > 264) {
+          start = 0;
+          callbackEvent(data);
+          window.requestAnimationFrame(step);
+        }
+      };
+
+      window.requestAnimationFrame(step);
     };
   };
 
