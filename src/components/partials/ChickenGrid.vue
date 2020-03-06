@@ -76,7 +76,8 @@ export default class ChickenGrid extends Vue {}
 }
 
 .-full-height {
-  min-height: 100vh;
+  max-height: 100vh;
+  height: 100vh;
   overflow: hidden;
 }
 </style>
