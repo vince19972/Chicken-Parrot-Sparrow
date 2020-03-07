@@ -1,64 +1,83 @@
 <template>
   <div class="stack">
-    <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-    <!-- <div class="lead">
-      <div class="lead-input -bar"></div>
-      <p class="lead-text -f-condensed" ref="textLead">CHICKEN</p>
+    <div class="text-group">
+      <div class="text-row" v-for="r in textCount.row" :key="r + 'row'">
+        <div class="text-col" v-for="c in textCount.col" :key="c + 'col'">
+          <p class="text-col__text">chicken</p>
+          <div class="text-col__bar"></div>
+        </div>
+        <div class="text-row__bar"></div>
+      </div>
     </div>
-    <div class="sub">
-      <div class="sub-container">
-        <div class="sub-output -bar"></div>
-        <p class="sub-text">{{ updateWindowWidth }}</p>
-      </div>
-      <div class="sub-container -btm">
-        <div class="sub-output -bar"></div>
-        <p class="sub-text" ref="textSub">CHICKEN</p>
-      </div>
-    </div> -->
+    <p class="text -hidden" ref="textHidden">chicken</p>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { WindowSize as WindowSizeState } from "@/store/types/browser";
+import { TimelineMax } from "gsap";
 
 @Component
 export default class Stack extends Vue {
-  setLength = 1;
-  windowWidth = 0;
-
-  mounted() {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    // const styles = require("../../../assets/styles/components/ChickenGrid.scss");
-
-    const textLead = this.$refs.textLead as HTMLElement;
-    const textSub = this.$refs.textSub as HTMLElement;
-    this.setLength = textLead.offsetWidth + textSub.offsetWidth;
+  // computed setters
+  get windowSize(): WindowSizeState {
+    return this.$store.getters["browser/windowSize"];
+  }
+  get textCount() {
+    return {
+      row: Math.ceil(this.windowSize.height / this.textValue.height) + 1,
+      col: Math.ceil(this.windowSize.width / this.textValue.width) * 5
+    };
   }
 
-  get updateWindowWidth () {
-    this.windowWidth = this.$store.getters["browser/windowSize"].width;
-    return this.windowWidth
+  moveTimeline(tl: TimelineMax) {
+    const parent = ".stack";
+    const textCol = ".text-col";
+    const textRow = ".text-row";
+    const text = `${parent} ${textCol}__text`;
+    const $parent = parent;
+    const $textRow = `${parent} ${textRow}`;
+    const $textRowBar = `${parent} ${textRow}__bar`;
+    const $textCol = `${parent} ${textCol}`;
+    const $textColBar = `${parent} ${textCol}__bar`;
+
+    tl.staggerFromTo($textRowBar, 1, { width: 0 }, { width: "100%" }, 0)
+      .staggerTo($textColBar, 0.01, { height: "100%" }, 0.001)
+      .staggerTo(
+        $textCol,
+        1,
+        { css: { className: "+=text-col -is-active" } },
+        0.0001,
+        "-=0.3"
+      );
+  }
+
+  // data
+  textValue = {
+    width: this.windowSize.width,
+    height: this.windowSize.height
+  };
+  timeline: TimelineMax = new TimelineMax({ repeat: -1 });
+
+  // life cycle
+  mounted() {
+    // text values
+    const text = this.$refs.textHidden as HTMLElement;
+    this.textValue.width = text.offsetWidth;
+    this.textValue.height = text.offsetHeight;
+  }
+  updated() {
+    // gsap
+    /*
+    // we need to restart the timeline,
+    // bringing it back to step 0 before invalidating/clearing it,
+    // preventing timeline keeps the state before updated.
+    */
+    this.timeline.restart().invalidate();
+    this.timeline.clear();
+    this.moveTimeline(this.timeline);
+    this.timeline.restart();
   }
 }
 </script>
@@ -67,90 +86,42 @@ export default class Stack extends Vue {
 @import "@/assets/styles/components/ChickenGrid.scss";
 
 .stack {
-  // display: flex;
-}
-
-.-bar {
-  background-color: black;
-  width: 0;
-}
-.lead-input.-bar {
-  height: calc(#{$gutter} / 2);
-  margin-right: calc(#{$v-gutter} / 6);
-}
-.sub-output.-bar {
-  height: calc(#{$gutter} / 4);
-  margin-left: calc(#{$v-gutter} / 10);
-  margin-right: calc(#{$v-gutter} / 8);
-}
-
-.lead {
+  height: 100%;
   display: flex;
   align-items: center;
-
-  &-text {
-    font-size: $f-size-lead;
-    line-height: $f-size-lead;
-  }
+  justify-content: center;
 }
 
-.sub {
-  position: relative;
+.text-row {
   display: flex;
-  flex-direction: column;
-  height: calc(#{$row} * 2 + #{$gutter});
+  position: relative;
 
-  &-container {
-    display: flex;
-    align-items: center;
-  }
-  &-container.-btm {
-    margin-top: calc(#{$gutter} * -0.8);
-  }
-
-  &-text {
-    font-size: calc(#{$f-size-sub-val} * 1em);
-    line-height: calc(
-      (#{$horizontal-row-height} + #{$horizontal-gutter-height} * 2) * #{$size-root}
-    );
+  &__bar {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: black;
   }
 }
 
-$bar-duration: 1s;
-$output-bar-length: calc(#{$v-gutter} * 4);
-$output-duration: 1s;
-$input-bar-length: $v-gutter;
+.text-col {
+  position: relative;
 
-@keyframes moveInputBar {
-  0% {
-    width: 0;
+  &__bar {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: calc(#{$v-gutter} / -3);
+    width: 4px;
+    height: 0;
+    background-color: black;
   }
-  25%,
-  100% {
-    width: $input-bar-length;
-  }
-}
-@keyframes moveOutputBar {
-  0%,
-  25% {
-    width: 0;
-  }
-  50%,
-  100% {
-    width: $output-bar-length;
-  }
-}
 
-.lead-input {
-  animation-name: moveInputBar;
-  animation-timing-function: ease-in-out;
-  animation-duration: $bar-duration;
-  animation-iteration-count: infinite;
-}
-.sub-output {
-  animation-name: moveOutputBar;
-  animation-timing-function: ease-in-out;
-  animation-duration: $bar-duration;
-  animation-iteration-count: infinite;
+  &.-is-active {
+    margin-right: calc(#{$v-gutter} / 2);
+  }
 }
 </style>

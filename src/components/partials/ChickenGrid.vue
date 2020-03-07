@@ -8,6 +8,11 @@
         <Selection />
       </div>
     </div>
+    <div class="grid -full-height">
+      <div class="grid__container -grid-">
+        <Stack />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -15,11 +20,13 @@
 import { Component, Vue } from "vue-property-decorator";
 import Produce from "@/components/comps/Chicken/Produce.vue";
 import Selection from "@/components/comps/Chicken/Selection.vue";
+import Stack from "@/components/comps/Chicken/Stack.vue";
 
 @Component({
   components: {
     Produce,
-    Selection
+    Selection,
+    Stack
   }
 })
 export default class ChickenGrid extends Vue {}
