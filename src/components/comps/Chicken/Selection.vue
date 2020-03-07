@@ -4,11 +4,10 @@
       <div class="text-row" v-for="r in textCount.row" :key="r + 'row'">
         <div
           :class="['text-col', { '-is-useless': isUseless(c) }]"
-          ref="test"
           v-for="c in textCount.col"
           :key="c + 'col'"
         >
-          <p :class="['text-col__text']">
+          <p class="text-col__text">
             {{ textType(c) }}
           </p>
           <div v-if="isUseless(c)" class="text-col__cover"></div>
@@ -45,9 +44,10 @@ export default class Selection extends Vue {
     return this.isUseless(index) ? "chicken" : "chicKen";
   }
   moveTimeline(tl: TimelineMax) {
+    const selection = ".selection";
     const textCol = ".text-col";
-    const text = `${textCol}__text`;
-    const $selection = ".selection";
+    const text = `${selection} ${textCol}__text`;
+    const $selection = selection;
     const $textCover = `${textCol}__cover`;
     const $textColUseless = `${textCol}.-is-useless`;
     const $text = text;
