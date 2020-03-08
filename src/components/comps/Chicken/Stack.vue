@@ -16,7 +16,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { WindowSize as WindowSizeState } from "@/store/types/browser";
-import { TimelineMax } from "gsap";
+import { TimelineMax, Power4 } from "gsap";
 
 @Component
 export default class Stack extends Vue {
@@ -26,8 +26,8 @@ export default class Stack extends Vue {
   }
   get textCount() {
     return {
-      row: Math.ceil(this.windowSize.height / this.textValue.height) + 1,
-      col: Math.ceil(this.windowSize.width / this.textValue.width) * 5
+      row: Math.ceil(this.windowSize.height / this.textValue.height),
+      col: Math.ceil(this.windowSize.width / this.textValue.width) * 3
     };
   }
 
@@ -36,20 +36,70 @@ export default class Stack extends Vue {
     const textCol = ".text-col";
     const textRow = ".text-row";
     const text = `${parent} ${textCol}__text`;
-    const $parent = parent;
+    const $text = text;
     const $textRow = `${parent} ${textRow}`;
     const $textRowBar = `${parent} ${textRow}__bar`;
     const $textCol = `${parent} ${textCol}`;
     const $textColBar = `${parent} ${textCol}__bar`;
 
-    tl.staggerFromTo($textRowBar, 1, { width: 0 }, { width: "100%" }, 0)
-      .staggerTo($textColBar, 0.01, { height: "100%" }, 0.001)
+    tl.staggerFromTo(
+      $textRow,
+      0.8,
+      { x: "-100%" },
+      { x: 0 },
+      {
+        amount: 0.5,
+        from: "random",
+        ease: Power4.easeIn
+      }
+    )
+      .staggerFromTo(
+        $textRowBar,
+        0.5,
+        { width: 0 },
+        { width: "100%" },
+        0.01,
+        "+=0.1"
+      )
+      .staggerTo($textColBar, 0, { height: "100%" }, 0.0025, "+=0.001")
       .staggerTo(
         $textCol,
-        1,
+        0.001,
         { css: { className: "+=text-col -is-active" } },
-        0.0001,
-        "-=0.3"
+        0.0025,
+        "-=0.6"
+      )
+      .addLabel("caged")
+      .staggerTo(
+        $text,
+        0.1,
+        {
+          fontFamily: "HelveticaNeue-CondensedBlack",
+          textTransform: "uppercase",
+          fontSize: "200%"
+        },
+        0.015,
+        "caged+=0.5"
+      )
+      .addLabel("grown")
+      .staggerTo(
+        $text,
+        1,
+        { letterSpacing: "-0.8rem", paddingRight: "0.8rem" },
+        0,
+        "grown+=0.01"
+      )
+      .staggerTo(
+        $textRow,
+        2,
+        {
+          x: "100%"
+        },
+        {
+          amount: 0.5,
+          from: "random"
+        },
+        "grown+=1"
       );
   }
 
@@ -99,10 +149,10 @@ export default class Stack extends Vue {
   &__bar {
     content: "";
     position: absolute;
-    bottom: -4px;
+    bottom: -6px;
     left: 0;
     width: 100%;
-    height: 4px;
+    height: 6px;
     background-color: black;
   }
 }
@@ -115,7 +165,7 @@ export default class Stack extends Vue {
     position: absolute;
     top: 0;
     right: calc(#{$v-gutter} / -3);
-    width: 4px;
+    width: 6px;
     height: 0;
     background-color: black;
   }
@@ -123,5 +173,9 @@ export default class Stack extends Vue {
   &.-is-active {
     margin-right: calc(#{$v-gutter} / 2);
   }
+}
+
+.text-col__text {
+  font-weight: lighter;
 }
 </style>
