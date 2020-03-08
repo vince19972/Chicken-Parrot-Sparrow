@@ -21,7 +21,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { WindowSize as WindowSizeState } from "@/store/types/browser";
-import { TimelineMax, SteppedEase } from "gsap";
+import { TimelineMax, SteppedEase, Back } from "gsap";
 
 @Component
 export default class Selection extends Vue {
@@ -51,7 +51,7 @@ export default class Selection extends Vue {
     const $textCover = `${textCol}__cover`;
     const $textColUseless = `${textCol}.-is-useless`;
     const $text = text;
-    const $textUseless = `${textCol}.-is-useless ${text}`;
+    const $textUseless = `${selection} ${textCol}.-is-useless ${textCol}__text`;
 
     tl.staggerFromTo(
       $text,
@@ -68,9 +68,13 @@ export default class Selection extends Vue {
       .staggerTo($textUseless, 0.1, { color: "red" }, 0.01, "filtered-=0.5")
       .staggerTo(
         $textCover,
-        0.1,
+        0.05,
         { width: "100%", ease: SteppedEase.config(4) },
-        0.025,
+        {
+          amount: 1,
+          from: "random",
+          ease: Back.easeOut.config(1.7)
+        },
         "filtered+=0.25"
       )
       .addLabel("eliminating", "+=0")
