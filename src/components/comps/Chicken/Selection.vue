@@ -38,10 +38,10 @@ export default class Selection extends Vue {
 
   // methods
   isUseless(index: number) {
-    return !(index % 2);
+    return index % 2 !== 0;
   }
   textType(index: number) {
-    return this.isUseless(index) ? "chicken" : "chicKen";
+    return this.isUseless(index) ? "chIcken" : "chicken";
   }
   moveTimeline(tl: TimelineMax) {
     const selection = ".selection";
