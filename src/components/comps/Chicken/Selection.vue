@@ -32,7 +32,7 @@ export default class Selection extends Vue {
   get textCount() {
     return {
       row: Math.ceil(this.windowSize.height / this.textValue.height),
-      col: Math.ceil(this.windowSize.width / this.textValue.width) * 3
+      col: Math.ceil(this.windowSize.width / this.textValue.width) * 4
     };
   }
 
