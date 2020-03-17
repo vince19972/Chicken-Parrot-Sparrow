@@ -1,20 +1,22 @@
 <template>
   <div id="app">
-    <GridSection></GridSection>
+    <OpeningSection />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import GridSection from "./components/sections/GridSection.vue";
 import { browserEvent } from "./store/modules/browser";
+
+import OpeningSection from "./components/sections/OpeningSection.vue";
+import GridSection from "./components/sections/GridSection.vue";
 
 @Component({
   components: {
+    OpeningSection,
     GridSection
   }
 })
-
 export default class App extends Vue {
   created() {
     const { resizeEvent, scrollEvent, mouseEvent } = browserEvent(this.$store);
