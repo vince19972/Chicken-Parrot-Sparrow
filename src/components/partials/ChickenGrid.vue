@@ -38,7 +38,7 @@ export default class ChickenGrid extends Vue {}
 </script>
 
 <style scoped lang="scss">
-@import "@/assets/styles/components/GridSection.scss";
+@import "@/assets/styles/sections/GridSection.scss";
 @import "@/assets/styles/components/ChickenGrid.scss";
 
 .grid {

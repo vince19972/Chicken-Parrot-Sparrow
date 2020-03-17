@@ -30,7 +30,6 @@ export default class Slaughter extends Vue {
     const $group = `${parent} ${group}`;
     const $groupOne = `${$group}.-one`;
     const $groupTwo = `${$group}.-two`;
-    const $text = `${parent} .set-text`;
     const $textBody = `${parent} .text-body`;
 
     tl.staggerFromTo(

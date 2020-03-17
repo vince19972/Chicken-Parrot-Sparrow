@@ -1,0 +1,9 @@
+$f-object: "Helvetica Neue", "Roboto", sans-serif;
+$f-object-condensed: "HelveticaNeue-CondensedBlack", "Helvetica Neue", "Roboto",
+  sans-serif;
+
+$container-width: 100vw;
+
+.-f-condensed {
+  font-family: $f-object-condensed;
+}
