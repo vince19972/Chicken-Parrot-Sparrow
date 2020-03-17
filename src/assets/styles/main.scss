@@ -1,2 +1,10 @@
 @import "_reset";
 @import "_media-queries";
+@import "_layouts";
+@import "_fonts";
+
+body {
+  @include f-main;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

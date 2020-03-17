@@ -1,0 +1,10 @@
+$safe-zone-margin: 2vw;
+$safe-zone-width: calc(100vw - #{$safe-zone-margin} * 2);
+
+@mixin -safe-zone {
+  width: $safe-zone-width;
+  margin: 0 auto;
+}
+.-safe-zone {
+  @include -safe-zone;
+}
