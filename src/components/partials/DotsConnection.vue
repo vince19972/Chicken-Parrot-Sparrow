@@ -36,7 +36,7 @@ export default class DotsConnection extends Vue {}
 $h-gutter: 2vh;
 $container-height: calc(100vh - #{$h-gutter} * 2);
 $container-row-height: calc((#{$container-height} - (#{$h-gutter} * 5)) / 6);
-$container-height-top: calc(#{$container-row-height} * 2);
+$container-height-top: calc(#{$container-row-height} * 4);
 
 .dots-connection {
   height: 100vh;
@@ -56,12 +56,12 @@ $container-height-top: calc(#{$container-row-height} * 2);
 }
 
 .prompt {
-  @include f-main-b;
   width: 60%;
-  font-size: 6vw;
+  font-size: 2vw;
 }
 
 .connects {
+  height: 100%;
   display: flex;
 
   &__left,
@@ -69,13 +69,16 @@ $container-height-top: calc(#{$container-row-height} * 2);
     flex-grow: 1;
   }
   &__center {
-    flex-grow: 4;
+    width: 80%;
   }
 }
+.connects .nodes {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
-.connects {
-  & .nodes {
-    font-size: 6vw;
+  &__node {
+    font-size: 12vh;
   }
 }
 </style>
