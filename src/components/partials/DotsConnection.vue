@@ -1,23 +1,30 @@
 <template>
-  <div class="dots-connection container -safe-zone">
-    <div class="container__top">
-      <div class="prompt">
-        <p class="prompt__text">Please connect the dots...</p>
+  <div class="dots-connection -safe-zone">
+    <div class="container">
+      <div class="container__top">
+        <div class="prompt">
+          <p class="prompt__text">Please connect the dots...</p>
+        </div>
+      </div>
+      <div class="container__btm">
+        <div class="connects">
+          <div class="connects__left nodes">
+            <div class="nodes__node">chicken</div>
+            <div class="nodes__node">parrot</div>
+            <div class="nodes__node">sparrow</div>
+          </div>
+          <div class="connects__center"></div>
+          <div class="connects__right nodes">
+            <div class="nodes__node">food</div>
+            <div class="nodes__node">product</div>
+            <div class="nodes__node">neighbor</div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="container__btm">
-      <div class="connects">
-        <div class="connects__left nodes">
-          <div class="nodes__node">chicken</div>
-          <div class="nodes__node">parrot</div>
-          <div class="nodes__node">sparrow</div>
-        </div>
-        <div class="connects__center"></div>
-        <div class="connects__right nodes">
-          <div class="nodes__node">food</div>
-          <div class="nodes__node">product</div>
-          <div class="nodes__node">neighbor</div>
-        </div>
+    <div class="background">
+      <div class="bird-skecth">
+        <BirdSketch />
       </div>
     </div>
   </div>
@@ -25,8 +32,13 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import BirdSketch from "@/components/comps/Opening/BirdSketch.vue";
 
-@Component({})
+@Component({
+  components: {
+    BirdSketch
+  }
+})
 export default class DotsConnection extends Vue {}
 </script>
 
@@ -43,6 +55,8 @@ $container-height-top: calc(#{$container-row-height} * 4);
 }
 
 .container {
+  position: relative;
+  z-index: 1;
   margin: auto;
   padding: $h-gutter 0;
 
@@ -80,5 +94,17 @@ $container-height-top: calc(#{$container-row-height} * 4);
   &__node {
     font-size: 12vh;
   }
+}
+
+$sketch-width: 75vw;
+$sketch-height: 90vh;
+.background {
+  position: absolute;
+  top: calc((100vh - #{$sketch-height}) / 2);
+  left: calc((100vw - #{$sketch-width}) / 2);
+}
+.bird-skecth {
+  width: $sketch-width;
+  height: $sketch-height;
 }
 </style>
