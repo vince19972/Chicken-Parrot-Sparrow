@@ -96,14 +96,15 @@ $container-height-top: calc(#{$container-row-height} * 4);
   }
 }
 
-$sketch-width: 75vw;
-$sketch-height: 90vh;
+$sketch-width: 100vw;
+$sketch-height: 100vh;
 .background {
   position: absolute;
   top: calc((100vh - #{$sketch-height}) / 2);
   left: calc((100vw - #{$sketch-width}) / 2);
 }
 .bird-skecth {
+  overflow: hidden;
   width: $sketch-width;
   height: $sketch-height;
 }

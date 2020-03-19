@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="556px" height="347px" viewBox="0 0 556 347" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>Bird Sketch</title>
-    <g id="birdSketch" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="v" transform="translate(-686.000000, -413.000000)" fill="#000000">
-            <path d="M936.2197,509.5 C935.9487,456.159 892.6297,413 839.2257,413 C796.5987,413 760.3997,440.497 747.3867,478.721 L685.9997,509.297 L743.3527,538.005 C757.5027,662.65 863.2947,759.5 991.7257,759.5 C1129.7967,759.5 1241.7257,647.571 1241.7257,509.5 L936.2197,509.5 Z" id="Fill-1"></path>
-        </g>
+<svg width="555px" height="499px" viewBox="0 0 555 499" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>bird</title>
+    <desc>Created with Sketch.</desc>
+    <g id="bird" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M250.343371,249.63925 C250.072237,196.221278 206.731879,153 153.301548,153 C110.653531,153 74.4366828,180.536678 61.4172668,218.815835 L0,249.435957 L57.3812778,278.185382 C71.5382545,403.010245 177.382415,500 305.876738,500 C444.015814,500 556,387.909486 556,249.63925 L250.343371,249.63925 Z" id="Fill-1" fill="#000000"></path>
     </g>
 </svg>

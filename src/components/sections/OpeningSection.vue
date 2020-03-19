@@ -17,4 +17,10 @@ import DotsConnection from "@/components/partials/DotsConnection.vue";
 export default class OpeningSection extends Vue {}
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.section {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+</style>
