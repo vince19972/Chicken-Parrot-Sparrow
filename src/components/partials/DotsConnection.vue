@@ -1,30 +1,39 @@
 <template>
   <div class="dots-connection -safe-zone">
-    <div class="container">
+    <div class="container -flex-column">
       <div class="container__top">
-        <div class="prompt">
-          <p class="prompt__text">Please connect the dots...</p>
+        <div class="nodes -top -flex-between">
+          <div class="nodes__node">
+            <h2 class="nodes__node-text">chicken</h2>
+          </div>
+          <div class="nodes__node">
+            <h2 class="nodes__node-text">sparrow</h2>
+          </div>
+          <div class="nodes__node">
+            <h2 class="nodes__node-text">parrot</h2>
+          </div>
+        </div>
+      </div>
+      <div class="container__center">
+        <div class="prompt -full-height -flex-center-between">
+          <p class="prompt__text -full-width -text-align-center">
+            connect the <span class="text-wrapper -creature">creature</span> and
+            its <span class="text-wrapper -role">role</span> in our city
+          </p>
         </div>
       </div>
       <div class="container__btm">
-        <div class="connects">
-          <div class="connects__left nodes">
-            <div class="nodes__node">chicken</div>
-            <div class="nodes__node">parrot</div>
-            <div class="nodes__node">sparrow</div>
+        <div class="nodes -btm -flex-between">
+          <div class="nodes__node">
+            <h2 class="nodes__node-text">pet</h2>
           </div>
-          <div class="connects__center"></div>
-          <div class="connects__right nodes">
-            <div class="nodes__node">food</div>
-            <div class="nodes__node">product</div>
-            <div class="nodes__node">neighbor</div>
+          <div class="nodes__node">
+            <h2 class="nodes__node-text">neighbor</h2>
+          </div>
+          <div class="nodes__node">
+            <h2 class="nodes__node-text">food</h2>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="background">
-      <div class="bird-skecth">
-        <BirdSketch />
       </div>
     </div>
   </div>
@@ -36,14 +45,15 @@ import BirdSketch from "@/components/comps/Opening/BirdSketch.vue";
 
 @Component({
   components: {
-    BirdSketch
-  }
+    BirdSketch,
+  },
 })
 export default class DotsConnection extends Vue {}
 </script>
 
 <style scoped lang="scss">
 @import "@/assets/styles/_fonts.scss";
+@import "@/assets/styles/_helpers.scss";
 
 $h-gutter: 2vh;
 $container-height: calc(100vh - #{$h-gutter} * 2);
@@ -59,19 +69,47 @@ $container-height-top: calc(#{$container-row-height} * 4);
   z-index: 1;
   margin: auto;
   padding: $h-gutter 0;
-
-  &__top {
-    height: $container-height-top;
-    margin-bottom: $h-gutter;
-  }
-  &__btm {
-    height: calc(#{$container-height} - #{$container-height-top});
-  }
+  height: 100%;
+}
+.container__center {
+  flex-grow: 1;
 }
 
 .prompt {
-  width: 60%;
-  font-size: 2vw;
+  font-size: 1.8vw;
+}
+.prompt__text .text-wrapper {
+  position: relative;
+
+  &:before {
+    position: absolute;
+    left: 45%;
+    font-size: 0.8em;
+    transition: all 0.3s;
+  }
+  &.-creature:before {
+    top: -43%;
+    content: "↑";
+  }
+  &.-role:before {
+    bottom: -45%;
+    content: "↓";
+  }
+
+  // hover
+  @include hover {
+    cursor: pointer;
+
+    &:before {
+      transition: all 0.3s;
+    }
+    &.-creature:before {
+      transform: translate3d(0, -4px, 0);
+    }
+    &.-role:before {
+      transform: translate3d(0, 4px, 0);
+    }
+  }
 }
 
 .connects {
@@ -86,26 +124,43 @@ $container-height-top: calc(#{$container-row-height} * 4);
     width: 80%;
   }
 }
-.connects .nodes {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 
-  &__node {
-    font-size: 12vh;
+$connect-dot-size: 20px;
+
+.nodes__node {
+  font-size: 12vh;
+  text-transform: uppercase;
+
+  &:nth-child(2) {
+    text-align: center;
+  }
+  &:last-child {
+    text-align: right;
+  }
+
+  .container & {
+    width: 30%;
   }
 }
+.nodes__node-text {
+  position: relative;
+  display: inline;
 
-$sketch-width: 100vw;
-$sketch-height: 100vh;
-.background {
-  position: absolute;
-  top: calc((100vh - #{$sketch-height}) / 2);
-  left: calc((100vw - #{$sketch-width}) / 2);
-}
-.bird-skecth {
-  overflow: hidden;
-  width: $sketch-width;
-  height: $sketch-height;
+  &:after {
+    content: "";
+    position: absolute;
+    left: calc(50% - #{$connect-dot-size} / 2);
+    width: $connect-dot-size;
+    height: $connect-dot-size;
+    border-radius: 100%;
+    background-color: black;
+
+    .-top & {
+      bottom: -10%;
+    }
+    .-btm & {
+      top: -20%;
+    }
+  }
 }
 </style>
