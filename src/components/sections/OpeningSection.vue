@@ -7,12 +7,12 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-import DotsConnection from "@/components/partials/DotsConnection.vue";
+import DotsConnection from "@/components/partials/dotsConnection/DotsConnection.vue";
 
 @Component({
   components: {
-    DotsConnection
-  }
+    DotsConnection,
+  },
 })
 export default class OpeningSection extends Vue {}
 </script>
