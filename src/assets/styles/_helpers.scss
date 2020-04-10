@@ -56,6 +56,15 @@
   @include -flex-center-between;
 }
 
+@mixin -flex-center-all {
+  @include -flex;
+  align-items: center;
+  justify-content: center;
+}
+.-flex-center-all {
+  @include -flex-center-all;
+}
+
 @mixin -flex-column {
   @include -flex;
   flex-direction: column;
