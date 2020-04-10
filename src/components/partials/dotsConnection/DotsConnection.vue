@@ -26,6 +26,14 @@
         :endPoint="lineCoord.end"
       ></dot-line>
     </div>
+    <div class="backgrounds">
+      <canvas-background
+        :connectState="states.connect"
+        :startNode="states.startNode"
+        :endNode="states.endNode"
+        :isPaired="states.isPaired"
+      ></canvas-background>
+    </div>
   </div>
 </template>
 
@@ -34,6 +42,7 @@ import { Watch, Component, Vue } from "vue-property-decorator";
 import { MouseShape } from "@/store/types/browser";
 import TextRow from "./TextRow.vue";
 import DotLine from "./DotLine.vue";
+import CanvasBackground from "./CanvasBackground.vue";
 import {
   ConnectStates,
   UserEvents,
@@ -44,7 +53,8 @@ import {
 @Component({
   components: {
     TextRow,
-    DotLine
+    DotLine,
+    CanvasBackground
   }
 })
 export default class DotsConnection extends Vue {
@@ -70,10 +80,12 @@ export default class DotsConnection extends Vue {
   states: {
     connect: ConnectStates;
     startNode: NodeTypes | null;
+    endNode: NodeTypes | null;
     isPaired: boolean;
   } = {
     connect: ConnectStates.Connectionless,
     startNode: null,
+    endNode: null,
     isPaired: false
   };
   startCoord: MouseShape = { x: 0, y: 0 };
@@ -114,6 +126,7 @@ export default class DotsConnection extends Vue {
               this.updateState(ConnectStates.Connectionless);
             } else {
               this.endCoord = { x: coord.x, y: coord.y };
+              this.states.endNode = nodeType;
               this.checkIsPaired(nodeType);
               this.updateState(ConnectStates.Connected);
             }
@@ -277,11 +290,13 @@ $container-height-top: calc(#{$container-row-height} * 4);
   width: 100%;
   height: 100%;
 }
-.svg-line {
+
+// bg canvas
+.backgrounds {
   position: absolute;
-}
-line {
-  stroke: black;
-  stroke-width: 2px;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
 }
 </style>
