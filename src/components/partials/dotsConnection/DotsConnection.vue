@@ -34,30 +34,12 @@ import { Watch, Component, Vue } from "vue-property-decorator";
 import { MouseShape } from "@/store/types/browser";
 import TextRow from "./TextRow.vue";
 import DotLine from "./DotLine.vue";
-
-enum ConnectStates {
-  Connectionless = "Connectionless",
-  Connecting = "Connecting",
-  Connected = "Connected"
-}
-enum UserEvents {
-  NodeClicked,
-  Connecting
-}
-enum NodeTypes {
-  Chicken = "chicken",
-  Sparrow = "sparrow",
-  Parrot = "parrot",
-  Pet = "pet",
-  Neighbor = "neighbor",
-  Food = "food"
-}
-interface Payloads {
-  coord?: { x: number; y: number };
-  endNodeIsStartNode?: boolean;
-  userEvents?: UserEvents;
-  nodeType?: NodeTypes;
-}
+import {
+  ConnectStates,
+  UserEvents,
+  NodeTypes,
+  Payloads
+} from "./DotsConnection";
 
 @Component({
   components: {
@@ -77,7 +59,6 @@ export default class DotsConnection extends Vue {
     };
   }
   get pairingState() {
-    console.log(this.states.connect);
     if (this.states.connect === ConnectStates.Connected) {
       return this.states.isPaired ? "-is-paired" : "-is-not-paired";
     } else {
@@ -100,17 +81,7 @@ export default class DotsConnection extends Vue {
 
   // state machine
   updateState(toState: ConnectStates) {
-    switch (toState) {
-      case ConnectStates.Connectionless:
-        this.states.connect = ConnectStates.Connectionless;
-        break;
-      case ConnectStates.Connecting:
-        this.states.connect = ConnectStates.Connecting;
-        break;
-      case ConnectStates.Connected:
-        this.states.connect = ConnectStates.Connected;
-        break;
-    }
+    this.states.connect = toState;
   }
   mutates(payloads: Payloads) {
     // safe check
