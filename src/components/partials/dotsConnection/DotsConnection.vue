@@ -29,41 +29,114 @@
 <script lang="ts">
 import { Watch, Component, Vue } from "vue-property-decorator";
 import { MouseShape } from "@/store/types/browser";
-
 import TextRow from "./TextRow.vue";
 import DotLine from "./DotLine.vue";
+
+enum ConnectStates {
+  Connectionless = "Connectionless",
+  Connecting = "Connecting",
+  Connected = "Connected"
+}
+enum UserEvents {
+  NodeClicked,
+  Connecting
+}
+interface Payloads {
+  coord?: { x: number; y: number };
+  endNodeIsStartNode?: boolean;
+  userEvents?: UserEvents;
+}
 
 @Component({
   components: {
     TextRow,
-    DotLine,
-  },
+    DotLine
+  }
 })
 export default class DotsConnection extends Vue {
+  // computed
   get mouseCoord() {
     return this.$store.getters["browser/mouseCoord"];
   }
   get lineCoord() {
     return {
       start: this.startCoord,
-      end: this.endCoord,
+      end: this.endCoord
     };
   }
 
   // data
-  isConnecting = false;
+  states = {
+    connect: ConnectStates.Connectionless
+  };
   startCoord: MouseShape = { x: 0, y: 0 };
   endCoord: MouseShape = { x: 0, y: 0 };
 
+  // state machine
+  updateState(toState: ConnectStates) {
+    switch (toState) {
+      case ConnectStates.Connectionless:
+        this.states.connect = ConnectStates.Connectionless;
+        break;
+      case ConnectStates.Connecting:
+        this.states.connect = ConnectStates.Connecting;
+        break;
+      case ConnectStates.Connected:
+        this.states.connect = ConnectStates.Connected;
+        break;
+    }
+  }
+  mutates(payloads: Payloads) {
+    // safe check
+    const coord = payloads.coord ? payloads.coord : { x: 0, y: 0 };
+    const endNodeIsStartNode = payloads.endNodeIsStartNode
+      ? payloads.endNodeIsStartNode
+      : false;
+    const userEvents = payloads.userEvents
+      ? payloads.userEvents
+      : UserEvents.NodeClicked;
+
+    // states
+    switch (this.states.connect) {
+      case ConnectStates.Connectionless:
+        this.startCoord = { x: coord.x, y: coord.y };
+        this.endCoord = this.startCoord;
+        break;
+      case ConnectStates.Connecting:
+        // user events
+        switch (userEvents) {
+          case UserEvents.NodeClicked:
+            if (endNodeIsStartNode) {
+              this.endCoord = { x: this.startCoord.x, y: this.startCoord.y };
+              this.updateState(ConnectStates.Connectionless);
+            } else {
+              this.endCoord = { x: coord.x, y: coord.y };
+              this.updateState(ConnectStates.Connected);
+            }
+            break;
+          case UserEvents.Connecting:
+            this.endCoord = this.mouseCoord;
+            break;
+        }
+        break;
+    }
+  }
+
   // methods
   onNodeClicked(event: Event, coord: { x: number; y: number }) {
-    if (!this.isConnecting) {
-      this.startCoord = { x: coord.x, y: coord.y };
-      this.endCoord = { x: coord.x, y: coord.y };
-      this.isConnecting = true;
-    } else {
-      this.endCoord = { x: coord.x, y: coord.y };
-      this.isConnecting = false;
+    switch (this.states.connect) {
+      case ConnectStates.Connectionless:
+        this.mutates({ coord });
+        this.updateState(ConnectStates.Connecting);
+        break;
+      case ConnectStates.Connecting:
+        // eslint-disable-next-line no-case-declarations
+        const endNodeIsStartNode =
+          this.startCoord.x === this.endCoord.x &&
+          this.startCoord.y === this.endCoord.y;
+
+        this.mutates({ coord, endNodeIsStartNode });
+        break;
     }
   }
   onCanvasClicked(event: Event) {
@@ -73,7 +146,7 @@ export default class DotsConnection extends Vue {
         targetClassNames.contains("nodes__node-text") ||
         targetClassNames.contains("nodes__node-dot");
 
-      if (!isNode) this.isConnecting = false;
+      if (!isNode) this.updateState(ConnectStates.Connectionless);
     }
   }
   resetCoord() {
@@ -84,7 +157,7 @@ export default class DotsConnection extends Vue {
   // watcher
   @Watch("mouseCoord")
   getEndCoord() {
-    this.endCoord = this.isConnecting ? this.mouseCoord : this.endCoord;
+    this.mutates({ userEvents: UserEvents.Connecting });
   }
 }
 </script>
