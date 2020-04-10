@@ -14,15 +14,15 @@ import GridSection from "./components/sections/GridSection.vue";
 @Component({
   components: {
     OpeningSection,
-    GridSection
-  }
+    GridSection,
+  },
 })
 export default class App extends Vue {
   created() {
     const { resizeEvent, scrollEvent, mouseEvent } = browserEvent(this.$store);
     window.addEventListener("resize", () => resizeEvent(null));
     window.addEventListener("scroll", () => scrollEvent(null));
-    window.addEventListener("mousemove", e =>
+    window.addEventListener("mousemove", (e) =>
       mouseEvent({ x: e.clientX, y: e.clientY })
     );
   }
@@ -31,7 +31,7 @@ export default class App extends Vue {
     const { resizeEvent, scrollEvent, mouseEvent } = browserEvent(this.$store);
     window.removeEventListener("resize", () => resizeEvent(null));
     window.removeEventListener("scroll", () => scrollEvent(null));
-    window.removeEventListener("mousemove", e =>
+    window.removeEventListener("mousemove", (e) =>
       mouseEvent({ x: e.clientX, y: e.clientY })
     );
   }
