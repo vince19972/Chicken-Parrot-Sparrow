@@ -2,9 +2,9 @@
   <div :class="['nodes -flex-between', nodesClasses]">
     <button
       class="nodes__node -f-main"
-      v-for="(node, index) in selectedRow"
+      v-for="node in selectedRow"
       :key="node.id"
-      :data-index="index"
+      :data-node-type="node"
       @click="onNodeClicked"
     >
       <h2 class="nodes__node-text">{{ node }}</h2>
@@ -17,13 +17,12 @@
 export default {
   name: "Textow",
   props: {
-    rowType: { type: String, default: "creatures" },
+    rowType: { type: String, default: "creatures" }
   },
   data() {
     return {
       creatures: ["chicken", "sparrow", "parrot"],
-      roles: ["pet", "neighbor", "food"],
-      dotsCoord: [],
+      roles: ["pet", "neighbor", "food"]
     };
   },
   methods: {
@@ -31,9 +30,9 @@ export default {
       const dot = event.currentTarget.querySelector(".nodes__node-dot");
       const { x: dotX, y: dotY } = this.offset(dot);
 
-      this.$emit("onNodeClick", event, {
+      this.$emit("onNodeClick", event.currentTarget.dataset.nodeType, {
         x: dotX,
-        y: dotY,
+        y: dotY
       });
     },
     offset(el) {
@@ -47,7 +46,7 @@ export default {
         window.pageYOffset || document.documentElement.scrollTop;
 
       return { x: fmtRectX + scrollLeft, y: fmtRectY + scrollTop };
-    },
+    }
   },
   computed: {
     selectedRow() {
@@ -55,8 +54,8 @@ export default {
     },
     nodesClasses() {
       return this.rowType === "creatures" ? "-btm" : "-top";
-    },
-  },
+    }
+  }
 };
 </script>
 

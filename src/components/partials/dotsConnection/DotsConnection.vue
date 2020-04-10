@@ -1,5 +1,8 @@
 <template>
-  <div class="dots-connection -safe-zone" @click="onCanvasClicked">
+  <div
+    :class="['dots-connection -safe-zone', pairingState]"
+    @click="onCanvasClicked"
+  >
     <div class="container -flex-column">
       <div class="container__top">
         <text-row rowType="roles" @onNodeClick="onNodeClicked"></text-row>
@@ -41,10 +44,19 @@ enum UserEvents {
   NodeClicked,
   Connecting
 }
+enum NodeTypes {
+  Chicken = "chicken",
+  Sparrow = "sparrow",
+  Parrot = "parrot",
+  Pet = "pet",
+  Neighbor = "neighbor",
+  Food = "food"
+}
 interface Payloads {
   coord?: { x: number; y: number };
   endNodeIsStartNode?: boolean;
   userEvents?: UserEvents;
+  nodeType?: NodeTypes;
 }
 
 @Component({
@@ -64,10 +76,24 @@ export default class DotsConnection extends Vue {
       end: this.endCoord
     };
   }
+  get pairingState() {
+    console.log(this.states.connect);
+    if (this.states.connect === ConnectStates.Connected) {
+      return this.states.isPaired ? "-is-paired" : "-is-not-paired";
+    } else {
+      return "";
+    }
+  }
 
   // data
-  states = {
-    connect: ConnectStates.Connectionless
+  states: {
+    connect: ConnectStates;
+    startNode: NodeTypes | null;
+    isPaired: boolean;
+  } = {
+    connect: ConnectStates.Connectionless,
+    startNode: null,
+    isPaired: false
   };
   startCoord: MouseShape = { x: 0, y: 0 };
   endCoord: MouseShape = { x: 0, y: 0 };
@@ -95,12 +121,18 @@ export default class DotsConnection extends Vue {
     const userEvents = payloads.userEvents
       ? payloads.userEvents
       : UserEvents.NodeClicked;
+    const nodeType = payloads.nodeType ? payloads.nodeType : null;
 
     // states
     switch (this.states.connect) {
       case ConnectStates.Connectionless:
         this.startCoord = { x: coord.x, y: coord.y };
         this.endCoord = this.startCoord;
+        this.states.isPaired = false;
+
+        if (userEvents === UserEvents.NodeClicked) {
+          this.states.startNode = nodeType;
+        }
         break;
       case ConnectStates.Connecting:
         // user events
@@ -111,11 +143,13 @@ export default class DotsConnection extends Vue {
               this.updateState(ConnectStates.Connectionless);
             } else {
               this.endCoord = { x: coord.x, y: coord.y };
+              this.checkIsPaired(nodeType);
               this.updateState(ConnectStates.Connected);
             }
             break;
           case UserEvents.Connecting:
             this.endCoord = this.mouseCoord;
+            this.states.isPaired = false;
             break;
         }
         break;
@@ -123,19 +157,17 @@ export default class DotsConnection extends Vue {
   }
 
   // methods
-  onNodeClicked(event: Event, coord: { x: number; y: number }) {
+  onNodeClicked(nodeType: NodeTypes, coord: { x: number; y: number }) {
     switch (this.states.connect) {
       case ConnectStates.Connectionless:
-        this.mutates({ coord });
+        this.mutates({ coord, nodeType });
         this.updateState(ConnectStates.Connecting);
         break;
       case ConnectStates.Connecting:
         // eslint-disable-next-line no-case-declarations
-        const endNodeIsStartNode =
-          this.startCoord.x === this.endCoord.x &&
-          this.startCoord.y === this.endCoord.y;
+        const endNodeIsStartNode = this.states.startNode === nodeType;
 
-        this.mutates({ coord, endNodeIsStartNode });
+        this.mutates({ coord, endNodeIsStartNode, nodeType });
         break;
     }
   }
@@ -149,9 +181,39 @@ export default class DotsConnection extends Vue {
       if (!isNode) this.updateState(ConnectStates.Connectionless);
     }
   }
-  resetCoord() {
-    this.startCoord = { x: 0, y: 0 };
-    this.endCoord = { x: 0, y: 0 };
+  checkIsPaired(endNodeType: NodeTypes | null) {
+    switch (this.states.startNode) {
+      case NodeTypes.Chicken:
+        if (endNodeType === NodeTypes.Food) {
+          this.states.isPaired = true;
+        }
+        break;
+      case NodeTypes.Food:
+        if (endNodeType === NodeTypes.Chicken) {
+          this.states.isPaired = true;
+        }
+        break;
+      case NodeTypes.Sparrow:
+        if (endNodeType === NodeTypes.Neighbor) {
+          this.states.isPaired = true;
+        }
+        break;
+      case NodeTypes.Neighbor:
+        if (endNodeType === NodeTypes.Sparrow) {
+          this.states.isPaired = true;
+        }
+        break;
+      case NodeTypes.Parrot:
+        if (endNodeType === NodeTypes.Pet) {
+          this.states.isPaired = true;
+        }
+        break;
+      case NodeTypes.Pet:
+        if (endNodeType === NodeTypes.Parrot) {
+          this.states.isPaired = true;
+        }
+        break;
+    }
   }
 
   // watcher
