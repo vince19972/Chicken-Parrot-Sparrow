@@ -2,11 +2,18 @@
 
 $f-main: "Vollkorn", Garamond, Baskerville, "Baskerville Old Face",
   "Hoefler Text", "Times New Roman", serif;
-@mixin f-main {
+
+@mixin -f-main {
   font-family: $f-main;
 }
+.-f-main {
+  @include -f-main;
+}
 
-@mixin f-main-b {
-  @include f-main;
+@mixin -f-main-b {
+  @include -f-main;
   font-weight: 600;
+}
+.-f-main-b {
+  @include -f-main-b;
 }
