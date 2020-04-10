@@ -2,18 +2,19 @@
   <div class="dots-connection -safe-zone" @click="onCanvasClicked">
     <div class="container -flex-column">
       <div class="container__top">
-        <text-row @onNodeClick="onNodeClicked"></text-row>
+        <text-row rowType="roles" @onNodeClick="onNodeClicked"></text-row>
       </div>
       <div class="container__center">
         <div class="prompt -full-height -flex-center-between">
           <p class="prompt__text -full-width -text-align-center">
-            connect the <span class="text-wrapper -creature">creature</span> and
-            its <span class="text-wrapper -role">role</span> in our city
+            connect the
+            <span class="text-wrapper -point-down">creature</span> and its
+            <span class="text-wrapper -point-up">role</span> in our city
           </p>
         </div>
       </div>
       <div class="container__btm">
-        <text-row rowType="roles" @onNodeClick="onNodeClicked"></text-row>
+        <text-row @onNodeClick="onNodeClicked"></text-row>
       </div>
     </div>
     <div class="connections">
@@ -124,26 +125,26 @@ $container-height-top: calc(#{$container-row-height} * 4);
     font-size: 0.8em;
     transition: all 0.3s;
   }
-  &.-creature:before {
+  &.-point-up:before {
     top: -43%;
     content: "↑";
   }
-  &.-role:before {
+  &.-point-down:before {
     bottom: -45%;
     content: "↓";
   }
 
   // hover
   @include hover {
-    cursor: pointer;
+    cursor: default;
 
     &:before {
       transition: all 0.3s;
     }
-    &.-creature:before {
+    &.-point-up:before {
       transform: translate3d(0, -4px, 0);
     }
-    &.-role:before {
+    &.-point-down:before {
       transform: translate3d(0, 4px, 0);
     }
   }

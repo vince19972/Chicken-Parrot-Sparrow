@@ -54,7 +54,7 @@ export default {
       return this.rowType === "creatures" ? this.creatures : this.roles;
     },
     nodesClasses() {
-      return this.rowType === "creatures" ? "-top" : "-btm";
+      return this.rowType === "creatures" ? "-btm" : "-top";
     },
   },
 };
@@ -73,10 +73,6 @@ $connect-dot-size: 20px;
 
   .container & {
     width: 30%;
-  }
-
-  @include hover {
-    cursor: pointer;
   }
 }
 .nodes__node-text {
