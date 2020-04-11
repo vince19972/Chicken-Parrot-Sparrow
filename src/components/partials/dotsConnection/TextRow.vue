@@ -30,13 +30,16 @@ export default {
     return {
       creatures: ["chicken", "sparrow", "parrot"],
       roles: ["pet", "neighbor", "food"],
-      isMouseOver: false
+      isMouseOver: false,
+      isRowClicked: false
     };
   },
   methods: {
     onNodeClicked(event) {
       const dot = event.currentTarget.querySelector(".nodes__node-dot");
       const { x: dotX, y: dotY } = this.offset(dot);
+
+      this.isRowClicked = true;
 
       this.$emit("onNodeClick", event.currentTarget.dataset.nodeType, {
         x: dotX,
@@ -67,8 +70,7 @@ export default {
       return this.rowType === "creatures" ? this.creatures : this.roles;
     },
     nodesClasses() {
-      const isCurrentRow =
-        this[this.rowType].filter(type => type === this.startNode).length > 0;
+      const isCurrentRow = this.isCurrentRow;
 
       return [
         this.rowType === "creatures" ? "-btm" : "-top",
@@ -79,20 +81,31 @@ export default {
         this.isHighlighted ? "-is-highlighted" : "",
         this.isDehighlighted ? "-is-dehighlighted" : ""
       ];
+    },
+    isCurrentRow() {
+      return (
+        this[this.rowType].filter(type => type === this.startNode).length > 0
+      );
     }
   },
   watch: {
     connectState() {
-      this.$refs.node.forEach(node => {
-        if (
-          node.dataset.nodeType === this.startNode &&
-          this.connectState === "Connecting"
-        ) {
-          node.classList.add("-is-active");
-        } else {
+      if (this.connectState === "Connecting") {
+        this.$refs.node.forEach(node => {
+          if (node.dataset.nodeType === this.startNode) {
+            node.classList.remove("-is-disabled");
+            node.classList.add("-is-active");
+          } else {
+            if (this.isCurrentRow) node.classList.add("-is-disabled");
+            node.classList.remove("-is-active");
+          }
+        });
+      } else {
+        this.$refs.node.forEach(node => {
           node.classList.remove("-is-active");
-        }
-      });
+          node.classList.remove("-is-disabled");
+        });
+      }
     }
   }
 };
@@ -195,6 +208,9 @@ $connect-dot-size: 16px;
 
   &.-is-active {
     opacity: 1 !important;
+  }
+  &.-is-disabled {
+    pointer-events: none;
   }
 }
 </style>
