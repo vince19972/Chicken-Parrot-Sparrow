@@ -171,7 +171,10 @@ export default class DotsConnection extends Vue {
         targetClassNames.contains("nodes__node-text") ||
         targetClassNames.contains("nodes__node-dot");
 
-      if (!isNode) this.updateState(ConnectStates.Connectionless);
+      if (!isNode) {
+        this.updateState(ConnectStates.Connectionless);
+        this.mutates({});
+      }
     }
   }
   checkIsPaired(endNodeType: NodeTypes | null) {
