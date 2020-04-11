@@ -1,7 +1,7 @@
 <template>
   <div :class="['nodes -flex-between', nodesClasses]">
     <button
-      class="nodes__node -f-main"
+      class="nodes__node -f-main -flex-center-all"
       v-for="node in selectedRow"
       :key="node.id"
       :data-node-type="node"
