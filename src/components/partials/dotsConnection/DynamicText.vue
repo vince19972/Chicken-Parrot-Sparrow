@@ -35,7 +35,7 @@ export default class CanvasBackground extends Vue {
   }
 
   // methods
-  onMouseEntered(event) {
+  onMouseEntered(event: Event) {
     this.$emit("onMouseEnter", event.currentTarget.dataset.pointDirection);
   }
   onMouseLeft() {
