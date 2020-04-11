@@ -63,7 +63,10 @@ import {
   ConnectStates,
   UserEvents,
   NodeTypes,
-  Payloads
+  Payloads,
+  LocalStates,
+  PairingStates,
+  checkPairingState
 } from "./DotsConnection";
 
 @Component({
@@ -85,6 +88,9 @@ export default class DotsConnection extends Vue {
       end: this.endCoord
     };
   }
+  get connectState() {
+    return this.states.connect;
+  }
   get pairingState() {
     if (this.states.connect === ConnectStates.Connected) {
       return this.states.isPaired ? "-is-paired" : "-is-not-paired";
@@ -94,25 +100,63 @@ export default class DotsConnection extends Vue {
   }
 
   // data
-  states: {
-    connect: ConnectStates;
-    startNode: NodeTypes | null;
-    endNode: NodeTypes | null;
-    isPaired: boolean;
-    dynamicTextTarget: string | null;
-  } = {
+  states: LocalStates = {
     connect: ConnectStates.Connectionless,
     startNode: null,
     endNode: null,
-    isPaired: false,
+    isPaired: PairingStates.Pending,
     dynamicTextTarget: null
   };
   startCoord: MouseShape = { x: 0, y: 0 };
   endCoord: MouseShape = { x: 0, y: 0 };
 
   // state machine
-  updateState(toState: ConnectStates) {
+  updateConnectState(toState: ConnectStates) {
     this.states.connect = toState;
+  }
+  updatePairingState(toState: PairingStates) {
+    this.states.isPaired = toState;
+  }
+
+  // mutations
+  mutateInConnectionless(
+    coord: MouseShape,
+    userEvents: UserEvents,
+    nodeType: NodeTypes | null
+  ) {
+    this.startCoord = { x: coord.x, y: coord.y };
+    this.endCoord = this.startCoord;
+    this.updatePairingState(PairingStates.Pending);
+
+    if (userEvents === UserEvents.NodeClicked) {
+      this.states.startNode = nodeType;
+    }
+  }
+  mutateInConnecting(
+    coord: MouseShape,
+    endNodeIsStartNode: boolean,
+    userEvents: UserEvents,
+    nodeType: NodeTypes | null
+  ) {
+    switch (userEvents) {
+      case UserEvents.NodeClicked:
+        if (endNodeIsStartNode) {
+          this.endCoord = { x: this.startCoord.x, y: this.startCoord.y };
+          this.updateConnectState(ConnectStates.Connectionless);
+        } else {
+          this.endCoord = { x: coord.x, y: coord.y };
+          this.states.endNode = nodeType;
+          this.updatePairingState(
+            checkPairingState(this.states.startNode, this.states.endNode)
+          );
+          this.updateConnectState(ConnectStates.Connected);
+        }
+        break;
+      case UserEvents.Connecting:
+        this.endCoord = this.mouseCoord;
+        this.updatePairingState(PairingStates.Pending);
+        break;
+    }
   }
   mutates(payloads: Payloads) {
     // safe check
@@ -128,33 +172,18 @@ export default class DotsConnection extends Vue {
     // states
     switch (this.states.connect) {
       case ConnectStates.Connectionless:
-        this.startCoord = { x: coord.x, y: coord.y };
-        this.endCoord = this.startCoord;
-        this.states.isPaired = false;
-
-        if (userEvents === UserEvents.NodeClicked) {
-          this.states.startNode = nodeType;
-        }
+        this.mutateInConnectionless(coord, userEvents, nodeType);
         break;
       case ConnectStates.Connecting:
-        // user events
-        switch (userEvents) {
-          case UserEvents.NodeClicked:
-            if (endNodeIsStartNode) {
-              this.endCoord = { x: this.startCoord.x, y: this.startCoord.y };
-              this.updateState(ConnectStates.Connectionless);
-            } else {
-              this.endCoord = { x: coord.x, y: coord.y };
-              this.states.endNode = nodeType;
-              this.checkIsPaired(nodeType);
-              this.updateState(ConnectStates.Connected);
-            }
-            break;
-          case UserEvents.Connecting:
-            this.endCoord = this.mouseCoord;
-            this.states.isPaired = false;
-            break;
-        }
+        this.mutateInConnecting(
+          coord,
+          endNodeIsStartNode,
+          userEvents,
+          nodeType
+        );
+        break;
+      case ConnectStates.Connected:
+        console.log(this.states.isPaired);
         break;
     }
   }
@@ -164,7 +193,7 @@ export default class DotsConnection extends Vue {
     switch (this.states.connect) {
       case ConnectStates.Connectionless:
         this.mutates({ coord, nodeType });
-        this.updateState(ConnectStates.Connecting);
+        this.updateConnectState(ConnectStates.Connecting);
         break;
       case ConnectStates.Connecting:
         // eslint-disable-next-line no-case-declarations
@@ -182,43 +211,9 @@ export default class DotsConnection extends Vue {
         targetClassNames.contains("nodes__node-dot");
 
       if (!isNode) {
-        this.updateState(ConnectStates.Connectionless);
+        this.updateConnectState(ConnectStates.Connectionless);
         this.mutates({});
       }
-    }
-  }
-  checkIsPaired(endNodeType: NodeTypes | null) {
-    switch (this.states.startNode) {
-      case NodeTypes.Chicken:
-        if (endNodeType === NodeTypes.Food) {
-          this.states.isPaired = true;
-        }
-        break;
-      case NodeTypes.Food:
-        if (endNodeType === NodeTypes.Chicken) {
-          this.states.isPaired = true;
-        }
-        break;
-      case NodeTypes.Sparrow:
-        if (endNodeType === NodeTypes.Neighbor) {
-          this.states.isPaired = true;
-        }
-        break;
-      case NodeTypes.Neighbor:
-        if (endNodeType === NodeTypes.Sparrow) {
-          this.states.isPaired = true;
-        }
-        break;
-      case NodeTypes.Parrot:
-        if (endNodeType === NodeTypes.Pet) {
-          this.states.isPaired = true;
-        }
-        break;
-      case NodeTypes.Pet:
-        if (endNodeType === NodeTypes.Parrot) {
-          this.states.isPaired = true;
-        }
-        break;
     }
   }
   onMouseOverDynamicText(target) {
@@ -228,7 +223,15 @@ export default class DotsConnection extends Vue {
   // watcher
   @Watch("mouseCoord")
   getEndCoord() {
-    this.mutates({ userEvents: UserEvents.Connecting });
+    if (this.states.connect !== ConnectStates.Connected) {
+      this.mutates({ userEvents: UserEvents.Connecting });
+    }
+  }
+  @Watch("connectState")
+  watchConnectState() {
+    if (this.states.connect === ConnectStates.Connected) {
+      this.mutates({});
+    }
   }
 }
 </script>

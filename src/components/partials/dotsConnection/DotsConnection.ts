@@ -3,6 +3,11 @@ export enum ConnectStates {
   Connecting = "Connecting",
   Connected = "Connected"
 }
+export enum PairingStates {
+  Paired = "paired",
+  NotPaired = "notPaired",
+  Pending = "pending"
+}
 export enum UserEvents {
   NodeClicked,
   Connecting
@@ -20,4 +25,56 @@ export interface Payloads {
   endNodeIsStartNode?: boolean;
   userEvents?: UserEvents;
   nodeType?: NodeTypes;
+}
+
+export interface LocalStates {
+  connect: ConnectStates;
+  startNode: NodeTypes | null;
+  endNode: NodeTypes | null;
+  isPaired: PairingStates;
+  dynamicTextTarget: string | null;
+}
+
+export function checkPairingState(
+  startNode: NodeTypes | null,
+  endNodeType: NodeTypes | null
+): PairingStates {
+  let state = PairingStates.NotPaired;
+
+  switch (startNode) {
+    case NodeTypes.Chicken:
+      if (endNodeType === NodeTypes.Food) {
+        state = PairingStates.Paired;
+      }
+      break;
+    case NodeTypes.Food:
+      if (endNodeType === NodeTypes.Chicken) {
+        state = PairingStates.Paired;
+      }
+      break;
+    case NodeTypes.Sparrow:
+      if (endNodeType === NodeTypes.Neighbor) {
+        state = PairingStates.Paired;
+      }
+      break;
+    case NodeTypes.Neighbor:
+      if (endNodeType === NodeTypes.Sparrow) {
+        state = PairingStates.Paired;
+      }
+      break;
+    case NodeTypes.Parrot:
+      if (endNodeType === NodeTypes.Pet) {
+        state = PairingStates.Paired;
+      }
+      break;
+    case NodeTypes.Pet:
+      if (endNodeType === NodeTypes.Parrot) {
+        state = PairingStates.Paired;
+      }
+      break;
+    default:
+      return PairingStates.NotPaired;
+  }
+
+  return state;
 }
