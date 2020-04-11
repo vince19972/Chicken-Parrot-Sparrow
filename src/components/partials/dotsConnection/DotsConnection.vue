@@ -17,6 +17,7 @@
       <div class="container__center">
         <div class="prompt -full-height -flex-center-between">
           <dynamic-text
+            :connectState="states.connect"
             @onMouseEnter="onMouseOverDynamicText"
             @onMouseLeave="onMouseOverDynamicText"
           ></dynamic-text>

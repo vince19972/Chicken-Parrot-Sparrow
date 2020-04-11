@@ -1,5 +1,5 @@
 <template>
-  <p class="text -full-width -text-align-center">
+  <p :class="['text -full-width -text-align-center', mainClasses]">
     connect the
     <span
       class="text__wrapper -point-down"
@@ -29,6 +29,11 @@ export default class CanvasBackground extends Vue {
   @Prop() readonly connectState!: ConnectStates;
   @Prop() readonly isPaired!: boolean;
 
+  // computed
+  get mainClasses() {
+    return this.connectState === ConnectStates.Connecting ? "-is-hidden" : "";
+  }
+
   // methods
   onMouseEntered(event) {
     this.$emit("onMouseEnter", event.currentTarget.dataset.pointDirection);
@@ -45,9 +50,9 @@ export default class CanvasBackground extends Vue {
 
 .text {
   font-size: 1.8vw;
+  transition: all 0.3s;
 }
 .text__wrapper {
-  font-size: 1.8vw;
   position: relative;
 
   &:before {
@@ -79,5 +84,12 @@ export default class CanvasBackground extends Vue {
       transform: translate3d(0, 8px, 0);
     }
   }
+}
+
+// states
+.text.-is-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s;
 }
 </style>
