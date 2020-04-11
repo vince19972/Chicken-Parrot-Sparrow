@@ -8,23 +8,26 @@
         <text-row
           :connectState="states.connect"
           :startNode="states.startNode"
-          rowType="roles"
+          :isHighlighted="states.dynamicTextTarget === 'up'"
+          :isDehighlighted="states.dynamicTextTarget === 'down'"
           @onNodeClick="onNodeClicked"
+          rowType="roles"
         ></text-row>
       </div>
       <div class="container__center">
         <div class="prompt -full-height -flex-center-between">
-          <p class="prompt__text -full-width -text-align-center">
-            connect the
-            <span class="text-wrapper -point-down">creature</span> and its
-            <span class="text-wrapper -point-up">role</span> in our city
-          </p>
+          <dynamic-text
+            @onMouseEnter="onMouseOverDynamicText"
+            @onMouseLeave="onMouseOverDynamicText"
+          ></dynamic-text>
         </div>
       </div>
       <div class="container__btm">
         <text-row
           :connectState="states.connect"
           :startNode="states.startNode"
+          :isHighlighted="states.dynamicTextTarget === 'down'"
+          :isDehighlighted="states.dynamicTextTarget === 'up'"
           @onNodeClick="onNodeClicked"
         ></text-row>
       </div>
@@ -49,9 +52,12 @@
 <script lang="ts">
 import { Watch, Component, Vue } from "vue-property-decorator";
 import { MouseShape } from "@/store/types/browser";
+
 import TextRow from "./TextRow.vue";
 import DotLine from "./DotLine.vue";
 import CanvasBackground from "./CanvasBackground.vue";
+import DynamicText from "./DynamicText.vue";
+
 import {
   ConnectStates,
   UserEvents,
@@ -63,7 +69,8 @@ import {
   components: {
     TextRow,
     DotLine,
-    CanvasBackground
+    CanvasBackground,
+    DynamicText
   }
 })
 export default class DotsConnection extends Vue {
@@ -91,11 +98,13 @@ export default class DotsConnection extends Vue {
     startNode: NodeTypes | null;
     endNode: NodeTypes | null;
     isPaired: boolean;
+    dynamicTextTarget: string | null;
   } = {
     connect: ConnectStates.Connectionless,
     startNode: null,
     endNode: null,
-    isPaired: false
+    isPaired: false,
+    dynamicTextTarget: null
   };
   startCoord: MouseShape = { x: 0, y: 0 };
   endCoord: MouseShape = { x: 0, y: 0 };
@@ -211,6 +220,9 @@ export default class DotsConnection extends Vue {
         break;
     }
   }
+  onMouseOverDynamicText(target) {
+    this.states.dynamicTextTarget = target;
+  }
 
   // watcher
   @Watch("mouseCoord")
@@ -242,43 +254,6 @@ $container-height-top: calc(#{$container-row-height} * 4);
 }
 .container__center {
   flex-grow: 1;
-}
-
-.prompt {
-  font-size: 1.8vw;
-}
-.prompt__text .text-wrapper {
-  position: relative;
-
-  &:before {
-    position: absolute;
-    left: 45%;
-    font-size: 0.8em;
-    transition: all 0.3s;
-  }
-  &.-point-up:before {
-    top: -43%;
-    content: "↑";
-  }
-  &.-point-down:before {
-    bottom: -45%;
-    content: "↓";
-  }
-
-  // hover
-  @include hover {
-    cursor: default;
-
-    &:before {
-      transition: all 0.3s;
-    }
-    &.-point-up:before {
-      transform: translate3d(0, -4px, 0);
-    }
-    &.-point-down:before {
-      transform: translate3d(0, 4px, 0);
-    }
-  }
 }
 
 .connects {

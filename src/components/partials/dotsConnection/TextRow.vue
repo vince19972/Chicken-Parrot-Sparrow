@@ -18,11 +18,13 @@
 
 <script>
 export default {
-  name: "Textow",
+  name: "TextRow",
   props: {
     rowType: { type: String, default: "creatures" },
     connectState: { type: String, required: true },
-    startNode: { required: true }
+    startNode: { required: true },
+    isHighlighted: { type: Boolean, default: false },
+    isDehighlighted: { type: Boolean, default: false }
   },
   data() {
     return {
@@ -73,7 +75,9 @@ export default {
         this.connectState === "Connectionless" ? "-is-glowing" : "",
         this.isMouseOver || (this.connectState === "Connecting" && isCurrentRow)
           ? "-is-active"
-          : ""
+          : "",
+        this.isHighlighted ? "-is-highlighted" : "",
+        this.isDehighlighted ? "-is-dehighlighted" : ""
       ];
     }
   },
@@ -149,6 +153,15 @@ $connect-dot-size: 16px;
     transform: scale(1);
   }
 }
+@keyframes beat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(1.01);
+  }
+}
 
 .nodes.-is-glowing:not(.-is-active) {
   & .nodes__node-dot {
@@ -162,6 +175,16 @@ $connect-dot-size: 16px;
     opacity: 0.5;
   }
 }
+.nodes {
+  &.-is-highlighted {
+    animation: beat 0.5s;
+    animation-timing-function: ease-in-out;
+  }
+  &.-is-dehighlighted {
+    opacity: 0.3;
+  }
+}
+
 .nodes__node {
   @include hover {
     opacity: 1 !important;
