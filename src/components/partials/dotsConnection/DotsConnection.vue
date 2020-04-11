@@ -5,7 +5,12 @@
   >
     <div class="container -flex-column">
       <div class="container__top">
-        <text-row rowType="roles" @onNodeClick="onNodeClicked"></text-row>
+        <text-row
+          :connectState="states.connect"
+          :startNode="states.startNode"
+          rowType="roles"
+          @onNodeClick="onNodeClicked"
+        ></text-row>
       </div>
       <div class="container__center">
         <div class="prompt -full-height -flex-center-between">
@@ -17,7 +22,11 @@
         </div>
       </div>
       <div class="container__btm">
-        <text-row @onNodeClick="onNodeClicked"></text-row>
+        <text-row
+          :connectState="states.connect"
+          :startNode="states.startNode"
+          @onNodeClick="onNodeClicked"
+        ></text-row>
       </div>
     </div>
     <div class="connections">
