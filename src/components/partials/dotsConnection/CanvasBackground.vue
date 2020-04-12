@@ -1,13 +1,18 @@
 <template>
-  <div class="main -flex-center-all -full-width -full-height">
+  <div
+    :class="['main -flex-center-all -full-width -full-height', moduleClasses]"
+  >
     <div class="img-wrapper -top" :style="[canvasImgFirst]"></div>
+    <div class="text">
+      <p class="text__content">= ?</p>
+    </div>
     <div class="img-wrapper -btm" :style="[canvasImgLast]"></div>
   </div>
 </template>
 
 <script lang="ts">
 import { Prop, Component, Vue } from "vue-property-decorator";
-import { ConnectStates, NodeTypes } from "./DotsConnection";
+import { ConnectStates, NodeTypes, PairingStates } from "./DotsConnection";
 
 const urls = {
   chicken: ["https://media.giphy.com/media/MtU53HV4RWccE/giphy.gif"],
@@ -18,26 +23,33 @@ const urls = {
   pet: ["https://media.giphy.com/media/fYleqGp1DQvWoYC3AZ/giphy.gif"]
 };
 
+enum ModuleStates {
+  StartNodeActive,
+  AllNodesActive,
+  TempNodeActive,
+  NotActive
+}
+
 @Component
 export default class CanvasBackground extends Vue {
   @Prop() readonly connectState!: ConnectStates;
   @Prop() readonly startNode!: NodeTypes | null;
   @Prop() readonly endNode!: NodeTypes | null;
   @Prop() readonly tempNode!: NodeTypes | null;
-  @Prop() readonly isPaired!: boolean;
+  @Prop() readonly isPaired!: PairingStates;
 
   // computed
   get canvasImgFirst() {
-    if (this.connectState !== ConnectStates.Connectionless && this.startNode) {
+    if (
+      this.moduleStates === ModuleStates.StartNodeActive ||
+      this.moduleStates === ModuleStates.AllNodesActive
+    ) {
       const url = urls[this.startNode][0];
 
       return {
         backgroundImage: `url("${url}")`
       };
-    } else if (
-      this.connectState === ConnectStates.Connectionless &&
-      this.tempNode
-    ) {
+    } else if (this.moduleStates === ModuleStates.TempNodeActive) {
       const url = urls[this.tempNode][0];
 
       return {
@@ -48,7 +60,13 @@ export default class CanvasBackground extends Vue {
     return "";
   }
   get canvasImgLast() {
-    if (this.connectState === ConnectStates.Connected && this.endNode) {
+    if (this.moduleStates === ModuleStates.StartNodeActive) {
+      const url = this.tempNode ? urls[this.tempNode][0] : "";
+
+      return {
+        backgroundImage: `url("${url}")`
+      };
+    } else if (this.moduleStates === ModuleStates.AllNodesActive) {
       const url = urls[this.endNode][0];
 
       return {
@@ -57,6 +75,52 @@ export default class CanvasBackground extends Vue {
     }
 
     return "";
+  }
+  // get textContent() {
+  //   let text = "";
+  //   switch (this.isPaired) {
+  //     case PairingStates.Paired:
+  //       text = "is";
+  //       break;
+  //     case PairingStates.NotPaired:
+  //       text = "is not";
+  //       break;
+  //     case PairingStates.Pending:
+  //       text = "is ?";
+  //       break;
+  //   }
+
+  //   return text;
+  // }
+  get moduleClasses() {
+    if (this.moduleStates === ModuleStates.TempNodeActive) {
+      return "-is-temp-active";
+    } else if (this.moduleStates !== ModuleStates.NotActive) {
+      return "-is-active";
+    }
+
+    return "";
+  }
+  get moduleStates() {
+    if (this.connectState === ConnectStates.Connectionless) {
+      if (this.tempNode) {
+        return ModuleStates.TempNodeActive;
+      }
+    } else if (this.connectState === ConnectStates.Connecting) {
+      if (this.startNode) {
+        return ModuleStates.StartNodeActive;
+      }
+    } else if (this.connectState === ConnectStates.Connected) {
+      if (this.startNode && this.endNode) {
+        if (this.isPaired === PairingStates.Paired) {
+          return ModuleStates.AllNodesActive;
+        } else {
+          return ModuleStates.NotActive;
+        }
+      }
+    }
+
+    return ModuleStates.NotActive;
   }
 }
 </script>
@@ -67,11 +131,31 @@ export default class CanvasBackground extends Vue {
 
 .img-wrapper {
   overflow: hidden;
-  height: 20%;
-  width: 10%;
+  height: 16%;
+  width: 8%;
   background-position: center;
 }
 .img-wrapper__img {
   width: 100%;
+}
+.text {
+  margin: 0 2vw;
+  font-size: 1.8vw;
+}
+
+// state
+.main {
+  & .img-wrapper,
+  & .text {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &.-is-temp-active .img-wrapper {
+    opacity: 1;
+  }
+  &.-is-active > * {
+    opacity: 1;
+  }
 }
 </style>

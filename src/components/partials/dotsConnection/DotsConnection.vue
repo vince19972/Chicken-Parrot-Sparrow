@@ -21,6 +21,9 @@
         <div class="prompt -full-height -flex-center-between">
           <dynamic-text
             :connectState="states.connect"
+            :pairingState="states.isPaired"
+            :startNode="states.startNode"
+            :endNode="states.endNode"
             @onMouseEnter="onMouseOverDynamicText"
             @onMouseLeave="onMouseOverDynamicText"
           ></dynamic-text>
