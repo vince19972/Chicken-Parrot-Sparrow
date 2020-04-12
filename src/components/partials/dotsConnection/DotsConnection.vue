@@ -7,7 +7,9 @@
       <div class="container__top">
         <text-row
           :connectState="states.connect"
+          :pairingState="states.isPaired"
           :startNode="states.startNode"
+          :endNode="states.endNode"
           :isHighlighted="states.dynamicTextTarget === 'up'"
           :isDehighlighted="states.dynamicTextTarget === 'down'"
           @onNodeClick="onNodeClicked"
@@ -27,7 +29,9 @@
       <div class="container__btm">
         <text-row
           :connectState="states.connect"
+          :pairingState="states.isPaired"
           :startNode="states.startNode"
+          :endNode="states.endNode"
           :isHighlighted="states.dynamicTextTarget === 'down'"
           :isDehighlighted="states.dynamicTextTarget === 'up'"
           @onNodeClick="onNodeClicked"
@@ -39,6 +43,7 @@
       <dot-line
         :startPoint="lineCoord.start"
         :endPoint="lineCoord.end"
+        :pairingState="states.isPaired"
       ></dot-line>
     </div>
     <div class="backgrounds">
@@ -95,8 +100,10 @@ export default class DotsConnection extends Vue {
     return this.states.connect;
   }
   get pairingState() {
-    if (this.states.connect === ConnectStates.Connected) {
-      return this.states.isPaired ? "-is-paired" : "-is-not-paired";
+    if (this.states.isPaired === PairingStates.Paired) {
+      return "-is-paired";
+    } else if (this.states.isPaired === PairingStates.NotPaired) {
+      return "-not-paired";
     } else {
       return "";
     }
@@ -187,7 +194,7 @@ export default class DotsConnection extends Vue {
         );
         break;
       case ConnectStates.Connected:
-        console.log(this.states.isPaired);
+        // console.log(this.states.isPaired);
         break;
     }
   }

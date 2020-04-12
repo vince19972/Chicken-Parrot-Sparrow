@@ -22,7 +22,9 @@ export default {
   props: {
     rowType: { type: String, default: "creatures" },
     connectState: { type: String, required: true },
+    pairingState: { type: String, required: true },
     startNode: { required: true },
+    endNode: { required: true },
     isHighlighted: { type: Boolean, default: false },
     isDehighlighted: { type: Boolean, default: false }
   },
@@ -73,6 +75,13 @@ export default {
     },
     nodesClasses() {
       const isCurrentRow = this.isCurrentRow;
+      let pairingClass = "";
+
+      if (this.pairingState === "paired") {
+        pairingClass = "-is-paired";
+      } else if (this.pairingState === "notPaired") {
+        pairingClass = "-not-paired";
+      }
 
       return [
         this.rowType === "creatures" ? "-btm" : "-top",
@@ -81,7 +90,8 @@ export default {
           ? "-is-active"
           : "",
         this.isHighlighted ? "-is-highlighted" : "",
-        this.isDehighlighted ? "-is-dehighlighted" : ""
+        this.isDehighlighted ? "-is-dehighlighted" : "",
+        pairingClass
       ];
     },
     isCurrentRow() {
@@ -100,6 +110,15 @@ export default {
           } else {
             if (this.isCurrentRow) node.classList.add("-is-disabled");
             node.classList.remove("-is-active");
+          }
+        });
+      } else if (this.connectState === "Connected") {
+        this.$refs.node.forEach(node => {
+          if (node.dataset.nodeType === this.endNode) {
+            node.classList.remove("-is-disabled");
+            node.classList.add("-is-active");
+          } else {
+            if (!this.isCurrentRow) node.classList.add("-is-disabled");
           }
         });
       } else {
@@ -247,12 +266,35 @@ $connect-dot-size: 16px;
     pointer-events: none;
   }
 }
+.nodes__node.-is-active {
+  pointer-events: none;
+}
 .nodes__node:not(.-is-active) {
   @include hover {
     & .nodes__node-text:after {
       transition: all 0.3s;
       opacity: 1;
     }
+  }
+}
+
+.nodes.-is-paired {
+  & .nodes__node.-is-disabled {
+    opacity: 0.2;
+    pointer-events: none;
+  }
+}
+.nodes.-not-paired {
+  & .nodes__node.-is-active {
+    color: gray;
+
+    & .nodes__node-dot {
+      background-color: gray;
+    }
+  }
+  & .nodes__node.-is-disabled {
+    opacity: 0.2;
+    pointer-events: none;
   }
 }
 </style>
