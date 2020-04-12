@@ -33,6 +33,7 @@ export interface LocalStates {
   endNode: NodeTypes | null;
   isPaired: PairingStates;
   dynamicTextTarget: string | null;
+  hoverNodeTarget: NodeTypes | null;
 }
 
 export function checkPairingState(

@@ -23,12 +23,22 @@ export default class CanvasBackground extends Vue {
   @Prop() readonly connectState!: ConnectStates;
   @Prop() readonly startNode!: NodeTypes | null;
   @Prop() readonly endNode!: NodeTypes | null;
+  @Prop() readonly tempNode!: NodeTypes | null;
   @Prop() readonly isPaired!: boolean;
 
   // computed
   get canvasImgFirst() {
     if (this.connectState !== ConnectStates.Connectionless && this.startNode) {
       const url = urls[this.startNode][0];
+
+      return {
+        backgroundImage: `url("${url}")`
+      };
+    } else if (
+      this.connectState === ConnectStates.Connectionless &&
+      this.tempNode
+    ) {
+      const url = urls[this.tempNode][0];
 
       return {
         backgroundImage: `url("${url}")`

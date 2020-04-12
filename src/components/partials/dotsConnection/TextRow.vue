@@ -48,9 +48,11 @@ export default {
     },
     onMouseEntered() {
       this.isMouseOver = true;
+      this.$emit("onMouseOver", event.currentTarget.dataset.nodeType);
     },
     onMouseLeft() {
       this.isMouseOver = false;
+      this.$emit("onMouseOver", null);
     },
     offset(el) {
       const rect = el.getBoundingClientRect();
@@ -116,42 +118,6 @@ export default {
 
 $connect-dot-size: 16px;
 
-.nodes {
-  transition: all 0.3s;
-}
-
-.nodes__node {
-  position: relative;
-  font-size: 12vh;
-  text-transform: uppercase;
-  text-align: center;
-  transition: all 0.3s;
-
-  .container & {
-    width: 30%;
-  }
-}
-.nodes__node-text {
-  display: inline;
-}
-.nodes__node-dot {
-  position: absolute;
-  left: calc(50% - #{$connect-dot-size} / 2);
-  width: $connect-dot-size;
-  height: $connect-dot-size;
-  border-radius: 100%;
-  background-color: black;
-  transition: all 0.3s;
-
-  .-top & {
-    bottom: -10%;
-  }
-  .-btm & {
-    top: -20%;
-  }
-}
-
-// states
 @keyframes pulse {
   0% {
     box-shadow: 0 0 0 0 rgba(black, 0.2);
@@ -175,7 +141,75 @@ $connect-dot-size: 16px;
     transform: scale(1.01);
   }
 }
+@keyframes pulseText {
+  0% {
+    color: gray;
+  }
+  70% {
+    color: black;
+  }
+  100% {
+    color: gray;
+  }
+}
 
+.nodes {
+  transition: all 0.3s;
+}
+
+.nodes__node {
+  position: relative;
+  font-size: 12vh;
+  text-align: center;
+  transition: all 0.3s;
+
+  .container & {
+    width: 30%;
+  }
+}
+.nodes__node-text {
+  position: relative;
+  text-transform: uppercase;
+
+  &:after {
+    content: "click to connect";
+    position: absolute;
+    left: 0;
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+    text-transform: initial;
+
+    .-btm & {
+      top: -45%;
+    }
+    .-top & {
+      bottom: -45%;
+    }
+    opacity: 0;
+    pointer-events: none;
+    animation: pulseText 2s infinite;
+  }
+}
+
+.nodes__node-dot {
+  position: absolute;
+  left: calc(50% - #{$connect-dot-size} / 2);
+  width: $connect-dot-size;
+  height: $connect-dot-size;
+  border-radius: 100%;
+  background-color: black;
+  transition: all 0.3s;
+
+  .-top & {
+    bottom: -10%;
+  }
+  .-btm & {
+    top: -20%;
+  }
+}
+
+// states
 .nodes.-is-glowing:not(.-is-active) {
   & .nodes__node-dot {
     transition: all 0.3s;
@@ -211,6 +245,14 @@ $connect-dot-size: 16px;
   }
   &.-is-disabled {
     pointer-events: none;
+  }
+}
+.nodes__node:not(.-is-active) {
+  @include hover {
+    & .nodes__node-text:after {
+      transition: all 0.3s;
+      opacity: 1;
+    }
   }
 }
 </style>

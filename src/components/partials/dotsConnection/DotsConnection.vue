@@ -11,6 +11,7 @@
           :isHighlighted="states.dynamicTextTarget === 'up'"
           :isDehighlighted="states.dynamicTextTarget === 'down'"
           @onNodeClick="onNodeClicked"
+          @onMouseOver="onNodeHovered"
           rowType="roles"
         ></text-row>
       </div>
@@ -30,6 +31,7 @@
           :isHighlighted="states.dynamicTextTarget === 'down'"
           :isDehighlighted="states.dynamicTextTarget === 'up'"
           @onNodeClick="onNodeClicked"
+          @onMouseOver="onNodeHovered"
         ></text-row>
       </div>
     </div>
@@ -44,6 +46,7 @@
         :connectState="states.connect"
         :startNode="states.startNode"
         :endNode="states.endNode"
+        :tempNode="states.hoverNodeTarget"
         :isPaired="states.isPaired"
       ></canvas-background>
     </div>
@@ -105,7 +108,8 @@ export default class DotsConnection extends Vue {
     startNode: null,
     endNode: null,
     isPaired: PairingStates.Pending,
-    dynamicTextTarget: null
+    dynamicTextTarget: null,
+    hoverNodeTarget: null
   };
   startCoord: MouseShape = { x: 0, y: 0 };
   endCoord: MouseShape = { x: 0, y: 0 };
@@ -202,6 +206,9 @@ export default class DotsConnection extends Vue {
         this.mutates({ coord, endNodeIsStartNode, nodeType });
         break;
     }
+  }
+  onNodeHovered(nodeType: NodeTypes | null) {
+    this.states.hoverNodeTarget = nodeType;
   }
   onCanvasClicked(event: Event) {
     if (event.target) {
