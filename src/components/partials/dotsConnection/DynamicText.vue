@@ -173,6 +173,9 @@ export default class CanvasBackground extends Vue {
   @Watch("moduleState")
   watchPairingState() {
     if (this.moduleState === ModuleStates.Paired) {
+      /*
+       ** text content transformation
+       */
       // reset to initial text content
       this.changePairedText("first");
 
@@ -180,6 +183,18 @@ export default class CanvasBackground extends Vue {
       setTimeout(() => {
         this.changePairedText("second");
       }, 2000);
+
+      /*
+       ** routing
+       */
+      setTimeout(() => {
+        switch (this.startNode) {
+          case NodeTypes.Chicken:
+          case NodeTypes.Food:
+            this.$router.push({ path: NodeTypes.Chicken });
+            break;
+        }
+      }, 6000);
     }
   }
 }
