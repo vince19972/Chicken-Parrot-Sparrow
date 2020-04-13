@@ -79,3 +79,23 @@ export function checkPairingState(
 
   return state;
 }
+
+export function getOffset(el: HTMLElement) {
+  const rect = el.getBoundingClientRect();
+  const { x, y, width, height } = rect;
+  const fmtRectX = x + width / 2;
+  const fmtRectY = y + height / 2;
+  const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+  return { x: fmtRectX + scrollLeft, y: fmtRectY + scrollTop };
+}
+
+export const gifUrls = {
+  chicken: ["https://media.giphy.com/media/MtU53HV4RWccE/giphy.gif"],
+  food: ["https://media.giphy.com/media/jqwk5Jxh8UcbMZbxK7/giphy.gif"],
+  sparrow: ["https://media.giphy.com/media/RksrTsDMQJ29O/giphy.gif"],
+  neighbor: ["https://media.giphy.com/media/PsLIN8YlKy4rS/giphy.gif"],
+  parrot: ["https://media.giphy.com/media/Ddm5ER7Z45sIM/giphy.gif"],
+  pet: ["https://media.giphy.com/media/fYleqGp1DQvWoYC3AZ/giphy.gif"]
+};

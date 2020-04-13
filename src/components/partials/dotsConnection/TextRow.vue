@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { getOffset } from "./DotsConnection";
+
 export default {
   name: "TextRow",
   props: {
@@ -39,7 +41,7 @@ export default {
   methods: {
     onNodeClicked(event) {
       const dot = event.currentTarget.querySelector(".nodes__node-dot");
-      const { x: dotX, y: dotY } = this.offset(dot);
+      const { x: dotX, y: dotY } = getOffset(dot);
 
       this.isRowClicked = true;
 
@@ -55,18 +57,6 @@ export default {
     onMouseLeft() {
       this.isMouseOver = false;
       this.$emit("onMouseOver", null);
-    },
-    offset(el) {
-      const rect = el.getBoundingClientRect();
-      const { x, y, width, height } = rect;
-      const fmtRectX = x + width / 2;
-      const fmtRectY = y + height / 2;
-      const scrollLeft =
-        window.pageXOffset || document.documentElement.scrollLeft;
-      const scrollTop =
-        window.pageYOffset || document.documentElement.scrollTop;
-
-      return { x: fmtRectX + scrollLeft, y: fmtRectY + scrollTop };
     }
   },
   computed: {
