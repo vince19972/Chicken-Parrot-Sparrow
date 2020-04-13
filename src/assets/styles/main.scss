@@ -9,3 +9,22 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 2s;
+}
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.fade-fast-enter-active,
+.fade-fast-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-fast-enter,
+.fade-fast-leave-active {
+  opacity: 0;
+  transition: opacity 0s;
+}
