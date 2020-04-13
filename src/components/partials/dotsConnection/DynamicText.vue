@@ -1,5 +1,5 @@
 <template>
-  <div :class="['text -full-width -text-align-center']">
+  <div :class="['text -full-width -text-align-center', moduleClasses]">
     <p v-if="moduleState === 'default'">
       connect the
       <span
@@ -24,7 +24,7 @@
       🙅🏻 <br />
       {{ unPairedText }}
     </p>
-    <p v-else>vvvv</p>
+    <p v-else>{{ pairedText }}</p>
   </div>
 </template>
 
@@ -78,6 +78,25 @@ export default class CanvasBackground extends Vue {
           : sparrowText.pet;
       default:
         return "";
+    }
+  }
+  get pairedText() {
+    switch (this.startNode) {
+      case NodeTypes.Chicken:
+        return "chicken";
+      case NodeTypes.Parrot:
+        return "parrot";
+      case NodeTypes.Sparrow:
+        return "sparrow";
+      default:
+        return "chicken";
+    }
+  }
+  get moduleClasses() {
+    if (this.moduleState === ModuleStates.Paired) {
+      return "-is-paired";
+    } else {
+      return "";
     }
   }
   get moduleState() {
@@ -158,5 +177,11 @@ export default class CanvasBackground extends Vue {
   opacity: 0;
   pointer-events: none;
   transition: all 0.3s;
+}
+.text.-is-paired {
+  & p {
+    padding: 16px;
+    background-color: white;
+  }
 }
 </style>

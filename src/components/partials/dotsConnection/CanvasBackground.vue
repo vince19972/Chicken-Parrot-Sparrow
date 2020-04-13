@@ -32,7 +32,8 @@ enum ModuleStates {
   StartNodeActive,
   AllNodesActive,
   TempNodeActive,
-  NotActive
+  NotActive,
+  isPaired
 }
 
 @Component
@@ -57,7 +58,7 @@ export default class CanvasBackground extends Vue {
   get canvasImgFirst() {
     if (
       this.moduleStates === ModuleStates.StartNodeActive ||
-      this.moduleStates === ModuleStates.AllNodesActive
+      this.moduleStates === ModuleStates.isPaired
     ) {
       const url = gifUrls[this.startNode][0];
 
@@ -81,7 +82,7 @@ export default class CanvasBackground extends Vue {
       return {
         backgroundImage: `url("${url}")`
       };
-    } else if (this.moduleStates === ModuleStates.AllNodesActive) {
+    } else if (this.moduleStates === ModuleStates.isPaired) {
       const url = gifUrls[this.endNode][0];
 
       return {
@@ -105,7 +106,9 @@ export default class CanvasBackground extends Vue {
     if (this.moduleStates === ModuleStates.TempNodeActive) {
       return "-is-temp-active";
     } else if (this.moduleStates !== ModuleStates.NotActive) {
-      return "-is-active";
+      const pairedState =
+        this.moduleStates === ModuleStates.isPaired ? "-is-paired" : "";
+      return ["-is-active", pairedState];
     }
 
     return "";
@@ -122,7 +125,7 @@ export default class CanvasBackground extends Vue {
     } else if (this.connectState === ConnectStates.Connected) {
       if (this.startNode && this.endNode) {
         if (this.isPaired === PairingStates.Paired) {
-          return ModuleStates.AllNodesActive;
+          return ModuleStates.isPaired;
         } else {
           return ModuleStates.NotActive;
         }
@@ -135,7 +138,7 @@ export default class CanvasBackground extends Vue {
   // watcher
   @Watch("moduleStates")
   watchModuleState() {
-    if (this.moduleStates === ModuleStates.AllNodesActive) {
+    if (this.moduleStates === ModuleStates.isPaired) {
       // get required coordinations
       const pairedNodes = document.querySelectorAll(
         ".nodes__node.-is-active .nodes__node-dot"
@@ -195,9 +198,6 @@ export default class CanvasBackground extends Vue {
 
   transform-origin: center;
 }
-.img-wrapper__img {
-  width: 100%;
-}
 .text {
   margin: 0 2vw;
   font-size: 1.8vw;
@@ -218,6 +218,11 @@ export default class CanvasBackground extends Vue {
     opacity: 1;
     transition: transform 0.8s;
     z-index: -1;
+  }
+  &.-is-active.-is-paired {
+    & .text {
+      opacity: 0;
+    }
   }
 }
 </style>
