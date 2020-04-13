@@ -3,6 +3,8 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 
+import { browserEvent } from "./store/modules/browser";
+
 Vue.config.productionTip = false;
 
 /* Styles */
@@ -13,3 +15,5 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount("#app");
+
+Vue.use(browserEvent(store));
