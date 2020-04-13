@@ -3,7 +3,7 @@
     <div v-for="g in 2" :key="'group' + g" :class="['group', carouselSet(g)]">
       <div v-for="n in 13" :key="'set-' + n" class="set">
         <div class="set-hang"></div>
-        <p class="set-text -f-condensed" ref="textLead">
+        <p class="set-text -f-grid-condensed" ref="textLead">
           C<span class="text-body">HICKEN</span>
         </p>
       </div>

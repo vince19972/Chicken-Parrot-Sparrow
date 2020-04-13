@@ -1,9 +1,7 @@
 <template>
-  <div class="chicken">
-    <GirdSection>
-      <ChickenGrid></ChickenGrid>
-    </GirdSection>
-  </div>
+  <GirdSection class="chicken">
+    <ChickenGrid></ChickenGrid>
+  </GirdSection>
 </template>
 
 <script lang="ts">

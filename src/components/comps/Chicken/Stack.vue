@@ -1,5 +1,5 @@
 <template>
-  <div class="stack">
+  <div class="stack -f-grid-main">
     <div class="text-group">
       <div class="text-row" v-for="r in textCount.row" :key="r + 'row'">
         <div class="text-col" v-for="c in textCount.col" :key="c + 'col'">

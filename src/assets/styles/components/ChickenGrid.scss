@@ -18,7 +18,6 @@ $row: calc(#{$size-root} * #{$horizontal-row-height});
 $v-gutter: calc(#{$size-root} * #{$vertical-gutter-width});
 
 // vertical
-
 $size-root-val-v: 8;
 $size-root-v: calc((#{$container-width} - #{$gutter} * 11) / 12);
 $gutter-v: calc(#{$size-root-v} * #{$horizontal-gutter-height});

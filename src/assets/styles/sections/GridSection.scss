@@ -1,9 +1,12 @@
-$f-object: "Helvetica Neue", "Roboto", sans-serif;
-$f-object-condensed: "HelveticaNeue-CondensedBlack", "Helvetica Neue", "Roboto",
+$f-grid: "Helvetica Neue", "Roboto", sans-serif;
+$f-grid-condensed: "HelveticaNeue-CondensedBlack", "Helvetica Neue", "Roboto",
   sans-serif;
 
 $container-width: 100vw;
 
-.-f-condensed {
-  font-family: $f-object-condensed;
+.-f-grid-main {
+  font-family: $f-grid;
+}
+.-f-grid-condensed {
+  font-family: $f-grid-condensed;
 }

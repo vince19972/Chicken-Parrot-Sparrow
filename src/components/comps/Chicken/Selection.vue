@@ -1,5 +1,5 @@
 <template>
-  <div class="selection">
+  <div class="selection -f-grid-main">
     <div class="text-group">
       <div class="text-row" v-for="r in textCount.row" :key="r + 'row'">
         <div

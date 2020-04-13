@@ -5,16 +5,16 @@
 </template>
 
 <script lang="ts">
-// import { Component, Vue } from "vue-property-decorator";
-// export default class GridSection extends Vue {}
+import { Vue } from "vue-property-decorator";
+export default class GridSection extends Vue {}
 </script>
 
 <style scoped lang="scss">
 @import "@/assets/styles/sections/GridSection.scss";
 
 .section {
-  font-family: $f-object;
+  font-family: $f-grid;
   width: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 </style>

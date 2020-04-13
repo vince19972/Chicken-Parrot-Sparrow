@@ -1,5 +1,5 @@
 <template>
-  <div class="chicken">
+  <div class="chicken-grid">
     <div class="grid-v -full-height">
       <Produce v-for="n in 12" :key="n" />
     </div>
@@ -31,8 +31,8 @@ import Slaughter from "@/components/comps/chicken/Slaughter.vue";
     Produce,
     Selection,
     Stack,
-    Slaughter,
-  },
+    Slaughter
+  }
 })
 export default class ChickenGrid extends Vue {}
 </script>
@@ -40,6 +40,10 @@ export default class ChickenGrid extends Vue {}
 <style scoped lang="scss">
 @import "@/assets/styles/sections/GridSection.scss";
 @import "@/assets/styles/components/ChickenGrid.scss";
+
+.chicken-grid {
+  overflow-x: hidden;
+}
 
 .grid {
   font-size: $size-root;

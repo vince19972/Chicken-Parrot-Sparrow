@@ -2,7 +2,7 @@
   <div class="produce">
     <div class="lead">
       <div class="lead-input -bar"></div>
-      <p class="lead-text -f-condensed" ref="textLead">CHICKEN</p>
+      <p class="lead-text -f-grid-condensed" ref="textLead">CHICKEN</p>
     </div>
   </div>
 </template>
