@@ -24,12 +24,12 @@
       🙅🏻 <br />
       {{ unPairedText }}
     </p>
-    <p v-else>{{ pairedText }}</p>
+    <p v-else v-html="pairedText" class="transition-text"></p>
   </div>
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue } from "vue-property-decorator";
+import { Watch, Prop, Component, Vue } from "vue-property-decorator";
 import { ConnectStates, PairingStates, NodeTypes } from "./DotsConnection";
 
 enum ModuleStates {
@@ -39,12 +39,38 @@ enum ModuleStates {
   Paired = "paired"
 }
 
+const wrapperClass = {
+  pre: "<span class='span-text'>",
+  suf: "</span>"
+};
+const pairedTextSets = {
+  chicken: {
+    first: `${wrapperClass.pre} yes. chicken is treated as food, not bird. ${wrapperClass.suf}`,
+    second: `${wrapperClass.pre} but how is <span class='keyword'><span>chicken</span></span> transformed from a living bird to <span class='keyword'><span>food</span></span> ${wrapperClass.suf}`
+  },
+  parrot: {
+    first: `${wrapperClass.pre} yes, parrot is sold as product with price tag. ${wrapperClass.suf}`,
+    second: `${wrapperClass.pre} but how do we change <span class='keyword'><span>parrot</span></span> from a bird flying in sky to <span class='keyword'><span>pet</span></span> ${wrapperClass.suf}`
+  },
+  sparrow: {
+    first: `${wrapperClass.pre} yes, sparrow is viewed as our neighbor. ${wrapperClass.suf}`,
+    second: `${wrapperClass.pre} but how does <span class='keyword'><span>sparrow</span></span> becomes <span class='keyword'><span>neighbor</span></span> ${wrapperClass.suf}`
+  }
+};
+
 @Component
 export default class CanvasBackground extends Vue {
   @Prop() readonly connectState!: ConnectStates;
   @Prop() readonly pairingState!: PairingStates;
   @Prop() readonly startNode!: NodeTypes | null;
   @Prop() readonly endNode!: NodeTypes | null;
+
+  // data
+  pairedTexts = {
+    chicken: pairedTextSets.chicken.first,
+    parrot: pairedTextSets.parrot.first,
+    sparrow: pairedTextSets.sparrow.first
+  };
 
   // computed
   get unPairedText() {
@@ -83,13 +109,13 @@ export default class CanvasBackground extends Vue {
   get pairedText() {
     switch (this.startNode) {
       case NodeTypes.Chicken:
-        return "chicken";
+        return this.pairedTexts.chicken;
       case NodeTypes.Parrot:
-        return "parrot";
+        return this.pairedTexts.parrot;
       case NodeTypes.Sparrow:
-        return "sparrow";
+        return this.pairedTexts.sparrow;
       default:
-        return "chicken";
+        return "";
     }
   }
   get moduleClasses() {
@@ -120,12 +146,41 @@ export default class CanvasBackground extends Vue {
     return state;
   }
 
-  // methods
+  // user events
   onMouseEntered(event: Event) {
     this.$emit("onMouseEnter", event.currentTarget.dataset.pointDirection);
   }
   onMouseLeft() {
     this.$emit("onMouseLeave", null);
+  }
+
+  // helpers
+  changePairedText(updateChoice: "frist" | "second") {
+    switch (this.startNode) {
+      case NodeTypes.Chicken:
+        this.pairedTexts.chicken = pairedTextSets.chicken[updateChoice];
+        break;
+      case NodeTypes.Parrot:
+        this.pairedTexts.parrot = pairedTextSets.parrot[updateChoice];
+        break;
+      case NodeTypes.Sparrow:
+        this.pairedTexts.sparrow = pairedTextSets.sparrow[updateChoice];
+        break;
+    }
+  }
+
+  // watcher
+  @Watch("moduleState")
+  watchPairingState() {
+    if (this.moduleState === ModuleStates.Paired) {
+      // reset to initial text content
+      this.changePairedText("first");
+
+      // and update
+      setTimeout(() => {
+        this.changePairedText("second");
+      }, 2000);
+    }
   }
 }
 </script>
@@ -172,6 +227,56 @@ export default class CanvasBackground extends Vue {
   }
 }
 
+.transition-text ::v-deep .span-text {
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes highlight {
+    0%,
+    50% {
+      width: 0;
+      color: black;
+    }
+    100% {
+      width: 100%;
+      color: white;
+    }
+  }
+
+  animation: fade 2s;
+  transition: opacity 2s;
+
+  & .keyword {
+    display: inline-block;
+    position: relative;
+
+    & span {
+      position: relative;
+      z-index: 1;
+      color: white;
+      padding: 6px 8px 2px 8px;
+      animation: highlight 2s;
+    }
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 115%;
+      background-color: black;
+      z-index: 0;
+
+      animation: highlight 2s;
+    }
+  }
+}
+
 // states
 .text.-is-hidden {
   opacity: 0;
@@ -180,7 +285,7 @@ export default class CanvasBackground extends Vue {
 }
 .text.-is-paired {
   & p {
-    padding: 16px;
+    padding: 24px;
     background-color: white;
   }
 }
