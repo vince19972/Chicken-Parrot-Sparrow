@@ -1,0 +1,156 @@
+@import "_media-queries";
+
+/*
+-- flex
+*/
+@mixin -flex {
+  display: flex;
+}
+.-flex {
+  @include -flex;
+}
+
+@mixin -flex-wrap {
+  @include -flex;
+  flex-wrap: wrap;
+}
+.-flex-wrap {
+  @include -flex-wrap;
+}
+
+@mixin -flex-inline {
+  display: inline-flex;
+}
+.-flex-inline {
+  @include -flex-inline;
+}
+
+@mixin -flex-between {
+  @include -flex;
+  justify-content: space-between;
+}
+.-flex-between {
+  @include -flex-between;
+}
+@mixin -flex-between-wrap {
+  @include -flex-between;
+  flex-wrap: wrap;
+}
+.-flex-between-wrap {
+  @include -flex-between-wrap;
+}
+
+@mixin -flex-end {
+  @include -flex;
+  align-items: flex-end;
+}
+.-flex-end {
+  @include -flex-end;
+}
+
+@mixin -flex-center-between {
+  @include -flex-between;
+  align-items: center;
+}
+.-flex-center-between {
+  @include -flex-center-between;
+}
+
+@mixin -flex-center-all {
+  @include -flex;
+  align-items: center;
+  justify-content: center;
+}
+.-flex-center-all {
+  @include -flex-center-all;
+}
+
+@mixin -flex-column {
+  @include -flex;
+  flex-direction: column;
+}
+.-flex-column {
+  @include -flex-column;
+}
+@mixin -flex-inline-column {
+  @include -flex-inline;
+  flex-direction: column;
+}
+.-flex-inline-column {
+  @include -flex-inline-column;
+}
+
+@mixin -flex-column-between {
+  @include -flex-column;
+  justify-content: space-between;
+}
+.-flex-column-between {
+  @include -flex-column-between;
+}
+
+/*
+-- decoration
+*/
+@mixin hover() {
+  @include media("above-desktop") {
+    &:hover {
+      @content;
+    }
+  }
+}
+@mixin underlineHover($height, $bottom: 0px) {
+  position: relative;
+
+  &:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: $bottom;
+    width: 100%;
+    height: $height;
+    background-color: black;
+    transition: width 0.2s;
+  }
+}
+
+/*
+-- size
+*/
+@mixin -full-width($unit: 1%) {
+  width: calc(100 * #{$unit});
+}
+.-full-width {
+  @include -full-width;
+}
+.-full-width-view {
+  @include -full-width($unit: 1vw);
+}
+@mixin -full-height($unit: 1%) {
+  height: calc(100 * #{$unit});
+}
+.-full-height {
+  @include -full-height;
+}
+.-full-height-view {
+  @include -full-height($unit: 1vh);
+}
+
+/*
+-- display
+*/
+@mixin -display($type: block) {
+  display: $type;
+}
+.-display-block {
+  @include -display;
+}
+
+/*
+-- text
+*/
+@mixin -text-align($align: center) {
+  text-align: $align;
+}
+.-text-align-center {
+  @include -text-align;
+}

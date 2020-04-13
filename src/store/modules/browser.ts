@@ -29,6 +29,10 @@ export default {
     windowSize: ({ width, height }: WindowSize): WindowSize => ({
       width,
       height
+    }),
+    mouseCoord: ({ mouse }: MouseShape): MouseShape => ({
+      x: mouse.x,
+      y: mouse.y
     })
   },
   mutations: {
@@ -60,7 +64,7 @@ export function browserEvent(store: {
         if (start === 0) start = timestamp;
         const progress = timestamp - start;
 
-        if (progress > 264) {
+        if (progress > 33) {
           start = 0;
           callbackEvent(data);
           window.requestAnimationFrame(step);
@@ -77,6 +81,12 @@ export function browserEvent(store: {
 
   resizeEvent(null);
   scrollEvent(null);
+
+  window.addEventListener("resize", () => resizeEvent(null));
+  window.addEventListener("scroll", () => scrollEvent(null));
+  window.addEventListener("mousemove", e =>
+    mouseEvent({ x: e.clientX, y: e.clientY })
+  );
 
   return {
     resizeEvent,
