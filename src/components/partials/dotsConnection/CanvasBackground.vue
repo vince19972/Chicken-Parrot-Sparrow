@@ -2,26 +2,31 @@
   <div
     :class="['main -flex-center-all -full-width -full-height', moduleClasses]"
   >
-    <div class="img-wrapper -top" :style="[canvasImgFirst]"></div>
+    <div
+      class="img-wrapper -top"
+      :style="[canvasImgFirst, imgsStyleFirst]"
+      ref="firstImg"
+    ></div>
     <div class="text">
       <p class="text__content">= ?</p>
     </div>
-    <div class="img-wrapper -btm" :style="[canvasImgLast]"></div>
+    <div
+      class="img-wrapper -btm"
+      :style="[canvasImgLast, imgsStyleLast]"
+      ref="lastImg"
+    ></div>
   </div>
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue } from "vue-property-decorator";
-import { ConnectStates, NodeTypes, PairingStates } from "./DotsConnection";
-
-const urls = {
-  chicken: ["https://media.giphy.com/media/MtU53HV4RWccE/giphy.gif"],
-  food: ["https://media.giphy.com/media/jqwk5Jxh8UcbMZbxK7/giphy.gif"],
-  sparrow: ["https://media.giphy.com/media/RksrTsDMQJ29O/giphy.gif"],
-  neighbor: ["https://media.giphy.com/media/PsLIN8YlKy4rS/giphy.gif"],
-  parrot: ["https://media.giphy.com/media/Ddm5ER7Z45sIM/giphy.gif"],
-  pet: ["https://media.giphy.com/media/fYleqGp1DQvWoYC3AZ/giphy.gif"]
-};
+import { Watch, Prop, Component, Vue } from "vue-property-decorator";
+import {
+  ConnectStates,
+  NodeTypes,
+  PairingStates,
+  gifUrls,
+  getOffset
+} from "./DotsConnection";
 
 enum ModuleStates {
   StartNodeActive,
@@ -38,19 +43,29 @@ export default class CanvasBackground extends Vue {
   @Prop() readonly tempNode!: NodeTypes | null;
   @Prop() readonly isPaired!: PairingStates;
 
+  // data
+  firstImgTransformCoord = {
+    x: 0,
+    y: 0
+  };
+  lastImgTransformCoord = {
+    x: 0,
+    y: 0
+  };
+
   // computed
   get canvasImgFirst() {
     if (
       this.moduleStates === ModuleStates.StartNodeActive ||
       this.moduleStates === ModuleStates.AllNodesActive
     ) {
-      const url = urls[this.startNode][0];
+      const url = gifUrls[this.startNode][0];
 
       return {
         backgroundImage: `url("${url}")`
       };
     } else if (this.moduleStates === ModuleStates.TempNodeActive) {
-      const url = urls[this.tempNode][0];
+      const url = gifUrls[this.tempNode][0];
 
       return {
         backgroundImage: `url("${url}")`
@@ -61,13 +76,13 @@ export default class CanvasBackground extends Vue {
   }
   get canvasImgLast() {
     if (this.moduleStates === ModuleStates.StartNodeActive) {
-      const url = this.tempNode ? urls[this.tempNode][0] : "";
+      const url = this.tempNode ? gifUrls[this.tempNode][0] : "";
 
       return {
         backgroundImage: `url("${url}")`
       };
     } else if (this.moduleStates === ModuleStates.AllNodesActive) {
-      const url = urls[this.endNode][0];
+      const url = gifUrls[this.endNode][0];
 
       return {
         backgroundImage: `url("${url}")`
@@ -76,22 +91,16 @@ export default class CanvasBackground extends Vue {
 
     return "";
   }
-  // get textContent() {
-  //   let text = "";
-  //   switch (this.isPaired) {
-  //     case PairingStates.Paired:
-  //       text = "is";
-  //       break;
-  //     case PairingStates.NotPaired:
-  //       text = "is not";
-  //       break;
-  //     case PairingStates.Pending:
-  //       text = "is ?";
-  //       break;
-  //   }
-
-  //   return text;
-  // }
+  get imgsStyleFirst() {
+    return {
+      transform: `translate3d(${this.firstImgTransformCoord.x}px, ${this.firstImgTransformCoord.y}px, 0)`
+    };
+  }
+  get imgsStyleLast() {
+    return {
+      transform: `translate3d(${this.lastImgTransformCoord.x}px, ${this.lastImgTransformCoord.y}px, 0)`
+    };
+  }
   get moduleClasses() {
     if (this.moduleStates === ModuleStates.TempNodeActive) {
       return "-is-temp-active";
@@ -122,6 +131,55 @@ export default class CanvasBackground extends Vue {
 
     return ModuleStates.NotActive;
   }
+
+  // watcher
+  @Watch("moduleStates")
+  watchModuleState() {
+    if (this.moduleStates === ModuleStates.AllNodesActive) {
+      // get required coordinations
+      const pairedNodes = document.querySelectorAll(
+        ".nodes__node.-is-active .nodes__node-dot"
+      );
+      const topNodeCoord = getOffset(pairedNodes[0]);
+      const btmNodeCoord = getOffset(pairedNodes[1]);
+
+      const firstImgCoord = getOffset(this.$refs.firstImg);
+      const lastImgCoord = getOffset(this.$refs.lastImg);
+
+      // check destination for each image
+      const firstImgDestination =
+        this.startNode === NodeTypes.Chicken ||
+        this.startNode === NodeTypes.Sparrow ||
+        this.startNode === NodeTypes.Parrot
+          ? btmNodeCoord
+          : topNodeCoord;
+      const lastImgDestination =
+        firstImgDestination === btmNodeCoord ? topNodeCoord : btmNodeCoord;
+
+      // calculate transformation values
+      const firstImgDestCoord = {
+        x: (firstImgCoord.x - firstImgDestination.x) * -1,
+        y: (firstImgCoord.y - firstImgDestination.y) * -1
+      };
+      const lastImgDestCoord = {
+        x: (lastImgCoord.x - lastImgDestination.x) * -1,
+        y: (lastImgCoord.y - lastImgDestination.y) * -1
+      };
+
+      // assign values to local data, and process at computed()
+      this.firstImgTransformCoord = firstImgDestCoord;
+      this.lastImgTransformCoord = lastImgDestCoord;
+    } else {
+      this.firstImgTransformCoord = {
+        x: 0,
+        y: 0
+      };
+      this.lastImgTransformCoord = {
+        x: 0,
+        y: 0
+      };
+    }
+  }
 }
 </script>
 
@@ -134,6 +192,8 @@ export default class CanvasBackground extends Vue {
   height: 16%;
   width: 8%;
   background-position: center;
+
+  transform-origin: center;
 }
 .img-wrapper__img {
   width: 100%;
@@ -156,6 +216,8 @@ export default class CanvasBackground extends Vue {
   }
   &.-is-active > * {
     opacity: 1;
+    transition: transform 0.8s;
+    z-index: -1;
   }
 }
 </style>
