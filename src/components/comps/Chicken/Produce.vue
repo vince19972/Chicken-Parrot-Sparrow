@@ -33,7 +33,7 @@ $inner-bar-height: 10vh;
 .lead-input.-bar {
   position: relative;
   height: $input-bar-length;
-  width: calc(#{$gutter-v});
+  width: calc(#{$gutter-v} / 1.5);
   margin-bottom: calc(#{$v-gutter-v} / 6);
   border-radius: 0 0 calc(#{$gutter-v}* 0.5) calc(#{$gutter-v}* 0.5);
 }
