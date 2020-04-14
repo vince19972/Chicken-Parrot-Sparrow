@@ -23,7 +23,7 @@
         @mouseleave="onMouseLeft"
       >
         <p class="nav-btns__text -large">
-          Artificial Insemination
+          {{ sectionTitle }}
         </p>
       </button>
       <button
@@ -43,6 +43,17 @@
 <script lang="ts">
 import { Prop, Component, Vue } from "vue-property-decorator";
 import ChickenGrid from "@/components/partials/ChickenGrid.vue";
+
+const sectionTitles = {
+  chicken: [
+    "Artificial Insemination",
+    "Selection",
+    "Growth and Transportation",
+    "Slaughter"
+  ],
+  parrot: [],
+  sparrow: []
+};
 
 @Component({
   name: "GridSection",
@@ -65,7 +76,10 @@ export default class GridSection extends Vue {
     return this.childElementOffsetValue === 0 ? "-is-hidden" : "";
   }
   get btnDownClasses() {
-    return this.childElementOffsetValue === 4 ? "-is-hidden" : "";
+    return this.childElementOffsetValue === 3 ? "-is-hidden" : "";
+  }
+  get sectionTitle() {
+    return sectionTitles[this.contentType][this.childElementOffsetValue];
   }
 
   // user events
@@ -81,8 +95,8 @@ export default class GridSection extends Vue {
 
     if (this.childElementOffsetValue < 0) {
       this.childElementOffsetValue = 0;
-    } else if (this.childElementOffsetValue > 4) {
-      this.childElementOffsetValue = 4;
+    } else if (this.childElementOffsetValue > 3) {
+      this.childElementOffsetValue = 3;
     }
   }
 }
@@ -149,7 +163,7 @@ export default class GridSection extends Vue {
   background-color: black;
   transition: all 0.3s;
 }
-.btns__btn.-is-hidden {
-  display: none;
+.nav-btns__btn.-is-hidden {
+  pointer-events: none;
 }
 </style>
