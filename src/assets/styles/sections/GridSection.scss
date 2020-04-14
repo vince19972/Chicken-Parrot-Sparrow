@@ -10,3 +10,90 @@ $container-width: 100vw;
 .-f-grid-condensed {
   font-family: $f-grid-condensed;
 }
+
+$horizontal-gutter-height: 0.13;
+$horizontal-row-height: 0.305;
+$vertical-gutter-width: 0.57;
+
+$f-size-lead-val: 1;
+$f-size-main-val: 0.5;
+$f-size-sub-val: 0.412;
+$f-size-lead: 1em;
+$f-size-main: 0.5em;
+$f-size-sub: 0.412em;
+
+$size-root-val: 8;
+$size-root: calc(#{$size-root-val} * 1vh);
+$gutter: calc(#{$size-root} * #{$horizontal-gutter-height});
+$row: calc(#{$size-root} * #{$horizontal-row-height});
+$v-gutter: calc(#{$size-root} * #{$vertical-gutter-width});
+
+// vertical
+$size-root-val-v: 8;
+$size-root-v: calc((#{$container-width} - #{$gutter} * 11) / 12);
+$gutter-v: calc(#{$size-root-v} * #{$horizontal-gutter-height});
+$row-v: calc(#{$size-root-v} * #{$horizontal-row-height});
+// $v-gutter-v: calc(#{$size-root-v} * #{$vertical-gutter-width});
+$v-gutter-val: 5;
+$v-gutter-v: 5vh;
+
+:export {
+  verticalGutterVal: $v-gutter-val;
+}
+
+// basic styles
+.-grid-base {
+  overflow: hidden;
+  transition: transform 0.5s ease-in-out;
+}
+
+.-grid-horizontal {
+  font-size: $size-root;
+  max-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+}
+.-grid-vertical {
+  max-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  width: $container-width;
+  margin: 0 auto;
+  font-size: $size-root-v;
+  display: flex;
+  justify-content: space-between;
+}
+.grid__container {
+  height: 100%;
+}
+
+// grid system lines
+.-grid-system {
+  position: relative;
+  background: repeating-linear-gradient(
+    to bottom,
+    red 0 0.1vh,
+    transparent 0 $gutter,
+    green $gutter calc(#{$gutter} + 0.1vh),
+    transparent $gutter calc(#{$size-root} - #{$gutter}),
+    green calc(#{$size-root} - #{$gutter})
+      calc(#{$size-root} - #{$gutter} + 0.1vh),
+    transparent calc(#{$size-root} - #{$gutter}) $size-root
+  );
+}
+.-grid-system:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 calc(#{$gutter} + #{$row}),
+    purple calc(#{$gutter} + #{$row}) calc(#{$gutter} + #{$row} + 0.1vh),
+    transparent calc(#{$gutter} + #{$row}) calc(#{$gutter} * 2 + #{$row}),
+    purple calc(#{$gutter} * 2 + #{$row}) calc(#{$gutter} * 2 + #{$row} + 0.1vh),
+    transparent calc(#{$gutter} * 2 + #{$row}) $size-root
+  );
+}
