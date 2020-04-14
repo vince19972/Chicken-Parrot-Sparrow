@@ -221,8 +221,9 @@ export default class DotsConnection extends Vue {
     this.states.hoverNodeTarget = nodeType;
   }
   onCanvasClicked(event: Event) {
-    if (event.target) {
-      const targetClassNames = event.target.classList;
+    if (event.currentTarget) {
+      const target = event.currentTarget;
+      const targetClassNames = target.classList;
       const isNode =
         targetClassNames.contains("nodes__node-text") ||
         targetClassNames.contains("nodes__node-dot");

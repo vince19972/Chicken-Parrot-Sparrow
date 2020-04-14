@@ -60,13 +60,13 @@ export default class CanvasBackground extends Vue {
       this.moduleStates === ModuleStates.StartNodeActive ||
       this.moduleStates === ModuleStates.isPaired
     ) {
-      const url = gifUrls[this.startNode][0];
+      const url = this.startNode ? gifUrls[this.startNode][0] : "";
 
       return {
         backgroundImage: `url("${url}")`
       };
     } else if (this.moduleStates === ModuleStates.TempNodeActive) {
-      const url = gifUrls[this.tempNode][0];
+      const url = this.tempNode ? gifUrls[this.tempNode][0] : "";
 
       return {
         backgroundImage: `url("${url}")`
@@ -83,7 +83,7 @@ export default class CanvasBackground extends Vue {
         backgroundImage: `url("${url}")`
       };
     } else if (this.moduleStates === ModuleStates.isPaired) {
-      const url = gifUrls[this.endNode][0];
+      const url = this.endNode ? gifUrls[this.endNode][0] : "";
 
       return {
         backgroundImage: `url("${url}")`
@@ -146,8 +146,8 @@ export default class CanvasBackground extends Vue {
       const topNodeCoord = getOffset(pairedNodes[0]);
       const btmNodeCoord = getOffset(pairedNodes[1]);
 
-      const firstImgCoord = getOffset(this.$refs.firstImg);
-      const lastImgCoord = getOffset(this.$refs.lastImg);
+      const firstImgCoord = getOffset(<Element>this.$refs.firstImg);
+      const lastImgCoord = getOffset(<Element>this.$refs.lastImg);
 
       // check destination for each image
       const firstImgDestination =

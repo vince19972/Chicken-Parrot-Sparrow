@@ -51,6 +51,9 @@ export default {
 
 export function browserEvent(store: {
   commit: (arg0: string, arg1: CommitData) => void;
+  resizeEvent: (data: CommitData) => void;
+  scrollEvent: (data: CommitData) => void;
+  mouseEvent: (data: CommitData) => void;
 }) {
   const throttleWindowEvent = (commitKey: CommitKey) => {
     let start = 0;
