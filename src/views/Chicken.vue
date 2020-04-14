@@ -1,7 +1,7 @@
 <template>
-  <GirdSection class="chicken">
+  <grid-section class="chicken">
     <ChickenGrid></ChickenGrid>
-  </GirdSection>
+  </grid-section>
 </template>
 
 <script lang="ts">
