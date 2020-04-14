@@ -15,7 +15,7 @@ export default class Produce extends Vue {}
 </script>
 
 <style scoped lang="scss">
-@import "@/assets/styles/components/ChickenGrid.scss";
+@import "@/assets/styles/sections/GridSection.scss";
 
 $bar-duration: 1.5s;
 $input-bar-length: 100%;

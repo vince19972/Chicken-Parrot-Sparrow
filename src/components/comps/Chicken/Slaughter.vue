@@ -77,7 +77,7 @@ export default class Slaughter extends Vue {
 </script>
 
 <style scoped lang="scss">
-@import "@/assets/styles/components/ChickenGrid.scss";
+@import "@/assets/styles/sections/GridSection.scss";
 
 .slaughter {
   width: 100%;

@@ -133,7 +133,7 @@ export default class Stack extends Vue {
 </script>
 
 <style scoped lang="scss">
-@import "@/assets/styles/components/ChickenGrid.scss";
+@import "@/assets/styles/sections/GridSection.scss";
 
 .stack {
   height: 100%;
