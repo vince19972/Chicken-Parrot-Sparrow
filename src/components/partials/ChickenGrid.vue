@@ -1,5 +1,5 @@
 <template>
-  <div class="chicken-grid">
+  <div class="chicken-grid" :style="[transformStyle]">
     <div class="grid-v -full-height">
       <Produce v-for="n in 12" :key="n" />
     </div>
@@ -20,11 +20,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Prop, Component, Vue } from "vue-property-decorator";
 import Produce from "@/components/comps/chicken/Produce.vue";
 import Selection from "@/components/comps/chicken/Selection.vue";
 import Stack from "@/components/comps/chicken/Stack.vue";
 import Slaughter from "@/components/comps/chicken/Slaughter.vue";
+
+import { WindowSize as WindowSizeState } from "@/store/types/browser";
 
 @Component({
   components: {
@@ -34,7 +36,19 @@ import Slaughter from "@/components/comps/chicken/Slaughter.vue";
     Slaughter
   }
 })
-export default class ChickenGrid extends Vue {}
+export default class ChickenGrid extends Vue {
+  @Prop() readonly transformValue!: number;
+
+  // computed setters
+  get windowSize(): WindowSizeState {
+    return this.$store.getters["browser/windowSize"];
+  }
+  get transformStyle() {
+    return {
+      transform: `translate3d(0, ${this.transformValue * -100}vh, 0)`
+    };
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -42,7 +56,9 @@ export default class ChickenGrid extends Vue {}
 @import "@/assets/styles/components/ChickenGrid.scss";
 
 .chicken-grid {
-  overflow-x: hidden;
+  overflow: hidden;
+
+  transition: transform 0.5s ease-in-out;
 }
 
 .grid {

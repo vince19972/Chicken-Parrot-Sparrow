@@ -1,13 +1,17 @@
 <template>
   <div :class="['section', moduleClasses]">
     <div class="section__content">
-      <slot />
+      <chicken-grid
+        v-if="contentType === 'chicken'"
+        :transformValue="childElementOffsetValue"
+      ></chicken-grid>
     </div>
     <div class="nav-btns -flex-column-between">
       <button
-        class="nav-btns__btn -up -chevron"
+        :class="['nav-btns__btn -up -chevron', btnUpClasses]"
         @mouseenter="onMouseEntered"
         @mouseleave="onMouseLeft"
+        @click="onMouseClicked('up')"
       >
         <p class="nav-btns__text">
           previous stage
@@ -23,9 +27,10 @@
         </p>
       </button>
       <button
-        class="nav-btns__btn -down -chevron"
+        :class="['nav-btns__btn -down -chevron', btnDownClasses]"
         @mouseenter="onMouseEntered"
         @mouseleave="onMouseLeft"
+        @click="onMouseClicked('down')"
       >
         <p class="nav-btns__text">
           next stage
@@ -36,18 +41,31 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Prop, Component, Vue } from "vue-property-decorator";
+import ChickenGrid from "@/components/partials/ChickenGrid.vue";
 
 @Component({
-  name: "GridSection"
+  name: "GridSection",
+  components: {
+    ChickenGrid
+  }
 })
 export default class GridSection extends Vue {
+  @Prop() readonly contentType!: "chicken" | "sparrow" | "parrot";
+
   // data
   isBtnsHovered = false;
+  childElementOffsetValue = 0;
 
   // computed
   get moduleClasses() {
     return this.isBtnsHovered ? "-is-hovered" : "";
+  }
+  get btnUpClasses() {
+    return this.childElementOffsetValue === 0 ? "-is-hidden" : "";
+  }
+  get btnDownClasses() {
+    return this.childElementOffsetValue === 4 ? "-is-hidden" : "";
   }
 
   // user events
@@ -56,6 +74,16 @@ export default class GridSection extends Vue {
   }
   onMouseLeft() {
     this.isBtnsHovered = false;
+  }
+  onMouseClicked(type: "up" | "down") {
+    const value = type === "up" ? -1 : 1;
+    this.childElementOffsetValue += value;
+
+    if (this.childElementOffsetValue < 0) {
+      this.childElementOffsetValue = 0;
+    } else if (this.childElementOffsetValue > 4) {
+      this.childElementOffsetValue = 4;
+    }
   }
 }
 </script>
@@ -68,7 +96,8 @@ export default class GridSection extends Vue {
 .section {
   font-family: $f-grid;
   max-width: 100vw;
-  overflow-x: hidden;
+  max-height: 100vh;
+  overflow: hidden;
   transition: all 0.3s;
 }
 
@@ -119,5 +148,8 @@ export default class GridSection extends Vue {
 .section.-is-hovered {
   background-color: black;
   transition: all 0.3s;
+}
+.btns__btn.-is-hidden {
+  display: none;
 }
 </style>

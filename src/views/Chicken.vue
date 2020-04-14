@@ -1,18 +1,14 @@
 <template>
-  <grid-section class="chicken">
-    <ChickenGrid></ChickenGrid>
-  </grid-section>
+  <grid-section class="chicken" contentType="chicken"> </grid-section>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import GridSection from "@/components/sections/GridSection.vue";
-import ChickenGrid from "@/components/partials/ChickenGrid.vue";
 
 @Component({
   components: {
-    GridSection,
-    ChickenGrid
+    GridSection
   }
 })
 export default class Chicken extends Vue {}
