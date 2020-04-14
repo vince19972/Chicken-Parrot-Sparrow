@@ -1,7 +1,7 @@
 <template>
   <div class="selection -f-grid-main">
     <div class="text-group">
-      <div class="text-row" v-for="r in textCount.row" :key="r + 'row'">
+      <div class="text-row -flex" v-for="r in textCount.row" :key="r + 'row'">
         <div
           :class="['text-col', { '-is-useless': isUseless(c) }]"
           v-for="c in textCount.col"
@@ -134,8 +134,6 @@ export default class Selection extends Vue {
 }
 
 .text-row {
-  display: flex;
-
   &:nth-child(1n) {
     transform: translate3d(-10vw, 0, 0);
   }
