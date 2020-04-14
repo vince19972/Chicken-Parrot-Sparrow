@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Chicken from "../views/Chicken.vue";
+import Parrot from "../views/Parrot.vue";
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,11 @@ const routes = [
     path: "/chicken",
     name: "Chicken",
     component: Chicken
+  },
+  {
+    path: "/parrot",
+    name: "Parrot",
+    component: Parrot
   },
   {
     path: "/about",
