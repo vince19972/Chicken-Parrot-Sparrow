@@ -155,7 +155,7 @@ export default class CanvasBackground extends Vue {
   }
 
   // helpers
-  changePairedText(updateChoice: "frist" | "second") {
+  changePairedText(updateChoice: "first" | "second") {
     switch (this.startNode) {
       case NodeTypes.Chicken:
         this.pairedTexts.chicken = pairedTextSets.chicken[updateChoice];
