@@ -80,7 +80,7 @@ export function checkPairingState(
   return state;
 }
 
-export function getOffset(el: Element) {
+export function getOffset(el: HTMLElement) {
   const rect = el.getBoundingClientRect();
   const { x, y, width, height } = rect;
   const fmtRectX = x + width / 2;
