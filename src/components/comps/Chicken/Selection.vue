@@ -63,7 +63,7 @@ export default class Selection extends Vue {
     )
       .to($selection, 0.5, { backgroundColor: "black" }, "hatched+=1")
       .addLabel("filtering", "+=0")
-      .to($selection, 0.5, { backgroundColor: "white" }, "filtering+=0.5")
+      // .to($selection, 0.5, { backgroundColor: "white" }, "filtering+=0.5")
       .addLabel("filtered", "+=0")
       .staggerTo($textUseless, 0.1, { color: "red" }, 0.01, "filtered-=0.5")
       .staggerTo(
