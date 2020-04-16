@@ -46,15 +46,15 @@ const wrapperClass = {
 const pairedTextSets = {
   chicken: {
     first: `${wrapperClass.pre} yes. chicken is treated as food, not bird. ${wrapperClass.suf}`,
-    second: `${wrapperClass.pre} but how is <span class='keyword'><span>chicken</span></span> transformed from a living bird to <span class='keyword'><span>food</span></span> ${wrapperClass.suf}`
+    second: `${wrapperClass.pre} but how is <span class='keyword'><span>chicken</span></span> transformed from a living bird to <span class='keyword'><span>food</span></span>? ${wrapperClass.suf}`
   },
   parrot: {
     first: `${wrapperClass.pre} yes, parrot is sold as product with price tag. ${wrapperClass.suf}`,
-    second: `${wrapperClass.pre} but how do we change <span class='keyword'><span>parrot</span></span> from a bird flying in sky to <span class='keyword'><span>pet</span></span> ${wrapperClass.suf}`
+    second: `${wrapperClass.pre} but how do we change <span class='keyword'><span>parrot</span></span> from a bird flying in sky to <span class='keyword'><span>pet</span></span>? ${wrapperClass.suf}`
   },
   sparrow: {
     first: `${wrapperClass.pre} yes, sparrow is viewed as our neighbor. ${wrapperClass.suf}`,
-    second: `${wrapperClass.pre} but how does <span class='keyword'><span>sparrow</span></span> becomes <span class='keyword'><span>neighbor</span></span> ${wrapperClass.suf}`
+    second: `${wrapperClass.pre} but how does <span class='keyword'><span>sparrow</span></span> becomes <span class='keyword'><span>neighbor</span></span>? ${wrapperClass.suf}`
   }
 };
 
