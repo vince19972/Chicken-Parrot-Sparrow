@@ -40,7 +40,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { WindowSize as WindowSizeState } from "@/store/types/browser";
-import { TimelineMax, Expo, Power4 } from "gsap";
+import { TimelineMax, Power4 } from "gsap";
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -74,6 +74,7 @@ export default class Capture extends Vue {
     const $capture = ".capture";
     const $net = ".net";
     const $texts = ".texts";
+    const $textsP = `${$texts}__text`;
     const $textCol = ".text-col";
     const $textColHiddens = `${$textCol}.-is-hidden`;
     const $captureContainer = `${$capture}__container`;
@@ -87,13 +88,14 @@ export default class Capture extends Vue {
       .to($captureContainer, 1.5, {
         css: {
           overflow: "hidden",
-          transform: "scale(0.5)",
+          transform: "scale(0.5, 0.425)",
           border: "1px solid black",
           padding: "24px"
         },
         ease: Power4.easeOut
       })
       .to($texts, 0, { css: { alignItems: "center" } }, "-=1.5")
+      .to($textsP, 0, { letterSpacing: "-0.3rem" }, "-=1.5")
       .staggerTo(
         $textColHiddens,
         1,
