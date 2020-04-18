@@ -17,7 +17,6 @@
           </p>
         </div>
       </div>
-      <!-- <div class="cage__btm"></div> -->
     </div>
     <p class="text -hidden" ref="textHidden">parrot</p>
   </div>
@@ -240,8 +239,5 @@ $cage-top-height: calc(100% - #{$cage-btm-height});
   &.-is-dead {
     transform-origin: bottom right;
   }
-}
-.cage__btm {
-  height: $cage-btm-height;
 }
 </style>
