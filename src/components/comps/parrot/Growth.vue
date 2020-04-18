@@ -2,26 +2,31 @@
   <div class="growth -f-grid-main">
     <div class="cage">
       <div class="cage__cell -flex-column">
-        <div v-for="cage in 3" :key="cage.id" class="cage__cell-unit">
+        <div
+          v-for="(cage, rIndex) in textCount.row"
+          :key="cage.id"
+          class="cage__cell-unit"
+        >
           <p
-            v-for="text in textCount.col"
+            v-for="(text, cIndex) in textCount.col"
             :key="text.id"
-            class="cage__cell-text"
+            :class="['cage__cell-text', setTextClasses(rIndex, cIndex)]"
+            ref="text"
           >
             parrot
           </p>
         </div>
       </div>
-      <div class="cage__btm"></div>
+      <!-- <div class="cage__btm"></div> -->
     </div>
     <p class="text -hidden" ref="textHidden">parrot</p>
   </div>
 </template>
 
 <script lang="ts">
-import { Watch, Component, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { WindowSize as WindowSizeState } from "@/store/types/browser";
-import { TimelineMax, Power4, gsap } from "gsap";
+import { TimelineMax, Bounce, Power4, gsap } from "gsap";
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -29,9 +34,30 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
+function shuffle(array) {
+  let currentIndex = array.length;
+  let temporaryValue;
+  let randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
 @Component
 export default class Growth extends Vue {
   // data
+  hiddenTextIndices = [];
   textValue = {
     width: this.windowSize.width,
     height: this.windowSize.height
@@ -42,6 +68,11 @@ export default class Growth extends Vue {
     ease: Power4.easeInOut,
     onRepeat: this.updateRandomValues
   });
+  timelineSub: TimelineMax = new TimelineMax({
+    repeat: -1,
+    repeatDelay: 3,
+    ease: Power4.easeIn
+  });
 
   // computed
   get windowSize(): WindowSizeState {
@@ -49,9 +80,9 @@ export default class Growth extends Vue {
   }
   get textCount() {
     return {
-      row: Math.floor(this.windowSize.height / 2 / this.textValue.height),
+      row: Math.floor(this.windowSize.height / this.textValue.height),
       col: Math.floor(
-        Math.ceil(this.windowSize.width / this.textValue.width) * 1.5
+        Math.ceil(this.windowSize.width / this.textValue.width) * 2
       )
     };
   }
@@ -60,20 +91,84 @@ export default class Growth extends Vue {
   updateRandomValues() {
     this.randomValue = gsap.utils.random(-5, 5, true);
   }
-  moveTimeline(tl: TimelineMax) {
+  moveTimeline(tl: TimelineMax, tl2: TimelineMax) {
     const $growth = ".growth";
     const $cage = ".cage";
     const $cageCellText = `${$cage}__cell-text`;
+    const $cageCellTextDead = shuffle(
+      Array.from(document.querySelectorAll(".cage__cell-text.-is-dead"))
+    );
+    const deadTextSetLength = $cageCellTextDead.length / 3;
+    const $textDeadFirstSet = $cageCellTextDead.slice(0, deadTextSetLength);
+    const $textDeadSecondSet = $cageCellTextDead.slice(
+      deadTextSetLength + 1,
+      deadTextSetLength * 2
+    );
+    const $textDeadThirdSet = $cageCellTextDead.slice(
+      deadTextSetLength * 2 + 1
+    );
 
     tl.to(
       $cageCellText,
-      0.08,
+      0.1,
       {
-        y: "random(-8, 8)",
-        x: "random(-5, 5)"
+        y: "random(-3, 3)",
+        x: "random(-3, 3)"
       },
       0
     );
+
+    function die(target, time) {
+      tl2
+        .to(
+          target,
+          3,
+          {
+            letterSpacing: "-1rem",
+            scaleX: 0.8
+          },
+          time
+        )
+        .to(target, 0.5, {
+          rotate: 90,
+          // fontWeight: "lighter"
+          ease: Bounce.easeOut
+        });
+    }
+
+    die($textDeadFirstSet, "+=0.25");
+    die($textDeadSecondSet, "-=1");
+    die($textDeadThirdSet, "-=1");
+  }
+
+  // methods
+  setHiddenIndices() {
+    const textRowCount = this.textCount.row;
+    const textColCount = this.textCount.col;
+    const hiddenCount = textColCount;
+
+    for (let r = 0; r < textRowCount; r++) {
+      const textIndices = [];
+
+      for (let i = 0; i < hiddenCount; i++) {
+        let randomNumber = getRandomInt(0, hiddenCount);
+
+        if (textIndices.includes(randomNumber)) {
+          randomNumber = getRandomInt(0, hiddenCount);
+        }
+
+        textIndices.push(randomNumber);
+      }
+
+      this.hiddenTextIndices.push(textIndices);
+    }
+  }
+  setTextClasses(rowIndex: numer, colIndex: number) {
+    if (this.hiddenTextIndices[rowIndex]) {
+      if (this.hiddenTextIndices[rowIndex].includes(colIndex))
+        return "-is-dead";
+      else return "";
+    }
   }
 
   // life cycle
@@ -82,6 +177,9 @@ export default class Growth extends Vue {
     const text = this.$refs.textHidden as HTMLElement;
     this.textValue.width = text.offsetWidth;
     this.textValue.height = text.offsetHeight;
+
+    // get hidden text indices
+    this.setHiddenIndices();
   }
   updated() {
     // gsap
@@ -92,7 +190,7 @@ export default class Growth extends Vue {
     */
     this.timeline.restart().invalidate();
     this.timeline.clear();
-    this.moveTimeline(this.timeline);
+    this.moveTimeline(this.timeline, this.timelineSub);
     this.timeline.restart();
   }
 }
@@ -117,7 +215,7 @@ export default class Growth extends Vue {
 }
 
 // cage
-$cage-btm-height: 15%;
+$cage-btm-height: 0%;
 $cage-top-height: calc(100% - #{$cage-btm-height});
 
 .cage {
@@ -129,9 +227,6 @@ $cage-top-height: calc(100% - #{$cage-btm-height});
   max-height: $cage-top-height;
 }
 .cage__cell-unit {
-  &:first-child {
-    border-top: 8px solid black;
-  }
   border-bottom: 8px solid black;
   width: 100%;
   flex-grow: 1;
@@ -140,7 +235,11 @@ $cage-top-height: calc(100% - #{$cage-btm-height});
 }
 .cage__cell-text {
   text-align: right;
-  line-height: 6vh;
+  line-height: 5.5vh;
+
+  &.-is-dead {
+    transform-origin: bottom right;
+  }
 }
 .cage__btm {
   height: $cage-btm-height;
