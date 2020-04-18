@@ -1,7 +1,10 @@
 <template>
   <div class="parrot-grid -grid-base" :style="[transformStyle]">
-    <div class="-grid-horizontal -full-height">
+    <!-- <div class="-grid-horizontal -full-height">
       <capture></capture>
+    </div> -->
+    <div class="-grid-vertical -full-height">
+      <growth></growth>
     </div>
   </div>
 </template>
@@ -11,10 +14,12 @@ import { Prop, Component, Vue } from "vue-property-decorator";
 import { WindowSize as WindowSizeState } from "@/store/types/browser";
 
 import Capture from "@/components/comps/parrot/Capture.vue";
+import Growth from "@/components/comps/parrot/Growth.vue";
 
 @Component({
   components: {
-    Capture
+    Capture,
+    Growth
   }
 })
 export default class ParrotGrid extends Vue {
