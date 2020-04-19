@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       creatures: ["chicken", "sparrow", "parrot"],
-      roles: ["pet", "neighbor", "food"],
+      roles: ["product", "neighbor", "meat"],
       isMouseOver: false,
       isRowClicked: false
     };
@@ -168,7 +168,7 @@ $connect-dot-size: 16px;
 
 .nodes__node {
   position: relative;
-  font-size: 12vh;
+  font-size: 6vw;
   text-align: center;
   transition: all 0.3s;
 
