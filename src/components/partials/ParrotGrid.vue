@@ -1,11 +1,11 @@
 <template>
   <div class="parrot-grid -grid-base" :style="[transformStyle]">
-    <!-- <div class="-grid-horizontal -full-height">
+    <div class="-grid-horizontal -full-height">
       <capture></capture>
-    </div> -->
-    <!-- <div class="-grid-vertical -full-height">
+    </div>
+    <div class="-grid-vertical -full-height">
       <growth></growth>
-    </div> -->
+    </div>
     <div class="-grid-vertical -full-height">
       <pricing></pricing>
     </div>

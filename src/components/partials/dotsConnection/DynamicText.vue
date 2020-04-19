@@ -193,6 +193,10 @@ export default class CanvasBackground extends Vue {
           case NodeTypes.Food:
             this.$router.push({ path: NodeTypes.Chicken });
             break;
+          case NodeTypes.Parrot:
+          case NodeTypes.Pet:
+            this.$router.push({ path: NodeTypes.Parrot });
+            break;
         }
       }, 6000);
     }

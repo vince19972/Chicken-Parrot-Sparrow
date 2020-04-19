@@ -5,6 +5,10 @@
         v-if="contentType === 'chicken'"
         :transformValue="childElementOffsetValue"
       ></chicken-grid>
+      <parrot-grid
+        v-else-if="contentType === 'parrot'"
+        :transformValue="childElementOffsetValue"
+      ></parrot-grid>
     </div>
     <info-panel
       :contentType="contentType"
@@ -17,12 +21,14 @@
 import { Prop, Component, Vue } from "vue-property-decorator";
 import InfoPanel from "./InfoPanel.vue";
 import ChickenGrid from "@/components/partials/ChickenGrid.vue";
+import ParrotGrid from "@/components/partials/ParrotGrid.vue";
 
 @Component({
   name: "GridSection",
   components: {
     InfoPanel,
-    ChickenGrid
+    ChickenGrid,
+    ParrotGrid
   }
 })
 export default class GridSection extends Vue {
@@ -49,12 +55,5 @@ export default class GridSection extends Vue {
   max-width: 100vw;
   max-height: 100vh;
   overflow: hidden;
-  transition: all 0.3s;
-}
-
-// states
-.section.-is-hovered {
-  background-color: black;
-  transition: all 0.3s;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <!-- <grid-section class="chicken" contentType="chicken"> </grid-section> -->
-  <parrot-grid></parrot-grid>
+  <grid-section class="parrot" contentType="parrot"> </grid-section>
+  <!-- <parrot-grid></parrot-grid> -->
 </template>
 
 <script lang="ts">
