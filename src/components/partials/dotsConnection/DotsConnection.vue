@@ -51,7 +51,6 @@
       <canvas-background
         :connectState="states.connect"
         :startNode="states.startNode"
-        :endNode="states.endNode"
         :tempNode="states.hoverNodeTarget"
         :isPaired="states.isPaired"
       ></canvas-background>
