@@ -1,23 +1,23 @@
 <template>
   <div :class="['text -full-width -text-align-center', moduleClasses]">
     <p v-if="moduleState === 'default'">
-      connect the
-      <span
-        class="text__wrapper -point-down"
-        data-point-direction="down"
-        @mouseenter="onMouseEntered"
-        @mouseleave="onMouseLeft"
-        >creature</span
-      >
-      and its
+      try to connect the
       <span
         class="text__wrapper -point-up"
         data-point-direction="up"
         @mouseenter="onMouseEntered"
         @mouseleave="onMouseLeft"
+        >creature</span
+      >
+      with its
+      <span
+        class="text__wrapper -point-down"
+        data-point-direction="down"
+        @mouseenter="onMouseEntered"
+        @mouseleave="onMouseLeft"
         >role</span
       >
-      in New York City
+      in urban society
     </p>
     <p v-else-if="moduleState === 'hidden'"></p>
     <p v-else-if="moduleState === 'notPaired'">

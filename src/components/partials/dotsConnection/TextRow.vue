@@ -71,6 +71,10 @@ export default {
     nodesClasses() {
       const isCurrentRow = this.isCurrentRow;
       let pairingClass = "";
+      const glowingCondition =
+        (this.connectState === "Connectionless" &&
+          this.rowType === "creatures") ||
+        (this.connectState === "Connecting" && this.rowType === "roles");
 
       if (this.pairingState === "paired") {
         pairingClass = "-is-paired";
@@ -79,8 +83,8 @@ export default {
       }
 
       return [
-        this.rowType === "creatures" ? "-btm" : "-top",
-        this.connectState === "Connectionless" ? "-is-glowing" : "",
+        this.rowType === "roles" ? "-btm" : "-top",
+        glowingCondition ? "-is-glowing" : "",
         this.isMouseOver || (this.connectState === "Connecting" && isCurrentRow)
           ? "-is-active"
           : "",
@@ -105,6 +109,7 @@ export default {
           } else {
             if (this.isCurrentRow) node.classList.add("-is-disabled");
             node.classList.remove("-is-active");
+            node.classList.remove("-is-disabled");
           }
         });
       } else if (this.connectState === "Connected") {
@@ -117,11 +122,27 @@ export default {
           }
         });
       } else {
-        this.$refs.node.forEach(node => {
-          node.classList.remove("-is-active");
-          node.classList.remove("-is-disabled");
-        });
+        if (this.rowType === "roles") {
+          this.$refs.node.forEach(node => {
+            node.classList.remove("-is-active");
+            node.classList.add("-is-disabled");
+          });
+        } else {
+          this.$refs.node.forEach(node => {
+            node.classList.remove("-is-active");
+            node.classList.remove("-is-disabled");
+          });
+        }
       }
+    }
+  },
+  // life cycle
+  mounted() {
+    if (this.rowType === "roles") {
+      this.$refs.node.forEach(node => {
+        node.classList.add("-is-disabled");
+        node.classList.remove("-is-active");
+      });
     }
   }
 };
@@ -139,7 +160,7 @@ $connect-dot-size: 16px;
   }
   70% {
     box-shadow: 0 0 0 16px rgba(black, 0);
-    transform: scale(1.2);
+    transform: scale(1.5);
   }
   100% {
     box-shadow: 0 0 0 0 rgba(black, 0);
@@ -258,6 +279,7 @@ $connect-dot-size: 16px;
     opacity: 1 !important;
   }
   &.-is-disabled {
+    opacity: 0.2;
     pointer-events: none;
   }
 }

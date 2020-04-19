@@ -14,7 +14,6 @@
           :isDehighlighted="states.dynamicTextTarget === 'down'"
           @onNodeClick="onNodeClicked"
           @onMouseOver="onNodeHovered"
-          rowType="roles"
         ></text-row>
       </div>
       <div class="container__center">
@@ -24,8 +23,6 @@
             :pairingState="states.isPaired"
             :startNode="states.startNode"
             :endNode="states.endNode"
-            @onMouseEnter="onMouseOverDynamicText"
-            @onMouseLeave="onMouseOverDynamicText"
           ></dynamic-text>
         </div>
       </div>
@@ -39,6 +36,7 @@
           :isDehighlighted="states.dynamicTextTarget === 'up'"
           @onNodeClick="onNodeClicked"
           @onMouseOver="onNodeHovered"
+          rowType="roles"
         ></text-row>
       </div>
     </div>
