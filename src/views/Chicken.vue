@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import GridSection from "@/components/sections/GridSection.vue";
+import GridSection from "@/components/sections/gridSection/GridSection.vue";
 
 @Component({
   components: {
