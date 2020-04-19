@@ -44,7 +44,7 @@ const sectionTitles = {
     "Growth and Transportation",
     "Slaughter"
   ],
-  parrot: [],
+  parrot: ["Capture", "Stacking", "Pricing"],
   sparrow: []
 };
 
@@ -57,8 +57,21 @@ export default class InfoPanel extends Vue {
   // data
   childElementOffsetValue = 0;
   isPanelOpened = true;
+  maxOffsetValue = 3;
 
   // computed
+  get maxSectionsCount() {
+    switch (this.contentType) {
+      case "chicken":
+        return 3;
+      case "parrot":
+        return 2;
+      case "sparrow":
+        return 1;
+      default:
+        return 3;
+    }
+  }
   get panelClasses() {
     return this.isPanelOpened ? "" : "-is-closed";
   }
@@ -90,6 +103,11 @@ export default class InfoPanel extends Vue {
   }
   onToggleClicked() {
     this.isPanelOpened = !this.isPanelOpened;
+  }
+
+  // life cycle
+  mounted() {
+    this.maxOffsetValue = this.maxSectionsCount;
   }
 }
 </script>
