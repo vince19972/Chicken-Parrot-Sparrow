@@ -218,7 +218,7 @@ export default class DotsConnection extends Vue {
     this.states.hoverNodeTarget = nodeType;
   }
   onCanvasClicked(event: Event) {
-    if (event.target) {
+    if (event.target && this.states.isPaired !== PairingStates.Paired) {
       const targetClassNames = event.target.classList;
       const isNode =
         targetClassNames.contains("nodes__node-text") ||
