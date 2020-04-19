@@ -79,7 +79,9 @@ export default class InfoPanel extends Vue {
     return this.childElementOffsetValue === 0 ? "-is-hidden" : "";
   }
   get btnDownClasses() {
-    return this.childElementOffsetValue === 3 ? "-is-hidden" : "";
+    return this.childElementOffsetValue === this.maxOffsetValue
+      ? "-is-hidden"
+      : "";
   }
   get sectionTitle() {
     return sectionTitles[this.contentType][this.childElementOffsetValue];
@@ -95,8 +97,8 @@ export default class InfoPanel extends Vue {
 
     if (this.childElementOffsetValue < 0) {
       this.childElementOffsetValue = 0;
-    } else if (this.childElementOffsetValue > 3) {
-      this.childElementOffsetValue = 3;
+    } else if (this.childElementOffsetValue > this.maxOffsetValue) {
+      this.childElementOffsetValue = this.maxOffsetValue;
     }
 
     this.$emit("onMouseClick", this.childElementOffsetValue);
