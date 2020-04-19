@@ -1,27 +1,34 @@
 <template>
-  <div class="panel -flex-column-between">
-    <button
-      :class="['panel__btn -up', btnUpClasses]"
-      @click="onMouseClicked('up')"
-    >
-      <p class="panel__btn-text">
-        previous stage
-      </p>
-    </button>
-    <div class="panel__info">
-      <p class="panel__info-text -top">
-        stage {{ childElementOffsetValue + 1 }}
-      </p>
-      <h2 class="panel__info-title">
-        {{ sectionTitle }}
-      </h2>
+  <div :class="['panel', panelClasses]">
+    <div class="panel__main -flex-column-between">
+      <button
+        :class="['panel__btn -up', btnUpClasses]"
+        @click="onMouseClicked('up')"
+      >
+        <p class="panel__btn-text">
+          previous stage
+        </p>
+      </button>
+      <div class="panel__info">
+        <p class="panel__info-text -top">
+          stage {{ childElementOffsetValue + 1 }}
+        </p>
+        <h2 class="panel__info-title">
+          {{ sectionTitle }}
+        </h2>
+      </div>
+      <button
+        :class="['panel__btn -down', btnDownClasses]"
+        @click="onMouseClicked('down')"
+      >
+        <p class="panel__btn-text">
+          next stage
+        </p>
+      </button>
     </div>
-    <button
-      :class="['panel__btn -down', btnDownClasses]"
-      @click="onMouseClicked('down')"
-    >
-      <p class="panel__btn-text">
-        next stage
+    <button class="panel__toggle -flex-center-all" @click="onToggleClicked">
+      <p class="panel__toggle-text -f-main">
+        <span v-html="toggleBtnText"></span>
       </p>
     </button>
   </div>
@@ -49,8 +56,12 @@ export default class InfoPanel extends Vue {
 
   // data
   childElementOffsetValue = 0;
+  isPanelOpened = true;
 
   // computed
+  get panelClasses() {
+    return this.isPanelOpened ? "" : "-is-closed";
+  }
   get btnUpClasses() {
     return this.childElementOffsetValue === 0 ? "-is-hidden" : "";
   }
@@ -59,6 +70,9 @@ export default class InfoPanel extends Vue {
   }
   get sectionTitle() {
     return sectionTitles[this.contentType][this.childElementOffsetValue];
+  }
+  get toggleBtnText() {
+    return this.isPanelOpened ? "☓ &nbsp; close panel &nbsp; ☓" : "open panel";
   }
 
   // user events
@@ -74,6 +88,9 @@ export default class InfoPanel extends Vue {
 
     this.$emit("onMouseClick", this.childElementOffsetValue);
   }
+  onToggleClicked() {
+    this.isPanelOpened = !this.isPanelOpened;
+  }
 }
 </script>
 
@@ -84,9 +101,11 @@ export default class InfoPanel extends Vue {
 @import "@/assets/styles/sections/GridSection.scss";
 
 $chevron-size: 20px;
+$toggle-height: 30%;
+$toggle-width: 48px;
 
 .panel {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   width: 50vw;
@@ -95,6 +114,11 @@ $chevron-size: 20px;
   max-height: 100vh;
   background-color: black;
   overflow: hidden;
+}
+
+.panel__main {
+  width: 100%;
+  height: 100%;
 }
 
 .panel__btn {
@@ -145,7 +169,24 @@ $chevron-size: 20px;
   font-size: 3vw;
 }
 
+.panel__toggle {
+  position: absolute;
+  top: calc(50% - #{$toggle-height} / 2);
+  left: 0;
+  width: $toggle-width;
+  height: $toggle-height;
+  color: white;
+}
+.panel__toggle-text {
+  writing-mode: vertical-rl;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+}
+
 // user events
+.panel {
+  transition: transform 0.5s ease-in-out;
+}
 .panel__btn {
   transition: all 0.3s;
   @include hover {
@@ -160,8 +201,29 @@ $chevron-size: 20px;
     }
   }
 }
+.panel__toggle {
+  transition: all 0.5s ease-in-out;
+  @include hover {
+    font-style: italic;
+  }
+}
 
 // states
+.panel.-is-closed {
+  transform: translate3d(50vw, 0, 0);
+  transition: transform 0.5s ease-in-out;
+  will-change: transform;
+  overflow: initial;
+
+  & .panel__toggle {
+    transform: translate3d(calc(#{$toggle-width} * -1), 0, 0);
+    transition: all 0.5s ease-in-out;
+  }
+  & .panel__toggle-text {
+    background-color: black;
+    padding: 24px 32px 24px 16px;
+  }
+}
 .panel__btn.-is-hidden {
   opacity: 0;
   pointer-events: none;
