@@ -10,7 +10,7 @@
       @mouseleave="onMouseLeft"
       ref="node"
     >
-      <h2 class="nodes__node-text">{{ node }}</h2>
+      <h2 class="nodes__node-text">{{ renderedNodeText(node) }}</h2>
       <div class="nodes__node-dot"></div>
     </button>
   </div>
@@ -33,12 +33,17 @@ export default {
   data() {
     return {
       creatures: ["chicken", "sparrow", "parrot"],
-      roles: ["product", "neighbor", "meat"],
+      roles: ["pet", "neighbor", "food"],
       isMouseOver: false,
       isRowClicked: false
     };
   },
   methods: {
+    renderedNodeText(nodeText) {
+      if (nodeText === "food") return "meat";
+      if (nodeText === "pet") return "product";
+      return nodeText;
+    },
     onNodeClicked(event) {
       const dot = event.currentTarget.querySelector(".nodes__node-dot");
       const { x: dotX, y: dotY } = getOffset(dot);
