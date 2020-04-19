@@ -131,6 +131,7 @@ export default class Growth extends Vue {
         .to(target, 0.5, {
           rotate: 90,
           // fontWeight: "lighter"
+          color: "red",
           ease: Bounce.easeOut
         });
     }
