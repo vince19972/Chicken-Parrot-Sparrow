@@ -10,12 +10,21 @@
         </p>
       </button>
       <div class="panel__info">
-        <p class="panel__info-text -top">
-          stage {{ childElementOffsetValue + 1 }}
-        </p>
-        <h2 class="panel__info-title">
-          {{ sectionTitle }}
-        </h2>
+        <transition name="fade" mode="out-in">
+          <p :key="childElementOffsetValue" class="panel__info-text -top">
+            stage {{ childElementOffsetValue + 1 }}
+          </p>
+        </transition>
+        <transition name="fade" mode="out-in">
+          <h2 :key="sectionTitle" class="panel__info-title">
+            {{ sectionTitle }}
+          </h2>
+        </transition>
+        <transition name="fade" mode="out-in">
+          <p :key="sectionDescription" class="panel__info-text -btm -desc">
+            {{ sectionDescription }}
+          </p>
+        </transition>
       </div>
       <button
         :class="['panel__btn -down', btnDownClasses]"
@@ -45,6 +54,21 @@ const sectionTitles = {
     "Slaughter"
   ],
   parrot: ["Capture", "Stacking", "Pricing"],
+  sparrow: []
+};
+
+const sectionDescriptions = {
+  chicken: [
+    "Ornare iaculis orci libero gravida ut conubia eleifend congue suspendisse volutpat felis phasellus, malesuada arcu dolor ante enim morbi interdum commodo lorem at.",
+    "Nostra litora conubia nibh sodales ornare gravida sociis auctor urna, primis lacinia fermentum nec lorem vehicula et eleifend nullam leo, taciti enim in ultricies blandit cras purus ultrices. ",
+    "Blandit aenean tempor interdum libero arcu, bibendum velit orci phasellus urna consequat, odio ante penatibus eu. Sollicitudin litora tortor cras vulputate est vehicula id porta, himenaeos nullam magna eget rhoncus vel etiam dictum fringilla.",
+    "Taciti cum hendrerit conubia a nisi ultrices cras facilisis risus, porta elit gravida habitant lacus massa ligula quam mus, inceptos congue luctus sociis orci leo fusce vulputate."
+  ],
+  parrot: [
+    "Ornare iaculis orci libero gravida ut conubia eleifend congue suspendisse volutpat felis phasellus, malesuada arcu dolor ante enim morbi interdum commodo lorem at.",
+    "Nostra litora conubia nibh sodales ornare gravida sociis auctor urna, primis lacinia fermentum nec lorem vehicula et eleifend nullam leo, taciti enim in ultricies blandit cras purus ultrices. ",
+    "Blandit aenean tempor interdum libero arcu, bibendum velit orci phasellus urna consequat, odio ante penatibus eu. Sollicitudin litora tortor cras vulputate est vehicula id porta, himenaeos nullam magna eget rhoncus vel etiam dictum fringilla."
+  ],
   sparrow: []
 };
 
@@ -85,6 +109,9 @@ export default class InfoPanel extends Vue {
   }
   get sectionTitle() {
     return sectionTitles[this.contentType][this.childElementOffsetValue];
+  }
+  get sectionDescription() {
+    return sectionDescriptions[this.contentType][this.childElementOffsetValue];
   }
   get toggleBtnText() {
     return this.isPanelOpened ? "☓ &nbsp; close panel &nbsp; ☓" : "open panel";
@@ -177,16 +204,25 @@ $toggle-width: 48px;
 .panel__info {
   color: white;
   text-align: center;
+  max-width: 80%;
+  margin: 0 auto;
 }
 .panel__info-text {
   @include -f-main;
   font-size: 1vw;
   display: block;
   margin-bottom: 24px;
+
+  &.-desc {
+    max-width: 80%;
+    margin: 0 auto;
+    line-height: 1.1vw;
+  }
 }
 .panel__info-title {
   @include -f-main;
-  font-size: 3vw;
+  font-size: 3.25vw;
+  margin-bottom: 24px;
 }
 
 .panel__toggle {
