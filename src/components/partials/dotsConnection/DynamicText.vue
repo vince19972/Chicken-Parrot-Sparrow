@@ -45,15 +45,15 @@ const wrapperClass = {
 };
 const pairedTextSets = {
   chicken: {
-    first: `${wrapperClass.pre} yes. chicken is treated as food, not bird. ${wrapperClass.suf}`,
-    second: `${wrapperClass.pre} but how is <span class='keyword'><span>chicken</span></span> transformed from a living bird to <span class='keyword'><span>food</span></span>? ${wrapperClass.suf}`
+    first: `${wrapperClass.pre} correct. chicken is treated as food, not living bird, in our society. ${wrapperClass.suf}`,
+    second: `${wrapperClass.pre} but how is <span class='keyword'><span>chicken</span></span> transformed into <span class='keyword'><span>food</span></span>? ${wrapperClass.suf}`
   },
   parrot: {
-    first: `${wrapperClass.pre} yes, parrot is sold as product with price tag. ${wrapperClass.suf}`,
-    second: `${wrapperClass.pre} but how do we change <span class='keyword'><span>parrot</span></span> from a bird flying in sky to <span class='keyword'><span>pet</span></span>? ${wrapperClass.suf}`
+    first: `${wrapperClass.pre} correct. parrot is sold as product pet with price tag, not bird flying in the sky. ${wrapperClass.suf}`,
+    second: `${wrapperClass.pre} but how is <span class='keyword'><span>parrot</span></span> commercialized as <span class='keyword'><span>product</span></span>? ${wrapperClass.suf}`
   },
   sparrow: {
-    first: `${wrapperClass.pre} yes, sparrow is viewed as our neighbor. ${wrapperClass.suf}`,
+    first: `${wrapperClass.pre} correct, sparrow is viewed as our neighbor. ${wrapperClass.suf}`,
     second: `${wrapperClass.pre} but how does <span class='keyword'><span>sparrow</span></span> becomes <span class='keyword'><span>neighbor</span></span>? ${wrapperClass.suf}`
   }
 };
@@ -182,7 +182,7 @@ export default class CanvasBackground extends Vue {
       // and update
       setTimeout(() => {
         this.changePairedText("second");
-      }, 2000);
+      }, 4000);
 
       /*
        ** routing
@@ -198,7 +198,7 @@ export default class CanvasBackground extends Vue {
             this.$router.push({ path: NodeTypes.Parrot });
             break;
         }
-      }, 6000);
+      }, 10000);
     }
   }
 }

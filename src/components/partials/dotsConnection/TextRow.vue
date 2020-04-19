@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     renderedNodeText(nodeText) {
-      if (nodeText === "food") return "meat";
+      // if (nodeText === "food") return "meat";
       if (nodeText === "pet") return "product";
       return nodeText;
     },
