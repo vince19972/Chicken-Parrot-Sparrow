@@ -9,9 +9,15 @@
         </div>
         <div class="set__sub -flex-center-all">
           <div class="set__sub-container">
-            <p class="set__sub-text">${{ getRandomInt(1, 250) }}</p>
+            <p class="set__sub-text">
+              $ <span class="set__sub-text-load">···</span
+              ><span class="set__sub-text-main">{{
+                getRandomInt(1, 250)
+              }}</span>
+            </p>
           </div>
         </div>
+        <div class="set__bar"></div>
       </div>
     </div>
   </div>
@@ -20,7 +26,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { WindowSize as WindowSizeState } from "@/store/types/browser";
-import { TimelineMax, Power4 } from "gsap";
+import { TimelineMax, Power4, Linear } from "gsap";
 
 @Component
 export default class Pricing extends Vue {
@@ -28,25 +34,57 @@ export default class Pricing extends Vue {
   timeline: TimelineMax = new TimelineMax({
     repeat: -1,
     ease: Power4.easeInOut,
-    onRepeat: this.updateRandomValues
+    repeatDelay: 1
   });
 
   // computed
   get windowSize(): WindowSizeState {
     return this.$store.getters["browser/windowSize"];
   }
-  get textCount() {
-    return {
-      row: Math.floor(this.windowSize.height / this.textValue.height),
-      col: Math.floor(
-        Math.ceil(this.windowSize.width / this.textValue.width) * 2
-      )
-    };
-  }
 
   // timeline
   moveTimeline(tl: TimelineMax) {
-    const $Pricing = ".pricing";
+    const $pricing = ".pricing";
+    const $set = ".set";
+    const $setPrice = `${$set}__sub-container`;
+    const $setBar = `${$set}__bar`;
+    const $setText = `${$set}__sub-text`;
+    const $setTextMain = `${$setText}-main`;
+    const $setTextLoad = `${$setText}-load`;
+
+    tl.to($setBar, 1, {
+      opacity: 1,
+      y: "100%"
+    })
+      .to($setBar, 0, {
+        rotate: 180
+      })
+      .to($setBar, 0.8, {
+        opacity: 1,
+        y: "0%"
+      })
+      .to($setBar, 0, {
+        opacity: 0
+      });
+
+    tl.to($setPrice, 0.1, {
+      opacity: 1,
+      ease: Linear
+    })
+      .fromTo(
+        $setTextLoad,
+        0.5,
+        {
+          opacity: 0
+        },
+        { opacity: 1, repeat: 2 }
+      )
+      .to($setTextLoad, 0, {
+        display: "none"
+      })
+      .to($setTextMain, 1, {
+        display: "inline"
+      });
   }
 
   // methods
@@ -57,6 +95,9 @@ export default class Pricing extends Vue {
   }
 
   // life cycle
+  mounted() {
+    this.moveTimeline(this.timeline);
+  }
   updated() {
     // gsap
     /*
@@ -128,7 +169,6 @@ $cell-border-size-h: 6px;
 }
 
 .set__sub {
-  position: relative;
   z-index: 1;
   font-size: $f-size-sub;
   position: absolute;
@@ -162,5 +202,24 @@ $cell-border-size-h: 6px;
     position: relative;
     z-index: 1;
   }
+
+  opacity: 0;
+}
+.set__sub-text-load {
+  display: inline-block;
+  transform: translate3d(0, -4px, 0);
+}
+.set__sub-text-main {
+  display: none;
+}
+
+.set__bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(transparent, white, black);
+  opacity: 0;
 }
 </style>
