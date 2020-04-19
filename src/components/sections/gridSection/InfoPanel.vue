@@ -9,7 +9,9 @@
       </p>
     </button>
     <div class="panel__info">
-      <p class="panel__info-text -top">stage 1</p>
+      <p class="panel__info-text -top">
+        stage {{ childElementOffsetValue + 1 }}
+      </p>
       <h2 class="panel__info-title">
         {{ sectionTitle }}
       </h2>
@@ -81,6 +83,8 @@ export default class InfoPanel extends Vue {
 @import "@/assets/styles/_layouts.scss";
 @import "@/assets/styles/sections/GridSection.scss";
 
+$chevron-size: 20px;
+
 .panel {
   position: absolute;
   top: 0;
@@ -92,8 +96,6 @@ export default class InfoPanel extends Vue {
   background-color: black;
   overflow: hidden;
 }
-
-$chevron-size: 20px;
 
 .panel__btn {
   @include -flex-center-all;
@@ -120,18 +122,6 @@ $chevron-size: 20px;
     bottom: $chevron-size;
     transform: rotate(180deg);
   }
-
-  @include hover {
-    &:after {
-      transition: all 0.3s;
-    }
-    &.-up:after {
-      transform: translate3d(0, -6px, 0);
-    }
-    &.-down:after {
-      transform: rotate(180deg) translate3d(0, -6px, 0);
-    }
-  }
 }
 .panel__btn-text {
   @include -f-main-b;
@@ -155,8 +145,26 @@ $chevron-size: 20px;
   font-size: 3vw;
 }
 
+// user events
+.panel__btn {
+  transition: all 0.3s;
+  @include hover {
+    &:after {
+      transition: all 0.3s;
+    }
+    &.-up:after {
+      transform: translate3d(0, -6px, 0);
+    }
+    &.-down:after {
+      transform: rotate(180deg) translate3d(0, -6px, 0);
+    }
+  }
+}
+
 // states
 .panel__btn.-is-hidden {
+  opacity: 0;
   pointer-events: none;
+  transition: all 0.3s;
 }
 </style>
