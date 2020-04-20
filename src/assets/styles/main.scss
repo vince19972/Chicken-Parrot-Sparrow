@@ -28,3 +28,18 @@ body {
   opacity: 0;
   transition: opacity 0s;
 }
+
+.dissolve-enter-active {
+  transition: opacity 2s;
+}
+.dissolve-enter {
+  opacity: 0;
+  transition: opacity 1s;
+}
+.dissolve-fast-enter-active {
+  transition: opacity 1s;
+}
+.dissolve-fast-enter {
+  opacity: 0;
+  transition: opacity 0s;
+}
