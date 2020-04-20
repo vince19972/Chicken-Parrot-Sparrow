@@ -47,7 +47,10 @@
         </button>
       </div>
       <div v-else key="entry" class="-full-height -full-width">
-        <entry-hero @onMouseClick="onEntryBtnClicked"></entry-hero>
+        <entry-hero
+          :contentType="contentType"
+          @onMouseClick="onEntryBtnClicked"
+        ></entry-hero>
       </div>
     </transition>
   </div>

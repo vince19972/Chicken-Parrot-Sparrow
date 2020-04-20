@@ -8,8 +8,12 @@
   >
     <div class="entry__intro">
       <p class="entry__intro-text">
-        the journery of <br /><span class="-keyword">chicken</span> <br />
-        being objectified as <br /><span class="-keyword">food</span>.
+        the journery of <br /><span class="-keyword">{{ getKeywords[0] }}</span>
+        <br />
+        being objectified as <br /><span class="-keyword">{{
+          getKeywords[1]
+        }}</span
+        >.
       </p>
     </div>
     <div class="entry__sub">
@@ -58,17 +62,6 @@
 <script lang="ts">
 import { Prop, Component, Vue } from "vue-property-decorator";
 
-const sectionTitles = {
-  chicken: [
-    "Artificial Insemination",
-    "Selection",
-    "Growth and Transportation",
-    "Slaughter"
-  ],
-  parrot: ["Capture", "Stacking", "Pricing"],
-  sparrow: []
-};
-
 @Component({
   name: "EntryHero"
 })
@@ -81,6 +74,15 @@ export default class EntryHero extends Vue {
   // computed
   get getEntryClasses() {
     return this.isBtnHovered ? "-is-hovered" : "";
+  }
+  get getKeywords() {
+    if (this.contentType === "chicken") {
+      return ["chicken", "food"];
+    } else if (this.contentType === "parrot") {
+      return ["parrot", "product"];
+    } else {
+      return ["", ""];
+    }
   }
 
   // user events
@@ -214,7 +216,7 @@ $offset-btm: 40px;
   font-size: 32px;
   text-align: right;
 
-  width: 80%;
+  width: 50%;
   height: 100%;
 
   animation: pulseText 2s infinite;
