@@ -1,50 +1,55 @@
 <template>
   <div :class="['panel', panelClasses]">
-    <div v-if="isIntoStages" class="-full-height -full-width">
-      <div class="stages -flex-column-between">
-        <button
-          :class="['stages__btn -up', btnUpClasses]"
-          @click="onMouseClicked('up')"
-        >
-          <p class="stages__btn-text">
-            previous stage
-          </p>
-        </button>
-        <div class="stages__info">
-          <transition name="fade" mode="out-in">
-            <p :key="childElementOffsetValue" class="stages__info-text -top">
-              stage {{ childElementOffsetValue + 1 }}
+    <transition name="dissolve" mode="out-in">
+      <div v-if="isIntoStages" key="stages" class="-full-height panel__stages">
+        <div class="stages -flex-column-between">
+          <button
+            :class="['stages__btn -up', btnUpClasses]"
+            @click="onMouseClicked('up')"
+          >
+            <p class="stages__btn-text">
+              previous stage
             </p>
-          </transition>
-          <transition name="fade" mode="out-in">
-            <h2 :key="sectionTitle" class="stages__info-title">
-              {{ sectionTitle }}
-            </h2>
-          </transition>
-          <transition name="fade" mode="out-in">
-            <p :key="sectionDescription" class="stages__info-text -btm -desc">
-              {{ sectionDescription }}
+          </button>
+          <div class="stages__info">
+            <transition name="fade" mode="out-in">
+              <p :key="childElementOffsetValue" class="stages__info-text -top">
+                stage {{ childElementOffsetValue + 1 }}
+              </p>
+            </transition>
+            <transition name="fade" mode="out-in">
+              <h2 :key="sectionTitle" class="stages__info-title">
+                {{ sectionTitle }}
+              </h2>
+            </transition>
+            <transition name="fade" mode="out-in">
+              <p :key="sectionDescription" class="stages__info-text -btm -desc">
+                {{ sectionDescription }}
+              </p>
+            </transition>
+          </div>
+          <button
+            :class="['stages__btn -down', btnDownClasses]"
+            @click="onMouseClicked('down')"
+          >
+            <p class="stages__btn-text">
+              next stage
             </p>
-          </transition>
+          </button>
         </div>
         <button
-          :class="['stages__btn -down', btnDownClasses]"
-          @click="onMouseClicked('down')"
+          class="stages__toggle -flex-center-all"
+          @click="onToggleClicked"
         >
-          <p class="stages__btn-text">
-            next stage
+          <p class="stages__toggle-text -f-main">
+            <span v-html="toggleBtnText"></span>
           </p>
         </button>
       </div>
-      <button class="stages__toggle -flex-center-all" @click="onToggleClicked">
-        <p class="stages__toggle-text -f-main">
-          <span v-html="toggleBtnText"></span>
-        </p>
-      </button>
-    </div>
-    <div v-else class="-full-height -full-width">
-      <entry-hero></entry-hero>
-    </div>
+      <div v-else key="entry" class="-full-height -full-width">
+        <entry-hero @onMouseClick="onEntryBtnClicked"></entry-hero>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -146,6 +151,9 @@ export default class InfoPanel extends Vue {
   onToggleClicked() {
     this.isPanelOpened = !this.isPanelOpened;
   }
+  onEntryBtnClicked() {
+    this.isIntoStages = true;
+  }
 
   // life cycle
   mounted() {
@@ -168,17 +176,25 @@ $toggle-width: 48px;
   position: fixed;
   top: 0;
   right: 0;
-  width: 50vw;
   height: 100vh;
-  max-width: 50vw;
   max-height: 100vh;
+  width: 100vw;
   background-color: black;
   overflow: hidden;
 
+  transition: transform 0.5s ease-in-out;
+  will-change: transform;
+  transform: translate3d(50vw, 0, 0);
   &.-is-full-screen {
-    width: 100vw;
-    max-width: 100vw;
+    transition: transform 0.5s ease-in-out;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
   }
+}
+
+.panel__stages {
+  width: 50vw;
+  max-width: 50vw;
 }
 
 .stages {
@@ -284,7 +300,7 @@ $toggle-width: 48px;
 
 // states
 .panel.-is-closed {
-  transform: translate3d(50vw, 0, 0);
+  transform: translate3d(100vw, 0, 0);
   transition: transform 0.5s ease-in-out;
   will-change: transform;
   overflow: initial;
