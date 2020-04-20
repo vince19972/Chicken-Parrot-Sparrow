@@ -14,7 +14,7 @@
           <div class="stages__info">
             <transition name="fade" mode="out-in">
               <p :key="childElementOffsetValue" class="stages__info-text -top">
-                stage {{ childElementOffsetValue + 1 }}
+                {{ sectionStage }}
               </p>
             </transition>
             <transition name="fade" mode="out-in">
@@ -33,7 +33,7 @@
             @click="onMouseClicked('down')"
           >
             <p class="stages__btn-text">
-              next stage
+              {{ btnDownText }}
             </p>
           </button>
         </div>
@@ -125,8 +125,27 @@ export default class InfoPanel extends Vue {
   }
   get btnDownClasses() {
     return this.childElementOffsetValue === this.maxOffsetValue
-      ? "-is-hidden"
+      ? "-is-last"
       : "";
+  }
+  get btnDownText() {
+    const keyword =
+      this.contentType === "chicken" ? "slaughtered" : "commercialized";
+
+    if (this.childElementOffsetValue === this.maxOffsetValue) {
+      return `after being ${keyword}`;
+    } else if (this.childElementOffsetValue === this.maxOffsetValue - 1) {
+      return "last stage";
+    } else {
+      return "next stage";
+    }
+  }
+  get sectionStage() {
+    if (this.childElementOffsetValue === this.maxOffsetValue) {
+      return "last stage";
+    } else {
+      return `stage ${this.childElementOffsetValue + 1}`;
+    }
   }
   get sectionTitle() {
     return sectionTitles[this.contentType][this.childElementOffsetValue];
@@ -320,6 +339,46 @@ $toggle-width: 48px;
 .stages__btn.-is-hidden {
   opacity: 0;
   pointer-events: none;
+}
+.stages__btn.-is-last {
   transition: all 0.3s;
+  justify-content: flex-start;
+  padding-left: 50%;
+
+  &:after {
+    transform: rotate(90deg);
+    left: auto;
+    right: calc(#{$offset-v} - #{$chevron-size} - 2px);
+    bottom: calc(50% - #{$chevron-size} / 2);
+  }
+  &:before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    top: calc(50% - 1px / 2);
+    width: calc(50% - #{$offset-v} / 1.5);
+    height: 1px;
+    background-color: white;
+    transition: all 0.3s;
+  }
+  & .stages__btn-text {
+    position: relative;
+    z-index: 2;
+    width: auto;
+    margin: 0;
+    padding: 0 16px 0 0;
+    background-color: black;
+  }
+
+  @include hover {
+    &:before {
+      transform: translate3d(16px, 0, 0);
+      transition: all 0.3s;
+    }
+    &:after {
+      transform: rotate(90deg) translate3d(0, -16px, 0);
+    }
+  }
 }
 </style>
