@@ -100,6 +100,7 @@ export default class InfoPanel extends Vue {
   isPanelOpened = true;
   maxOffsetValue = 3;
   isIntoStages = false;
+  isIntoAfterSection = false;
 
   // computed
   get maxSectionsCount() {
@@ -117,7 +118,8 @@ export default class InfoPanel extends Vue {
   get panelClasses() {
     return [
       this.isIntoStages ? "" : "-is-full-screen",
-      this.isPanelOpened ? "" : "-is-closed"
+      this.isPanelOpened ? "" : "-is-closed",
+      this.isIntoAfterSection ? "-is-full-screen" : ""
     ];
   }
   get btnUpClasses() {
@@ -160,12 +162,17 @@ export default class InfoPanel extends Vue {
   // user events
   onMouseClicked(type: "up" | "down") {
     const value = type === "up" ? -1 : 1;
-    this.childElementOffsetValue += value;
+
+    if (!this.isIntoAfterSection) {
+      this.childElementOffsetValue += value;
+    }
+    this.isIntoAfterSection = false;
 
     if (this.childElementOffsetValue < 0) {
       this.childElementOffsetValue = 0;
     } else if (this.childElementOffsetValue > this.maxOffsetValue) {
       this.childElementOffsetValue = this.maxOffsetValue;
+      this.isIntoAfterSection = true;
     }
 
     this.$emit("onMouseClick", this.childElementOffsetValue);
@@ -203,15 +210,6 @@ $toggle-width: 48px;
   width: 100vw;
   background-color: black;
   overflow: hidden;
-
-  transition: transform 0.5s ease-in-out;
-  will-change: transform;
-  transform: translate3d(50vw, 0, 0);
-  &.-is-full-screen {
-    transition: transform 0.5s ease-in-out;
-    will-change: transform;
-    transform: translate3d(0, 0, 0);
-  }
 }
 
 .panel__stages {
@@ -321,6 +319,16 @@ $toggle-width: 48px;
 }
 
 // states
+.panel {
+  transition: transform 0.6s ease-in-out;
+  will-change: transform;
+  transform: translate3d(50vw, 0, 0);
+}
+.panel.-is-full-screen {
+  transition: transform 0.5s ease-in-out;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
 .panel.-is-closed {
   transform: translate3d(100vw, 0, 0);
   transition: transform 0.5s ease-in-out;
