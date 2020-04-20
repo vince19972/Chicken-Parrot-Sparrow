@@ -6,14 +6,24 @@
       </div>
       <div class="entry__intro-main hero -flex-column-between">
         <p class="hero__text -top -flex-between hero__line -horizontal">
-          <span class="hero__text-span -front hero__text-keyword "
+          <span class="hero__text-span -front hero__text-keyword -f-main-b"
             >CHICKEN</span
           >
           <span class="hero__text-span -back">being objectified as</span>
         </p>
-        <p class="hero__text -btm hero__line -vertical -flex">
-          <span class="hero__text-span -btm hero__text-keyword ">FOOD</span>
-        </p>
+        <div class="hero__text-btm -flex-between">
+          <p class="hero__text -note -flex">
+            <span class="hero__text-span -btm -note">
+              * following section DOSE NOT contain any bloody or violent
+              content.
+            </span>
+          </p>
+          <p class="hero__text -btm hero__line -vertical -flex">
+            <span class="hero__text-span -btm hero__text-keyword -f-main-b"
+              >FOOD</span
+            >
+          </p>
+        </div>
       </div>
     </div>
     <button class="entry__cta -f-main" @click="onBtnClicked">
@@ -64,7 +74,7 @@ $offset-btm: 40px;
 }
 
 .entry__intro-top {
-  margin: 0 0 32px 8px;
+  margin: 0 0 40px 8px;
 }
 .entry__intro-text {
   font-size: 1.5vw;
@@ -75,7 +85,24 @@ $offset-btm: 40px;
 }
 .hero__text {
   font-size: 5.5vw;
-  line-height: 5.5vw;
+  line-height: 6.5vw;
+
+  & .hero__text-keyword {
+    font-size: 6vw;
+    line-height: 6.5vw;
+  }
+}
+.hero__text.-note {
+  font-style: italic;
+  font-size: 16px;
+  line-height: initial;
+  max-width: 15%;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-bottom: 24px;
+}
+.hero__text-btm {
+  flex-grow: 1;
 }
 .hero__text.-top {
   & .hero__text-keyword {
@@ -84,7 +111,6 @@ $offset-btm: 40px;
 }
 .hero__text.-btm {
   text-align: right;
-  flex-grow: 1;
   justify-content: flex-end;
   align-items: flex-end;
 }
@@ -131,11 +157,12 @@ $offset-btm: 40px;
 .entry__cta {
   position: absolute;
   z-index: 1;
-  left: $offset-v;
+  left: 0;
   bottom: $offset-btm;
   color: white;
-  font-size: 1vw;
-  margin-bottom: 2.5vw;
+  font-size: 32px;
+  margin-bottom: 3vw;
+  width: 100%;
 
   &:after {
     content: "";
