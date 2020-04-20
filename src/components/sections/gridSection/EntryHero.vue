@@ -1,5 +1,5 @@
 <template>
-  <div class="entry -full-height -full-width -f-main">
+  <div class="entry -full-height -full-width -f-main" ref="entry">
     <div class="entry__intro -full-height -flex-column">
       <div class="entry__intro-top">
         <p class="entry__intro-text">The journey of :</p>
@@ -16,6 +16,9 @@
         </p>
       </div>
     </div>
+    <button class="entry__cta -f-main" @click="onBtnClicked">
+      click to enter
+    </button>
   </div>
 </template>
 
@@ -38,6 +41,11 @@ const sectionTitles = {
 })
 export default class EntryHero extends Vue {
   @Prop() readonly contentType!: "chicken" | "sparrow" | "parrot";
+
+  // user events
+  onBtnClicked() {
+    this.$emit("onMouseClick");
+  }
 }
 </script>
 
@@ -47,8 +55,11 @@ export default class EntryHero extends Vue {
 @import "@/assets/styles/_layouts.scss";
 @import "@/assets/styles/sections/GridSection.scss";
 
+$offset-btm: 40px;
+
 .entry {
-  padding: 64px $offset-v 40px $offset-v;
+  position: relative;
+  padding: 64px $offset-v $offset-btm $offset-v;
   color: white;
 }
 
@@ -63,7 +74,7 @@ export default class EntryHero extends Vue {
   flex-grow: 1;
 }
 .hero__text {
-  font-size: 4.5vw;
+  font-size: 5.5vw;
   line-height: 5.5vw;
 }
 .hero__text.-top {
@@ -114,6 +125,55 @@ export default class EntryHero extends Vue {
     top: 0;
     height: 100%;
     width: 2px;
+  }
+}
+
+.entry__cta {
+  position: absolute;
+  z-index: 1;
+  left: $offset-v;
+  bottom: $offset-btm;
+  color: white;
+  font-size: 1vw;
+  margin-bottom: 2.5vw;
+
+  &:after {
+    content: "";
+    position: absolute;
+    left: calc(50% - 32px / 2);
+    bottom: -2.5vw;
+    width: 32px;
+    height: 32px;
+    background: url("../../../assets/svgs/chevron-cursor.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: all 0.3s;
+    animation: pulse 1.5s ease-out;
+    animation-iteration-count: infinite;
+  }
+
+  @include hover {
+    &:after {
+      animation: none;
+      transform: translate3d(0, 12px, 0);
+      transition: all 0.3s;
+    }
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  20% {
+    transform: translate3d(0, 8px, 0);
+  }
+  60% {
+    transform: translate3d(0, 4px, 0);
+  }
+  80% {
+    transform: translate3d(0, 8px, 0);
   }
 }
 </style>
