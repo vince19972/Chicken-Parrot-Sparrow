@@ -1,50 +1,56 @@
 <template>
   <div :class="['panel', panelClasses]">
-    <div class="panel__main -flex-column-between">
-      <button
-        :class="['panel__btn -up', btnUpClasses]"
-        @click="onMouseClicked('up')"
-      >
-        <p class="panel__btn-text">
-          previous stage
-        </p>
-      </button>
-      <div class="panel__info">
-        <transition name="fade" mode="out-in">
-          <p :key="childElementOffsetValue" class="panel__info-text -top">
-            stage {{ childElementOffsetValue + 1 }}
+    <div v-if="isIntoStages" class="-full-height -full-width">
+      <div class="stages -flex-column-between">
+        <button
+          :class="['stages__btn -up', btnUpClasses]"
+          @click="onMouseClicked('up')"
+        >
+          <p class="stages__btn-text">
+            previous stage
           </p>
-        </transition>
-        <transition name="fade" mode="out-in">
-          <h2 :key="sectionTitle" class="panel__info-title">
-            {{ sectionTitle }}
-          </h2>
-        </transition>
-        <transition name="fade" mode="out-in">
-          <p :key="sectionDescription" class="panel__info-text -btm -desc">
-            {{ sectionDescription }}
+        </button>
+        <div class="stages__info">
+          <transition name="fade" mode="out-in">
+            <p :key="childElementOffsetValue" class="stages__info-text -top">
+              stage {{ childElementOffsetValue + 1 }}
+            </p>
+          </transition>
+          <transition name="fade" mode="out-in">
+            <h2 :key="sectionTitle" class="stages__info-title">
+              {{ sectionTitle }}
+            </h2>
+          </transition>
+          <transition name="fade" mode="out-in">
+            <p :key="sectionDescription" class="stages__info-text -btm -desc">
+              {{ sectionDescription }}
+            </p>
+          </transition>
+        </div>
+        <button
+          :class="['stages__btn -down', btnDownClasses]"
+          @click="onMouseClicked('down')"
+        >
+          <p class="stages__btn-text">
+            next stage
           </p>
-        </transition>
+        </button>
       </div>
-      <button
-        :class="['panel__btn -down', btnDownClasses]"
-        @click="onMouseClicked('down')"
-      >
-        <p class="panel__btn-text">
-          next stage
+      <button class="stages__toggle -flex-center-all" @click="onToggleClicked">
+        <p class="stages__toggle-text -f-main">
+          <span v-html="toggleBtnText"></span>
         </p>
       </button>
     </div>
-    <button class="panel__toggle -flex-center-all" @click="onToggleClicked">
-      <p class="panel__toggle-text -f-main">
-        <span v-html="toggleBtnText"></span>
-      </p>
-    </button>
+    <div v-else class="-full-height -full-width">
+      <entry-hero></entry-hero>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Prop, Component, Vue } from "vue-property-decorator";
+import EntryHero from "./EntryHero.vue";
 
 const sectionTitles = {
   chicken: [
@@ -73,7 +79,10 @@ const sectionDescriptions = {
 };
 
 @Component({
-  name: "InfoPanel"
+  name: "InfoPanel",
+  components: {
+    EntryHero
+  }
 })
 export default class InfoPanel extends Vue {
   @Prop() readonly contentType!: "chicken" | "sparrow" | "parrot";
@@ -82,6 +91,7 @@ export default class InfoPanel extends Vue {
   childElementOffsetValue = 0;
   isPanelOpened = true;
   maxOffsetValue = 3;
+  isIntoStages = false;
 
   // computed
   get maxSectionsCount() {
@@ -97,7 +107,10 @@ export default class InfoPanel extends Vue {
     }
   }
   get panelClasses() {
-    return this.isPanelOpened ? "" : "-is-closed";
+    return [
+      this.isIntoStages ? "" : "-is-full-screen",
+      this.isPanelOpened ? "" : "-is-closed"
+    ];
   }
   get btnUpClasses() {
     return this.childElementOffsetValue === 0 ? "-is-hidden" : "";
@@ -161,14 +174,19 @@ $toggle-width: 48px;
   max-height: 100vh;
   background-color: black;
   overflow: hidden;
+
+  &.-is-full-screen {
+    width: 100vw;
+    max-width: 100vw;
+  }
 }
 
-.panel__main {
+.stages {
   width: 100%;
   height: 100%;
 }
 
-.panel__btn {
+.stages__btn {
   @include -flex-center-all;
   position: relative;
   color: white;
@@ -194,20 +212,20 @@ $toggle-width: 48px;
     transform: rotate(180deg);
   }
 }
-.panel__btn-text {
+.stages__btn-text {
   @include -f-main-b;
   height: 100%;
   width: 50%;
   margin: 0 auto;
 }
 
-.panel__info {
+.stages__info {
   color: white;
   text-align: center;
   max-width: 80%;
   margin: 0 auto;
 }
-.panel__info-text {
+.stages__info-text {
   @include -f-main;
   font-size: 1vw;
   display: block;
@@ -219,13 +237,13 @@ $toggle-width: 48px;
     line-height: 1.1vw;
   }
 }
-.panel__info-title {
+.stages__info-title {
   @include -f-main;
   font-size: 3.25vw;
   margin-bottom: 24px;
 }
 
-.panel__toggle {
+.stages__toggle {
   position: absolute;
   top: calc(50% - #{$toggle-height} / 2);
   left: 0;
@@ -233,7 +251,7 @@ $toggle-width: 48px;
   height: $toggle-height;
   color: white;
 }
-.panel__toggle-text {
+.stages__toggle-text {
   writing-mode: vertical-rl;
   font-size: 18px;
   letter-spacing: 0.5px;
@@ -243,7 +261,7 @@ $toggle-width: 48px;
 .panel {
   transition: transform 0.5s ease-in-out;
 }
-.panel__btn {
+.stages__btn {
   transition: all 0.3s;
   @include hover {
     &:after {
@@ -257,7 +275,7 @@ $toggle-width: 48px;
     }
   }
 }
-.panel__toggle {
+.stages__toggle {
   transition: all 0.5s ease-in-out;
   @include hover {
     font-style: italic;
@@ -271,16 +289,16 @@ $toggle-width: 48px;
   will-change: transform;
   overflow: initial;
 
-  & .panel__toggle {
+  & .stages__toggle {
     transform: translate3d(calc(#{$toggle-width} * -1), 0, 0);
     transition: all 0.5s ease-in-out;
   }
-  & .panel__toggle-text {
+  & .stages__toggle-text {
     background-color: black;
     padding: 24px 32px 24px 16px;
   }
 }
-.panel__btn.-is-hidden {
+.stages__btn.-is-hidden {
   opacity: 0;
   pointer-events: none;
   transition: all 0.3s;
