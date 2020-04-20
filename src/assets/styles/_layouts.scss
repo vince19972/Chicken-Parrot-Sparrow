@@ -1,10 +1,26 @@
 $safe-zone-margin: 2vw;
 $safe-zone-width: calc(100vw - #{$safe-zone-margin} * 2);
 
+$offset-h: 40px;
+$offset-v: 64px;
+
 @mixin -safe-zone {
   width: $safe-zone-width;
   margin: 0 auto;
 }
 .-safe-zone {
   @include -safe-zone;
+}
+
+@mixin -container {
+  padding: 0 $offset-v;
+}
+.-container {
+  @include -container;
+}
+@mixin -container-full {
+  padding: $offset-h $offset-v;
+}
+.-container-full {
+  @include -container-full;
 }
