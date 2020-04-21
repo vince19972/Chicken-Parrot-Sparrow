@@ -3,20 +3,13 @@
     <svg :class="['svg-line', moduleClasses]" height="100%" width="100%">
       <line :x1="start.x" :y1="start.y" :x2="end.x" :y2="end.y" />
       <line
-        v-if="connectedPairsCountGetter > 0"
-        :x1="getComputedCoord(0).startX"
-        :y1="getComputedCoord(0).startY"
-        :x2="getComputedCoord(0).endX"
-        :y2="getComputedCoord(0).endY"
+        v-for="(pair, index) in connectedPairsCountGetter"
+        :key="index + pair"
+        :x1="getComputedCoord(index).startX"
+        :y1="getComputedCoord(index).startY"
+        :x2="getComputedCoord(index).endX"
+        :y2="getComputedCoord(index).endY"
         class="svg-line__line -connected"
-      />
-      <line
-        v-if="connectedPairsCountGetter >= 1"
-        :x1="getComputedCoord(1).startX"
-        :y1="getComputedCoord(1).startY"
-        :x2="getComputedCoord(1).endX"
-        :y2="getComputedCoord(1).endY"
-        class="svg-line__line -connected hi"
       />
     </svg>
   </div>
