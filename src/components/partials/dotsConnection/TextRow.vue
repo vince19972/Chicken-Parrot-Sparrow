@@ -309,7 +309,7 @@ $connect-dot-size: 16px;
       background-color: gray;
     }
   }
-  & .nodes__node.-is-disabled {
+  & .nodes__node {
     opacity: 0.2;
     pointer-events: none;
   }
