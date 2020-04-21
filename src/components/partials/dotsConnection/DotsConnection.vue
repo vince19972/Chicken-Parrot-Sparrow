@@ -1,8 +1,5 @@
 <template>
-  <div
-    :class="['dots-connection -safe-zone', pairingState]"
-    @click="onCanvasClicked"
-  >
+  <div :class="['dots-connection', pairingState]" @click="onCanvasClicked">
     <div class="container -flex-column">
       <div class="container__top">
         <text-row
@@ -264,6 +261,8 @@ $container-height-top: calc(#{$container-row-height} * 4);
 
 .dots-connection {
   height: 100vh;
+  width: calc(100vw - 2vw * 2);
+  margin: 0 auto;
 }
 
 .container {
