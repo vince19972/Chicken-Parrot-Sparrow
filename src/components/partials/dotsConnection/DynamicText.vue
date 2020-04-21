@@ -7,7 +7,7 @@
         data-point-direction="up"
         @mouseenter="onMouseEntered"
         @mouseleave="onMouseLeft"
-        >creature</span
+        >bird</span
       >
       with its
       <span
@@ -17,7 +17,7 @@
         @mouseleave="onMouseLeft"
         >role</span
       >
-      in urban society
+      in modern society
     </p>
     <p v-else-if="moduleState === 'hidden'"></p>
     <p v-else-if="moduleState === 'notPaired'">
@@ -43,18 +43,41 @@ const wrapperClass = {
   pre: "<span class='span-text'>",
   suf: "</span>"
 };
+const getkeyWord = keyword => {
+  return `<span class='keyword'><span>${keyword}</span></span>`;
+};
 const pairedTextSets = {
   chicken: {
-    first: `${wrapperClass.pre} correct. chicken is treated as food, not living bird, in our society. ${wrapperClass.suf}`,
-    second: `${wrapperClass.pre} but how is <span class='keyword'><span>chicken</span></span> transformed into <span class='keyword'><span>food</span></span>? ${wrapperClass.suf}`
+    // correct. chicken is taken as food in modern society.
+    // to process chicken into food, 4 steps are included.
+    // and the journey begins now.
+    first: `${wrapperClass.pre} correct. chicken is taken as food in modern society. ${wrapperClass.suf}`,
+    second: `${wrapperClass.pre} to process ${getkeyWord(
+      "chicken"
+    )} into ${getkeyWord("food")}, 4 steps are included. ${wrapperClass.suf}`,
+    third: `${wrapperClass.pre} and the journey begins now. ${wrapperClass.suf}`
   },
   parrot: {
-    first: `${wrapperClass.pre} correct. parrot is sold as product pet with price tag, not bird flying in the sky. ${wrapperClass.suf}`,
-    second: `${wrapperClass.pre} but how is <span class='keyword'><span>parrot</span></span> commercialized as <span class='keyword'><span>product</span></span>? ${wrapperClass.suf}`
+    // correct. parrot is commercialized as product in modern society.
+    // to transform parrot into product, 3 steps are included.
+    // and the journey begins now.
+    first: `${wrapperClass.pre} correct. parrot is commercialized as product in modern society. ${wrapperClass.suf}`,
+    second: `${wrapperClass.pre} to transform ${getkeyWord(
+      "parrot"
+    )} into ${getkeyWord("product")}, 3 steps are included. ${
+      wrapperClass.suf
+    }`,
+    third: `${wrapperClass.pre} and the journey begins now. ${wrapperClass.suf}`
   },
   sparrow: {
-    first: `${wrapperClass.pre} correct, sparrow is viewed as our neighbor. ${wrapperClass.suf}`,
-    second: `${wrapperClass.pre} but how does <span class='keyword'><span>sparrow</span></span> becomes <span class='keyword'><span>neighbor</span></span>? ${wrapperClass.suf}`
+    // correct. sparrow is our neighbor in modern society.
+    // there's no distance between sparrow and it's role.
+    // here's my words to sparrow, my favorite neighbor.
+    first: `${wrapperClass.pre} correct. sparrow is our neighbor in modern society. ${wrapperClass.suf}`,
+    second: `${wrapperClass.pre} there's no distance between ${getkeyWord(
+      "sparrow"
+    )} and it's role. ${wrapperClass.suf}`,
+    third: `${wrapperClass.pre} here's my words to sparrow, my favorite neighbor in the cities. ${wrapperClass.suf}`
   }
 };
 
@@ -173,6 +196,7 @@ export default class CanvasBackground extends Vue {
   @Watch("moduleState")
   watchPairingState() {
     if (this.moduleState === ModuleStates.Paired) {
+      const delayTime = 5000;
       /*
        ** text content transformation
        */
@@ -182,7 +206,10 @@ export default class CanvasBackground extends Vue {
       // and update
       setTimeout(() => {
         this.changePairedText("second");
-      }, 4000);
+      }, delayTime);
+      setTimeout(() => {
+        this.changePairedText("third");
+      }, delayTime * 2);
 
       /*
        ** routing
@@ -198,7 +225,7 @@ export default class CanvasBackground extends Vue {
             this.$router.push({ path: NodeTypes.Parrot });
             break;
         }
-      }, 10000);
+      }, delayTime * 3);
     }
   }
 }
