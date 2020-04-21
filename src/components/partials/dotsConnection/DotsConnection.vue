@@ -169,6 +169,9 @@ export default class DotsConnection extends Vue {
         break;
     }
   }
+  mutateInConnected() {
+    this.$store.commit("addConnectedPair", this.states.startNode);
+  }
   mutates(payloads: Payloads) {
     // safe check
     const coord = payloads.coord ? payloads.coord : { x: 0, y: 0 };
@@ -194,7 +197,7 @@ export default class DotsConnection extends Vue {
         );
         break;
       case ConnectStates.Connected:
-        // console.log(this.states.isPaired);
+        this.mutateInConnected();
         break;
     }
   }
