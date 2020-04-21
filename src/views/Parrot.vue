@@ -1,6 +1,5 @@
 <template>
   <grid-section class="parrot" contentType="parrot"> </grid-section>
-  <!-- <parrot-grid></parrot-grid> -->
 </template>
 
 <script lang="ts">
