@@ -10,9 +10,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+button {
+  @include -f-main;
+}
+
+a {
+  color: black;
+}
+
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 1s;
+  transition: opacity 2s;
 }
 .fade-enter,
 .fade-leave-active {
