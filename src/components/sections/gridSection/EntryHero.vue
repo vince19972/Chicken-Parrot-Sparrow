@@ -216,7 +216,7 @@ $offset-btm: 40px;
   font-size: 32px;
   text-align: right;
 
-  width: 50%;
+  width: 40%;
   height: 100%;
 
   animation: pulseText 2s infinite;

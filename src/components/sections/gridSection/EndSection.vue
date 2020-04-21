@@ -14,12 +14,12 @@
       </p>
     </div>
     <div class="ending__btm actions -flex">
-      <button class="actions__btn">
+      <router-link class="actions__btn" to="/">
         ↪ <span class="actions__btn-text">reading list</span>
-      </button>
-      <button class="actions__btn">
+      </router-link>
+      <router-link class="actions__btn" to="/">
         ↪ <span class="actions__btn-text">explore other birds</span>
-      </button>
+      </router-link>
       <button class="actions__btn">
         ↪
         <span class="actions__btn-text" @click="onStageBtnClicked"
@@ -72,8 +72,12 @@ $offset-btm: 40px;
 
 .actions__btn {
   @include -f-main;
+  @include -flex-center-all;
   font-size: 32px;
+  line-height: 32px;
   color: white;
+  display: block;
+  text-decoration: none;
 
   &:not(:last-child) {
     margin-right: 56px;
