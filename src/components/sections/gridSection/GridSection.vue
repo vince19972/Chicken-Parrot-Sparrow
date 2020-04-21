@@ -12,7 +12,7 @@
     </div>
     <info-panel
       :contentType="contentType"
-      @onMouseClick="onMouseClicked"
+      @onStageToPan="onStagePan"
     ></info-panel>
   </div>
 </template>
@@ -38,7 +38,7 @@ export default class GridSection extends Vue {
   childElementOffsetValue = 0;
 
   // user events
-  onMouseClicked(offsetValue) {
+  onStagePan(offsetValue) {
     this.childElementOffsetValue = offsetValue;
   }
 }

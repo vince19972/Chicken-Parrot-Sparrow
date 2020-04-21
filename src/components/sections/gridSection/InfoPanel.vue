@@ -1,7 +1,11 @@
 <template>
   <div :class="['panel', panelClasses]">
     <transition name="dissolve" mode="out-in">
-      <div v-if="isIntoStages" key="stages" class="-full-height panel__stages">
+      <div
+        v-if="viewState === 'stages'"
+        key="stages"
+        class="-full-height panel__stages"
+      >
         <div class="stages -flex-column-between">
           <button
             :class="['stages__btn -up', btnUpClasses]"
@@ -46,11 +50,18 @@
           </p>
         </button>
       </div>
-      <div v-else key="entry" class="-full-height -full-width">
+      <div
+        v-else-if="viewState === 'entry'"
+        key="entry"
+        class="-full-height -full-width"
+      >
         <entry-hero
           :contentType="contentType"
           @onMouseClick="onEntryBtnClicked"
         ></entry-hero>
+      </div>
+      <div v-else key="end" class="-full-height -full-width">
+        <end-section @onResetStage="onResetBtnClicked"></end-section>
       </div>
     </transition>
   </div>
@@ -59,6 +70,7 @@
 <script lang="ts">
 import { Prop, Component, Vue } from "vue-property-decorator";
 import EntryHero from "./EntryHero.vue";
+import EndSection from "./EndSection.vue";
 
 const sectionTitles = {
   chicken: [
@@ -89,7 +101,8 @@ const sectionDescriptions = {
 @Component({
   name: "InfoPanel",
   components: {
-    EntryHero
+    EntryHero,
+    EndSection
   }
 })
 export default class InfoPanel extends Vue {
@@ -100,7 +113,18 @@ export default class InfoPanel extends Vue {
   isPanelOpened = true;
   maxOffsetValue = 3;
   isIntoStages = false;
-  isIntoAfterSection = false;
+  isIntoEnding = false;
+
+  // states
+  get viewState() {
+    if (this.isIntoStages && !this.isIntoEnding) {
+      return "stages";
+    } else if (!this.isIntoStages && !this.isIntoEnding) {
+      return "entry";
+    } else {
+      return "end";
+    }
+  }
 
   // computed
   get maxSectionsCount() {
@@ -119,7 +143,7 @@ export default class InfoPanel extends Vue {
     return [
       this.isIntoStages ? "" : "-is-full-screen",
       this.isPanelOpened ? "" : "-is-closed",
-      this.isIntoAfterSection ? "-is-full-screen" : ""
+      this.isIntoEnding ? "-is-full-screen" : ""
     ];
   }
   get btnUpClasses() {
@@ -163,25 +187,31 @@ export default class InfoPanel extends Vue {
   onMouseClicked(type: "up" | "down") {
     const value = type === "up" ? -1 : 1;
 
-    if (!this.isIntoAfterSection) {
+    if (!this.isIntoEnding) {
       this.childElementOffsetValue += value;
     }
-    this.isIntoAfterSection = false;
+    this.isIntoEnding = false;
 
     if (this.childElementOffsetValue < 0) {
       this.childElementOffsetValue = 0;
     } else if (this.childElementOffsetValue > this.maxOffsetValue) {
       this.childElementOffsetValue = this.maxOffsetValue;
-      this.isIntoAfterSection = true;
+      this.isIntoEnding = true;
     }
 
-    this.$emit("onMouseClick", this.childElementOffsetValue);
+    this.$emit("onStageToPan", this.childElementOffsetValue);
   }
   onToggleClicked() {
     this.isPanelOpened = !this.isPanelOpened;
   }
   onEntryBtnClicked() {
     this.isIntoStages = true;
+  }
+  onResetBtnClicked() {
+    this.isIntoEnding = false;
+    this.isIntoStages = true;
+    this.childElementOffsetValue = 0;
+    this.$emit("onStageToPan", this.childElementOffsetValue);
   }
 
   // life cycle
