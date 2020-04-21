@@ -20,8 +20,8 @@
       in modern society
     </p>
     <p v-else-if="moduleState === 'hidden'"></p>
-    <p v-else-if="moduleState === 'notPaired'">
-      🙅🏻 <br />
+    <p v-else-if="moduleState === 'notPaired'" class="transition-text">
+      <span class="answer-icon">⨯</span>
       {{ unPairedText }}
     </p>
     <p v-else v-html="pairedText" class="transition-text"></p>
@@ -94,41 +94,13 @@ export default class CanvasBackground extends Vue {
     parrot: pairedTextSets.parrot.first,
     sparrow: pairedTextSets.sparrow.first
   };
+  unPairedTexts = {
+    chicken: "",
+    parrot: "",
+    sparrow: ""
+  };
 
   // computed
-  get unPairedText() {
-    const chickenText = {
-      pet: "unfortunately for chicken, most people don't keep them as pet.",
-      neighbor: "nope. i've never seen a chicken perching on the sidewalks."
-    };
-    const parrotText = {
-      food:
-        "luckily for parrot, we don't eat them. please don't tell me you do.",
-      neighbor:
-        "yes, in some places like Canberra. but normally we don't see them as neighbor."
-    };
-    const sparrowText = {
-      food: "well, people used to eat them, but not anymore in most places.",
-      pet: "nope. pet stores don't sell them as pet."
-    };
-
-    switch (this.startNode) {
-      case NodeTypes.Chicken:
-        return this.endNode === NodeTypes.Pet
-          ? chickenText.pet
-          : chickenText.neighbor;
-      case NodeTypes.Parrot:
-        return this.endNode === NodeTypes.Food
-          ? parrotText.food
-          : parrotText.neighbor;
-      case NodeTypes.Sparrow:
-        return this.endNode === NodeTypes.Food
-          ? sparrowText.food
-          : sparrowText.pet;
-      default:
-        return "";
-    }
-  }
   get pairedText() {
     switch (this.startNode) {
       case NodeTypes.Chicken:
@@ -137,6 +109,18 @@ export default class CanvasBackground extends Vue {
         return this.pairedTexts.parrot;
       case NodeTypes.Sparrow:
         return this.pairedTexts.sparrow;
+      default:
+        return "";
+    }
+  }
+  get unPairedText() {
+    switch (this.startNode) {
+      case NodeTypes.Chicken:
+        return this.unPairedTexts.chicken;
+      case NodeTypes.Parrot:
+        return this.unPairedTexts.parrot;
+      case NodeTypes.Sparrow:
+        return this.unPairedTexts.sparrow;
       default:
         return "";
     }
@@ -178,7 +162,7 @@ export default class CanvasBackground extends Vue {
   }
 
   // helpers
-  changePairedText(updateChoice: "first" | "second") {
+  changePairedText(updateChoice: "first" | "second" | "third") {
     switch (this.startNode) {
       case NodeTypes.Chicken:
         this.pairedTexts.chicken = pairedTextSets.chicken[updateChoice];
@@ -189,6 +173,43 @@ export default class CanvasBackground extends Vue {
       case NodeTypes.Sparrow:
         this.pairedTexts.sparrow = pairedTextSets.sparrow[updateChoice];
         break;
+    }
+  }
+  changeUnPairedText() {
+    const chickenText = {
+      pet: "unfortunately for chicken, most people don't keep them as pet.",
+      neighbor: "nope. i've never seen a chicken perching on the sidewalks."
+    };
+    const parrotText = {
+      food:
+        "luckily for parrot, we don't eat them. please don't tell me you do.",
+      neighbor:
+        "well, in some places like Canberra. but normally we don't see them as neighbor."
+    };
+    const sparrowText = {
+      food: "well, people used to eat them, but not anymore in most places.",
+      pet: "nope. pet stores don't sell them as pet."
+    };
+
+    switch (this.startNode) {
+      case NodeTypes.Chicken:
+        this.unPairedTexts.chicken =
+          this.endNode === NodeTypes.Pet
+            ? chickenText.pet
+            : chickenText.neighbor;
+        break;
+      case NodeTypes.Parrot:
+        this.unPairedTexts.parrot =
+          this.endNode === NodeTypes.Food
+            ? parrotText.food
+            : parrotText.neighbor;
+        break;
+      case NodeTypes.Sparrow:
+        this.unPairedTexts.sparrow =
+          this.endNode === NodeTypes.Food ? sparrowText.food : sparrowText.pet;
+        break;
+      default:
+        return "";
     }
   }
 
@@ -226,6 +247,12 @@ export default class CanvasBackground extends Vue {
             break;
         }
       }, delayTime * 3);
+    } else if (this.moduleState === ModuleStates.NotPaired) {
+      this.changeUnPairedText();
+
+      setTimeout(() => {
+        this.unPairedTexts[this.startNode] = "let's try another connection";
+      }, 3000);
     }
   }
 }
@@ -273,6 +300,12 @@ export default class CanvasBackground extends Vue {
   }
 }
 
+.text .answer-icon {
+  display: block;
+  font-size: 2.5vw;
+}
+
+.transition-text,
 .transition-text ::v-deep .span-text {
   @keyframes fade {
     from {
