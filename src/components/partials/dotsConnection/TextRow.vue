@@ -138,11 +138,36 @@ export default {
   },
   // life cycle
   mounted() {
+    // check row type
     if (this.rowType === "roles") {
       this.$refs.node.forEach(node => {
         node.classList.add("-is-disabled");
         node.classList.remove("-is-active");
       });
+    }
+
+    // disable connected pairs
+    const connectedPairs = this.$store.getters["connectedPairs"];
+    for (const pairType in connectedPairs) {
+      if (connectedPairs[pairType] === true) {
+        this.$refs.node.forEach(node => {
+          // disable bird type
+          if (node.dataset.nodeType === pairType) {
+            node.classList.add("-is-connected");
+            node.classList.remove("-is-active");
+          }
+
+          // disable role type
+          if (
+            (pairType === "chicken" && node.dataset.nodeType === "food") ||
+            (pairType === "parrot" && node.dataset.nodeType === "pet") ||
+            (pairType === "sparrow" && node.dataset.nodeType === "neighbor")
+          ) {
+            node.classList.add("-is-connected");
+            node.classList.remove("-is-active");
+          }
+        });
+      }
     }
   }
 };
@@ -296,6 +321,7 @@ $connect-dot-size: 16px;
 }
 
 .nodes.-is-paired {
+  & .nodes__node:not(.-is-active),
   & .nodes__node.-is-disabled {
     opacity: 0.2;
     pointer-events: none;
@@ -312,6 +338,31 @@ $connect-dot-size: 16px;
   & .nodes__node {
     opacity: 0.2;
     pointer-events: none;
+  }
+}
+.nodes__node.-is-connected {
+  opacity: 1 !important;
+  color: gray;
+  pointer-events: none;
+
+  & .nodes__node-dot {
+    background-color: gray;
+    animation: none !important;
+
+    &:after {
+      content: "connected";
+      font-size: 16px;
+      text-align: center;
+      position: absolute;
+      left: calc(-500% + #{$connect-dot-size} / 2);
+      width: 1000%;
+    }
+    .-top &:after {
+      top: -24px;
+    }
+    .-btm &:after {
+      bottom: -24px;
+    }
   }
 }
 </style>

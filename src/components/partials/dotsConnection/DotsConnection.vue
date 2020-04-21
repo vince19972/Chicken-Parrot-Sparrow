@@ -4,7 +4,7 @@
       <div class="container__top">
         <text-row
           :connectState="states.connect"
-          :pairingState="states.isPaired"
+          :pairingState="states.pairingState"
           :startNode="states.startNode"
           :endNode="states.endNode"
           :isHighlighted="states.dynamicTextTarget === 'up'"
@@ -17,7 +17,7 @@
         <div class="prompt -full-height -flex-center-between">
           <dynamic-text
             :connectState="states.connect"
-            :pairingState="states.isPaired"
+            :pairingState="states.pairingState"
             :startNode="states.startNode"
             :endNode="states.endNode"
           ></dynamic-text>
@@ -26,7 +26,7 @@
       <div class="container__btm">
         <text-row
           :connectState="states.connect"
-          :pairingState="states.isPaired"
+          :pairingState="states.pairingState"
           :startNode="states.startNode"
           :endNode="states.endNode"
           :isHighlighted="states.dynamicTextTarget === 'down'"
@@ -41,7 +41,7 @@
       <dot-line
         :startPoint="lineCoord.start"
         :endPoint="lineCoord.end"
-        :pairingState="states.isPaired"
+        :pairingState="states.pairingState"
       ></dot-line>
     </div>
     <div class="backgrounds">
@@ -49,7 +49,7 @@
         :connectState="states.connect"
         :startNode="states.startNode"
         :tempNode="states.hoverNodeTarget"
-        :isPaired="states.isPaired"
+        :isPaired="states.pairingState"
       ></canvas-background>
     </div>
   </div>
@@ -97,9 +97,9 @@ export default class DotsConnection extends Vue {
     return this.states.connect;
   }
   get pairingState() {
-    if (this.states.isPaired === PairingStates.Paired) {
+    if (this.states.pairingState === PairingStates.Paired) {
       return "-is-paired";
-    } else if (this.states.isPaired === PairingStates.NotPaired) {
+    } else if (this.states.pairingState === PairingStates.NotPaired) {
       return "-not-paired";
     } else {
       return "";
@@ -111,7 +111,7 @@ export default class DotsConnection extends Vue {
     connect: ConnectStates.Connectionless,
     startNode: null,
     endNode: null,
-    isPaired: PairingStates.Pending,
+    pairingState: PairingStates.Pending,
     dynamicTextTarget: null,
     hoverNodeTarget: null
   };
@@ -123,7 +123,7 @@ export default class DotsConnection extends Vue {
     this.states.connect = toState;
   }
   updatePairingState(toState: PairingStates) {
-    this.states.isPaired = toState;
+    this.states.pairingState = toState;
   }
 
   // mutations
@@ -167,7 +167,14 @@ export default class DotsConnection extends Vue {
     }
   }
   mutateInConnected() {
-    this.$store.commit("addConnectedPair", this.states.startNode);
+    if (this.states.pairingState === PairingStates.Paired) {
+      this.$store.commit("addConnectedPair", this.states.startNode);
+    } else {
+      setTimeout(() => {
+        this.updateConnectState(ConnectStates.Connectionless);
+        this.mutates({});
+      }, 6000);
+    }
   }
   mutates(payloads: Payloads) {
     // safe check
@@ -218,7 +225,7 @@ export default class DotsConnection extends Vue {
     this.states.hoverNodeTarget = nodeType;
   }
   onCanvasClicked(event: Event) {
-    if (event.target && this.states.isPaired !== PairingStates.Paired) {
+    if (event.target && this.states.pairingState !== PairingStates.Paired) {
       const targetClassNames = event.target.classList;
       const isNode =
         targetClassNames.contains("nodes__node-text") ||

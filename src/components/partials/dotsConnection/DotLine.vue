@@ -1,13 +1,31 @@
 <template>
-  <svg :class="['svg-line', moduleClasses]" height="100%" width="100%">
-    <line :x1="start.x" :y1="start.y" :x2="end.x" :y2="end.y" />
-  </svg>
+  <div class="lines">
+    <svg :class="['svg-line', moduleClasses]" height="100%" width="100%">
+      <line :x1="start.x" :y1="start.y" :x2="end.x" :y2="end.y" />
+      <line
+        v-if="connectedPairsCountGetter > 0"
+        :x1="getComputedCoord(0).startX"
+        :y1="getComputedCoord(0).startY"
+        :x2="getComputedCoord(0).endX"
+        :y2="getComputedCoord(0).endY"
+        class="svg-line__line -connected"
+      />
+      <line
+        v-if="connectedPairsCountGetter >= 1"
+        :x1="getComputedCoord(1).startX"
+        :y1="getComputedCoord(1).startY"
+        :x2="getComputedCoord(1).endX"
+        :y2="getComputedCoord(1).endY"
+        class="svg-line__line -connected hi"
+      />
+    </svg>
+  </div>
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue } from "vue-property-decorator";
+import { Watch, Prop, Component, Vue } from "vue-property-decorator";
 import { MouseShape } from "@/store/types/browser.ts";
-import { PairingStates } from "./DotsConnection";
+import { NodeTypes, PairingStates, getOffset } from "./DotsConnection";
 
 @Component
 export default class DotLine extends Vue {
@@ -15,6 +33,11 @@ export default class DotLine extends Vue {
   @Prop({ default: { x: 0, y: 0 } }) readonly endPoint!: MouseShape;
   @Prop() readonly pairingState!: PairingStates;
 
+  // data
+  connectedPairsCount = 0;
+  connectedPairsCoord = [];
+
+  // computed
   get start() {
     return {
       x: `${this.startPoint.x}px`,
@@ -36,6 +59,78 @@ export default class DotLine extends Vue {
 
     return "";
   }
+  get windowSize(): WindowSizeState {
+    return this.$store.getters["browser/windowSize"];
+  }
+  get connectedPairsCountGetter() {
+    return this.connectedPairsCount;
+  }
+  getComputedCoord(index) {
+    if (this.windowSize) {
+      return this.connectedPairsCoord[index];
+    }
+  }
+
+  // getters
+  getEndNodeType(startType: NodeTypes) {
+    switch (startType) {
+      case NodeTypes.Chicken:
+        return NodeTypes.Food;
+      case NodeTypes.Parrot:
+        return NodeTypes.Pet;
+      case NodeTypes.Sparrow:
+        return NodeTypes.Neighbor;
+    }
+  }
+  getConnectedCoord(startType) {
+    const endNodeType = this.getEndNodeType(startType);
+
+    const dotStart = document.querySelector(
+      `.nodes__node[data-node-type='${startType}'] .nodes__node-dot`
+    );
+    const dotEnd = document.querySelector(
+      `.nodes__node[data-node-type='${endNodeType}'] .nodes__node-dot`
+    );
+    const { x: startX, y: startY } = getOffset(dotStart);
+    const { x: endX, y: endY } = getOffset(dotEnd);
+
+    return {
+      startType,
+      startX,
+      startY,
+      endX,
+      endY
+    };
+  }
+
+  // watchers
+  @Watch("windowSize")
+  watchWindowSize() {
+    this.connectedPairsCoord.forEach((pair, index) => {
+      const { startX, startY, endX, endY } = this.getConnectedCoord(
+        pair.startType
+      );
+      this.connectedPairsCoord[index] = {
+        ...pair,
+        startX,
+        startY,
+        endX,
+        endY
+      };
+    });
+  }
+
+  // cycle
+  mounted() {
+    const pairs = this.$store.getters["connectedPairs"];
+
+    for (const property in pairs) {
+      if (pairs[property] === true) {
+        this.connectedPairsCount += 1;
+        this.connectedPairsCoord.push(this.getConnectedCoord(property));
+      }
+    }
+  }
 }
 </script>
 
@@ -56,5 +151,8 @@ line {
   line {
     stroke: gray;
   }
+}
+.svg-line__line.-connected {
+  stroke: gray;
 }
 </style>
