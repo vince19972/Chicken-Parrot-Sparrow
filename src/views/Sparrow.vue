@@ -1,6 +1,5 @@
 <template>
-  <!-- <grid-section class="sparrow" contentType="sparrow"> </grid-section> -->
-  <div>test</div>
+  <grid-section class="sparrow" contentType="sparrow"> </grid-section>
 </template>
 
 <script lang="ts">
