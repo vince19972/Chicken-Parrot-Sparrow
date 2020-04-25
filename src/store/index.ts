@@ -13,7 +13,7 @@ interface ConnectedPairsShape {
 enum pairType {
   Chicken = "chicken",
   Parrot = "parrot",
-  Sparrow = "sparrow"
+  Sparrow = "sparrow",
 }
 interface StateShape {
   connectedPairs: ConnectedPairsShape;
@@ -24,11 +24,16 @@ export default new Vuex.Store({
     connectedPairs: {
       chicken: false,
       parrot: false,
-      sparrow: false
-    }
+      sparrow: false,
+    },
   },
   getters: {
-    connectedPairs: ({ connectedPairs }) => connectedPairs
+    connectedPairs: ({ connectedPairs }) => connectedPairs,
+    allPaired: ({ connectedPairs }) => {
+      const { chicken, parrot, sparrow } = connectedPairs;
+      if (chicken && parrot && sparrow) return true;
+      else return false;
+    },
   },
   mutations: {
     addConnectedPair: (state: StateShape, pairType: pairType) => {
@@ -38,9 +43,9 @@ export default new Vuex.Store({
       state.connectedPairs.chicken = false;
       state.connectedPairs.parrot = false;
       state.connectedPairs.sparrow = false;
-    }
+    },
   },
   modules: {
-    browser
-  }
+    browser,
+  },
 });
