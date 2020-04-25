@@ -49,22 +49,22 @@ const getkeyWord = (keyword) => {
 const pairedTextSets = {
   chicken: {
     // correct. chicken is taken as food in modern society.
-    // to process chicken into food, 4 steps are included.
+    // to process chicken into food, 4 steps are required.
     // and the journey begins now.
     first: `${wrapperClass.pre} correct. chicken is taken as food in modern society. ${wrapperClass.suf}`,
     second: `${wrapperClass.pre} to process ${getkeyWord(
       "chicken"
-    )} into ${getkeyWord("food")}, 4 steps are included. ${wrapperClass.suf}`,
+    )} into ${getkeyWord("food")}, 4 steps are required. ${wrapperClass.suf}`,
     third: `${wrapperClass.pre} and the journey begins now. ${wrapperClass.suf}`,
   },
   parrot: {
     // correct. parrot is commercialized as product in modern society.
-    // to transform parrot into product, 3 steps are included.
+    // to transform parrot into product, 3 steps are required.
     // and the journey begins now.
     first: `${wrapperClass.pre} correct. parrots are commercialized as products in modern society. ${wrapperClass.suf}`,
     second: `${wrapperClass.pre} to transform ${getkeyWord(
       "parrot"
-    )} into ${getkeyWord("product")}, 3 steps are included. ${
+    )} into ${getkeyWord("product")}, 3 steps are required. ${
       wrapperClass.suf
     }`,
     third: `${wrapperClass.pre} and the journey begins now. ${wrapperClass.suf}`,
