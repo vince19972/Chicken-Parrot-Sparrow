@@ -1,16 +1,16 @@
 export enum ConnectStates {
   Connectionless = "Connectionless",
   Connecting = "Connecting",
-  Connected = "Connected"
+  Connected = "Connected",
 }
 export enum PairingStates {
   Paired = "paired",
   NotPaired = "notPaired",
-  Pending = "pending"
+  Pending = "pending",
 }
 export enum UserEvents {
   NodeClicked,
-  Connecting
+  Connecting,
 }
 export enum NodeTypes {
   Chicken = "chicken",
@@ -18,7 +18,7 @@ export enum NodeTypes {
   Parrot = "parrot",
   Pet = "pet",
   Neighbor = "neighbor",
-  Food = "food"
+  Food = "food",
 }
 export interface Payloads {
   coord?: { x: number; y: number };
@@ -31,9 +31,10 @@ export interface LocalStates {
   connect: ConnectStates;
   startNode: NodeTypes | null;
   endNode: NodeTypes | null;
-  isPaired: PairingStates;
+  pairingState: PairingStates;
   dynamicTextTarget: string | null;
   hoverNodeTarget: NodeTypes | null;
+  isAllPaired: boolean;
 }
 
 export function checkPairingState(
@@ -97,5 +98,5 @@ export const gifUrls = {
   sparrow: ["https://media.giphy.com/media/RksrTsDMQJ29O/giphy.gif"],
   neighbor: ["https://media.giphy.com/media/PsLIN8YlKy4rS/giphy.gif"],
   parrot: ["https://media.giphy.com/media/Ddm5ER7Z45sIM/giphy.gif"],
-  pet: ["https://media.giphy.com/media/fYleqGp1DQvWoYC3AZ/giphy.gif"]
+  pet: ["https://media.giphy.com/media/fYleqGp1DQvWoYC3AZ/giphy.gif"],
 };
