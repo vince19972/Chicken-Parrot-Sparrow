@@ -26,11 +26,11 @@
                 {{ sectionTitle }}
               </h2>
             </transition>
-            <transition name="fade" mode="out-in">
+            <!-- <transition name="fade" mode="out-in">
               <p :key="sectionDescription" class="stages__info-text -btm -desc">
                 {{ sectionDescription }}
               </p>
-            </transition>
+            </transition> -->
           </div>
           <button
             :class="['stages__btn -down', btnDownClasses]"
@@ -77,10 +77,10 @@ const sectionTitles = {
     "Artificial Insemination",
     "Selection",
     "Growth and Transportation",
-    "Slaughter"
+    "Slaughter",
   ],
   parrot: ["Capture", "Stacking", "Pricing"],
-  sparrow: []
+  sparrow: [],
 };
 
 const sectionDescriptions = {
@@ -88,22 +88,22 @@ const sectionDescriptions = {
     "Ornare iaculis orci libero gravida ut conubia eleifend congue suspendisse volutpat felis phasellus, malesuada arcu dolor ante enim morbi interdum commodo lorem at.",
     "Nostra litora conubia nibh sodales ornare gravida sociis auctor urna, primis lacinia fermentum nec lorem vehicula et eleifend nullam leo, taciti enim in ultricies blandit cras purus ultrices. ",
     "Blandit aenean tempor interdum libero arcu, bibendum velit orci phasellus urna consequat, odio ante penatibus eu. Sollicitudin litora tortor cras vulputate est vehicula id porta, himenaeos nullam magna eget rhoncus vel etiam dictum fringilla.",
-    "Taciti cum hendrerit conubia a nisi ultrices cras facilisis risus, porta elit gravida habitant lacus massa ligula quam mus, inceptos congue luctus sociis orci leo fusce vulputate."
+    "Taciti cum hendrerit conubia a nisi ultrices cras facilisis risus, porta elit gravida habitant lacus massa ligula quam mus, inceptos congue luctus sociis orci leo fusce vulputate.",
   ],
   parrot: [
     "Ornare iaculis orci libero gravida ut conubia eleifend congue suspendisse volutpat felis phasellus, malesuada arcu dolor ante enim morbi interdum commodo lorem at.",
     "Nostra litora conubia nibh sodales ornare gravida sociis auctor urna, primis lacinia fermentum nec lorem vehicula et eleifend nullam leo, taciti enim in ultricies blandit cras purus ultrices. ",
-    "Blandit aenean tempor interdum libero arcu, bibendum velit orci phasellus urna consequat, odio ante penatibus eu. Sollicitudin litora tortor cras vulputate est vehicula id porta, himenaeos nullam magna eget rhoncus vel etiam dictum fringilla."
+    "Blandit aenean tempor interdum libero arcu, bibendum velit orci phasellus urna consequat, odio ante penatibus eu. Sollicitudin litora tortor cras vulputate est vehicula id porta, himenaeos nullam magna eget rhoncus vel etiam dictum fringilla.",
   ],
-  sparrow: []
+  sparrow: [],
 };
 
 @Component({
   name: "InfoPanel",
   components: {
     EntryHero,
-    EndSection
-  }
+    EndSection,
+  },
 })
 export default class InfoPanel extends Vue {
   @Prop() readonly contentType!: "chicken" | "sparrow" | "parrot";
@@ -143,7 +143,7 @@ export default class InfoPanel extends Vue {
     return [
       this.isIntoStages ? "" : "-is-full-screen",
       this.isPanelOpened ? "" : "-is-closed",
-      this.isIntoEnding ? "-is-full-screen" : ""
+      this.isIntoEnding ? "-is-full-screen" : "",
     ];
   }
   get btnUpClasses() {
@@ -230,6 +230,7 @@ export default class InfoPanel extends Vue {
 $chevron-size: 20px;
 $toggle-height: 30%;
 $toggle-width: 48px;
+$side-width: 30vw;
 
 .panel {
   position: fixed;
@@ -243,8 +244,8 @@ $toggle-width: 48px;
 }
 
 .panel__stages {
-  width: 50vw;
-  max-width: 50vw;
+  width: $side-width;
+  max-width: $side-width;
 }
 
 .stages {
@@ -305,7 +306,7 @@ $toggle-width: 48px;
 }
 .stages__info-title {
   @include -f-main;
-  font-size: 3.25vw;
+  font-size: 2.5vw;
   margin-bottom: 24px;
 }
 
@@ -352,7 +353,7 @@ $toggle-width: 48px;
 .panel {
   transition: transform 0.6s ease-in-out;
   will-change: transform;
-  transform: translate3d(50vw, 0, 0);
+  transform: translate3d(calc(100vw - #{$side-width}), 0, 0);
 }
 .panel.-is-full-screen {
   transition: transform 0.5s ease-in-out;
@@ -381,7 +382,7 @@ $toggle-width: 48px;
 .stages__btn.-is-last {
   transition: all 0.3s;
   justify-content: flex-start;
-  padding-left: 50%;
+  padding-left: 20%;
 
   &:after {
     transform: rotate(90deg);
