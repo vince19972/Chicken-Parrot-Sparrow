@@ -19,8 +19,8 @@ export default class OpeningSection extends Vue {}
 
 <style scoped lang="scss">
 .section {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  // width: 100vw;
+  // height: 100vh;
+  // overflow: hidden;
 }
 </style>
