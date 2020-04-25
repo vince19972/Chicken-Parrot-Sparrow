@@ -36,14 +36,14 @@ enum ModuleStates {
   Default = "default",
   Hidden = "hidden",
   NotPaired = "notPaired",
-  Paired = "paired"
+  Paired = "paired",
 }
 
 const wrapperClass = {
   pre: "<span class='span-text'>",
-  suf: "</span>"
+  suf: "</span>",
 };
-const getkeyWord = keyword => {
+const getkeyWord = (keyword) => {
   return `<span class='keyword'><span>${keyword}</span></span>`;
 };
 const pairedTextSets = {
@@ -55,30 +55,27 @@ const pairedTextSets = {
     second: `${wrapperClass.pre} to process ${getkeyWord(
       "chicken"
     )} into ${getkeyWord("food")}, 4 steps are included. ${wrapperClass.suf}`,
-    third: `${wrapperClass.pre} and the journey begins now. ${wrapperClass.suf}`
+    third: `${wrapperClass.pre} and the journey begins now. ${wrapperClass.suf}`,
   },
   parrot: {
     // correct. parrot is commercialized as product in modern society.
     // to transform parrot into product, 3 steps are included.
     // and the journey begins now.
-    first: `${wrapperClass.pre} correct. parrot is commercialized as product in modern society. ${wrapperClass.suf}`,
+    first: `${wrapperClass.pre} correct. parrots are commercialized as products in modern society. ${wrapperClass.suf}`,
     second: `${wrapperClass.pre} to transform ${getkeyWord(
       "parrot"
     )} into ${getkeyWord("product")}, 3 steps are included. ${
       wrapperClass.suf
     }`,
-    third: `${wrapperClass.pre} and the journey begins now. ${wrapperClass.suf}`
+    third: `${wrapperClass.pre} and the journey begins now. ${wrapperClass.suf}`,
   },
   sparrow: {
     // correct. sparrow is our neighbor in modern society.
     // there's no distance between sparrow and it's role.
     // here's my words to sparrow, my favorite neighbor.
-    first: `${wrapperClass.pre} correct. sparrow is our neighbor in modern society. ${wrapperClass.suf}`,
-    second: `${wrapperClass.pre} there's no distance between ${getkeyWord(
-      "sparrow"
-    )} and it's role. ${wrapperClass.suf}`,
-    third: `${wrapperClass.pre} here's my words to sparrow, my favorite neighbor in the cities. ${wrapperClass.suf}`
-  }
+    first: `${wrapperClass.pre} correct. sparrows are our neighbors in modern society. ${wrapperClass.suf}`,
+    second: `${wrapperClass.pre} now, let's talk about our sparrow neighbors for a while. ${wrapperClass.suf}`,
+  },
 };
 
 @Component
@@ -92,12 +89,12 @@ export default class CanvasBackground extends Vue {
   pairedTexts = {
     chicken: pairedTextSets.chicken.first,
     parrot: pairedTextSets.parrot.first,
-    sparrow: pairedTextSets.sparrow.first
+    sparrow: pairedTextSets.sparrow.first,
   };
   unPairedTexts = {
     chicken: "",
     parrot: "",
-    sparrow: ""
+    sparrow: "",
   };
 
   // computed
@@ -178,17 +175,17 @@ export default class CanvasBackground extends Vue {
   changeUnPairedText() {
     const chickenText = {
       pet: "unfortunately for chicken, most people don't keep them as pet.",
-      neighbor: "nope. i've never seen a chicken perching on the sidewalks."
+      neighbor: "nope. i've never seen a chicken perching on the sidewalks.",
     };
     const parrotText = {
       food:
         "luckily for parrot, we don't eat them. please don't tell me you do.",
       neighbor:
-        "well, in some places like Canberra. but normally we don't see them as neighbor."
+        "well, in some places like Canberra. but normally we don't see them as neighbor.",
     };
     const sparrowText = {
       food: "well, people used to eat them, but not anymore in most places.",
-      pet: "nope. pet stores don't sell them as pet."
+      pet: "nope. pet stores don't sell them as pet.",
     };
 
     switch (this.startNode) {
@@ -218,6 +215,10 @@ export default class CanvasBackground extends Vue {
   watchPairingState() {
     if (this.moduleState === ModuleStates.Paired) {
       const delayTime = 5000;
+      const isSparrowPair =
+        this.startNode === NodeTypes.Sparrow ||
+        this.startNode === NodeTypes.Neighbor;
+      const finalDelayTime = isSparrowPair ? delayTime * 2 : delayTime * 3;
       /*
        ** text content transformation
        */
@@ -228,9 +229,12 @@ export default class CanvasBackground extends Vue {
       setTimeout(() => {
         this.changePairedText("second");
       }, delayTime);
-      setTimeout(() => {
-        this.changePairedText("third");
-      }, delayTime * 2);
+      // sparrow pair doesn't have third paragraph
+      if (!isSparrowPair) {
+        setTimeout(() => {
+          this.changePairedText("third");
+        }, delayTime * 2);
+      }
 
       /*
        ** routing
@@ -245,8 +249,12 @@ export default class CanvasBackground extends Vue {
           case NodeTypes.Pet:
             this.$router.push({ path: NodeTypes.Parrot });
             break;
+          case NodeTypes.Sparrow:
+          case NodeTypes.Neighbor:
+            this.$router.push({ path: NodeTypes.Sparrow });
+            break;
         }
-      }, delayTime * 3);
+      }, finalDelayTime);
     } else if (this.moduleState === ModuleStates.NotPaired) {
       this.changeUnPairedText();
 
