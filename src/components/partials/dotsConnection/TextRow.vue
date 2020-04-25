@@ -28,20 +28,21 @@ export default {
     startNode: { required: true },
     endNode: { required: true },
     isHighlighted: { type: Boolean, default: false },
-    isDehighlighted: { type: Boolean, default: false }
+    isDehighlighted: { type: Boolean, default: false },
   },
   data() {
     return {
       creatures: ["chicken", "sparrow", "parrot"],
       roles: ["pet", "neighbor", "food"],
       isMouseOver: false,
-      isRowClicked: false
+      isRowClicked: false,
+      connectedPairs: this.$store.getters["connectedPairs"],
     };
   },
   methods: {
     renderedNodeText(nodeText) {
       // if (nodeText === "food") return "meat";
-      if (nodeText === "pet") return "product";
+      // if (nodeText === "pet") return "product";
       return nodeText;
     },
     onNodeClicked(event) {
@@ -52,7 +53,7 @@ export default {
 
       this.$emit("onNodeClick", event.currentTarget.dataset.nodeType, {
         x: dotX,
-        y: dotY
+        y: dotY,
       });
     },
     onMouseEntered() {
@@ -62,7 +63,7 @@ export default {
     onMouseLeft() {
       this.isMouseOver = false;
       this.$emit("onMouseOver", null);
-    }
+    },
   },
   computed: {
     selectedRow() {
@@ -90,19 +91,19 @@ export default {
           : "",
         this.isHighlighted ? "-is-highlighted" : "",
         this.isDehighlighted ? "-is-dehighlighted" : "",
-        pairingClass
+        pairingClass,
       ];
     },
     isCurrentRow() {
       return (
-        this[this.rowType].filter(type => type === this.startNode).length > 0
+        this[this.rowType].filter((type) => type === this.startNode).length > 0
       );
-    }
+    },
   },
   watch: {
     connectState() {
       if (this.connectState === "Connecting") {
-        this.$refs.node.forEach(node => {
+        this.$refs.node.forEach((node) => {
           if (node.dataset.nodeType === this.startNode) {
             node.classList.remove("-is-disabled");
             node.classList.add("-is-active");
@@ -113,7 +114,7 @@ export default {
           }
         });
       } else if (this.connectState === "Connected") {
-        this.$refs.node.forEach(node => {
+        this.$refs.node.forEach((node) => {
           if (node.dataset.nodeType === this.endNode) {
             node.classList.remove("-is-disabled");
             node.classList.add("-is-active");
@@ -123,34 +124,34 @@ export default {
         });
       } else {
         if (this.rowType === "roles") {
-          this.$refs.node.forEach(node => {
+          this.$refs.node.forEach((node) => {
             node.classList.remove("-is-active");
             node.classList.add("-is-disabled");
           });
         } else {
-          this.$refs.node.forEach(node => {
+          this.$refs.node.forEach((node) => {
             node.classList.remove("-is-active");
             node.classList.remove("-is-disabled");
           });
         }
       }
-    }
+    },
   },
   // life cycle
   mounted() {
     // check row type
     if (this.rowType === "roles") {
-      this.$refs.node.forEach(node => {
+      this.$refs.node.forEach((node) => {
         node.classList.add("-is-disabled");
         node.classList.remove("-is-active");
       });
     }
 
     // disable connected pairs
-    const connectedPairs = this.$store.getters["connectedPairs"];
-    for (const pairType in connectedPairs) {
-      if (connectedPairs[pairType] === true) {
-        this.$refs.node.forEach(node => {
+
+    for (const pairType in this.connectedPairs) {
+      if (this.connectedPairs[pairType] === true) {
+        this.$refs.node.forEach((node) => {
           // disable bird type
           if (node.dataset.nodeType === pairType) {
             node.classList.add("-is-connected");
@@ -169,7 +170,7 @@ export default {
         });
       }
     }
-  }
+  },
 };
 </script>
 

@@ -34,7 +34,6 @@ export interface LocalStates {
   pairingState: PairingStates;
   dynamicTextTarget: string | null;
   hoverNodeTarget: NodeTypes | null;
-  isAllPaired: boolean;
 }
 
 export function checkPairingState(

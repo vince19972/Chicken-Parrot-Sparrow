@@ -24,59 +24,43 @@
       <span class="answer-icon">⨯</span>
       {{ unPairedText }}
     </p>
-    <p v-else v-html="pairedText" class="transition-text"></p>
+    <p
+      v-else-if="moduleState === 'paired'"
+      v-html="pairedText"
+      class="transition-text"
+    ></p>
+    <div v-else class="transition-text">
+      <p class="text__end">
+        All pairs are connected.
+      </p>
+      <p class="text__end">
+        Thank you for reviewing each bird's roles defined by the modern
+        societies.
+      </p>
+      <p class="text__end">
+        Read more about the
+        <router-link to="/"> stories of the birds </router-link>,
+        <router-link to="/">the project</router-link>, or try
+        <button @click="onRestartBtnClicked">
+          connecting all the dots again</button
+        >.
+      </p>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Watch, Prop, Component, Vue } from "vue-property-decorator";
 import { ConnectStates, PairingStates, NodeTypes } from "./DotsConnection";
+import { pairedTextSets, unpairedTextSets } from "./DynamicText";
 
 enum ModuleStates {
   Default = "default",
   Hidden = "hidden",
   NotPaired = "notPaired",
   Paired = "paired",
+  AllPaired = "allPaired",
 }
-
-const wrapperClass = {
-  pre: "<span class='span-text'>",
-  suf: "</span>",
-};
-const getkeyWord = (keyword) => {
-  return `<span class='keyword'><span>${keyword}</span></span>`;
-};
-const pairedTextSets = {
-  chicken: {
-    // correct. chicken is taken as food in modern society.
-    // to process chicken into food, 4 steps are required.
-    // and the journey begins now.
-    first: `${wrapperClass.pre} correct. chicken is taken as food in modern society. ${wrapperClass.suf}`,
-    second: `${wrapperClass.pre} to process ${getkeyWord(
-      "chicken"
-    )} into ${getkeyWord("food")}, 4 steps are required. ${wrapperClass.suf}`,
-    third: `${wrapperClass.pre} and the journey begins now. ${wrapperClass.suf}`,
-  },
-  parrot: {
-    // correct. parrot is commercialized as product in modern society.
-    // to transform parrot into product, 3 steps are required.
-    // and the journey begins now.
-    first: `${wrapperClass.pre} correct. parrots are commercialized as products in modern society. ${wrapperClass.suf}`,
-    second: `${wrapperClass.pre} to transform ${getkeyWord(
-      "parrot"
-    )} into ${getkeyWord("product")}, 3 steps are required. ${
-      wrapperClass.suf
-    }`,
-    third: `${wrapperClass.pre} and the journey begins now. ${wrapperClass.suf}`,
-  },
-  sparrow: {
-    // correct. sparrow is our neighbor in modern society.
-    // there's no distance between sparrow and it's role.
-    // here's my words to sparrow, my favorite neighbor.
-    first: `${wrapperClass.pre} correct. sparrows are our neighbors in modern society. ${wrapperClass.suf}`,
-    second: `${wrapperClass.pre} now, let's talk about our sparrow neighbors for a while. ${wrapperClass.suf}`,
-  },
-};
 
 @Component
 export default class CanvasBackground extends Vue {
@@ -96,8 +80,9 @@ export default class CanvasBackground extends Vue {
     parrot: "",
     sparrow: "",
   };
+  isAllPaired = false;
 
-  // computed
+  // getter
   get pairedText() {
     switch (this.startNode) {
       case NodeTypes.Chicken:
@@ -122,32 +107,38 @@ export default class CanvasBackground extends Vue {
         return "";
     }
   }
+  get moduleState() {
+    let state: ModuleStates = ModuleStates.Default;
+
+    if (!this.isAllPaired) {
+      switch (this.connectState) {
+        case ConnectStates.Connecting:
+          state = ModuleStates.Hidden;
+          break;
+        case ConnectStates.Connected:
+          state =
+            this.pairingState === PairingStates.NotPaired
+              ? ModuleStates.NotPaired
+              : ModuleStates.Paired;
+          break;
+        default:
+          state = ModuleStates.Default;
+          break;
+      }
+    } else {
+      state = ModuleStates.AllPaired;
+    }
+
+    return state;
+  }
+
+  // computed
   get moduleClasses() {
     if (this.moduleState === ModuleStates.Paired) {
       return "-is-paired";
     } else {
       return "";
     }
-  }
-  get moduleState() {
-    let state: ModuleStates = ModuleStates.Default;
-
-    switch (this.connectState) {
-      case ConnectStates.Connecting:
-        state = ModuleStates.Hidden;
-        break;
-      case ConnectStates.Connected:
-        state =
-          this.pairingState === PairingStates.NotPaired
-            ? ModuleStates.NotPaired
-            : ModuleStates.Paired;
-        break;
-      default:
-        state = ModuleStates.Default;
-        break;
-    }
-
-    return state;
   }
 
   // user events
@@ -156,6 +147,10 @@ export default class CanvasBackground extends Vue {
   }
   onMouseLeft() {
     this.$emit("onMouseLeave", null);
+  }
+  onRestartBtnClicked() {
+    this.$store.commit("resetConnectedPair");
+    this.isAllPaired = this.$store.getters["allPaired"];
   }
 
   // helpers
@@ -173,20 +168,7 @@ export default class CanvasBackground extends Vue {
     }
   }
   changeUnPairedText() {
-    const chickenText = {
-      pet: "unfortunately for chicken, most people don't keep them as pet.",
-      neighbor: "nope. i've never seen a chicken perching on the sidewalks.",
-    };
-    const parrotText = {
-      food:
-        "luckily for parrot, we don't eat them. please don't tell me you do.",
-      neighbor:
-        "well, in some places like Canberra. but normally we don't see them as neighbor.",
-    };
-    const sparrowText = {
-      food: "well, people used to eat them, but not anymore in most places.",
-      pet: "nope. pet stores don't sell them as pet.",
-    };
+    const { chickenText, parrotText, sparrowText } = unpairedTextSets;
 
     switch (this.startNode) {
       case NodeTypes.Chicken:
@@ -214,23 +196,23 @@ export default class CanvasBackground extends Vue {
   @Watch("moduleState")
   watchPairingState() {
     if (this.moduleState === ModuleStates.Paired) {
-      const delayTime = 5000;
-      const isSparrowPair =
+      const delayTime = 500;
+      const isShortPair =
         this.startNode === NodeTypes.Sparrow ||
-        this.startNode === NodeTypes.Neighbor;
-      const finalDelayTime = isSparrowPair ? delayTime * 2 : delayTime * 3;
+        this.startNode === NodeTypes.Neighbor ||
+        this.isAllPaired;
+      const finalDelayTime = isShortPair ? delayTime * 2 : delayTime * 3;
       /*
        ** text content transformation
        */
       // reset to initial text content
       this.changePairedText("first");
-
       // and update
       setTimeout(() => {
         this.changePairedText("second");
       }, delayTime);
       // sparrow pair doesn't have third paragraph
-      if (!isSparrowPair) {
+      if (!isShortPair) {
         setTimeout(() => {
           this.changePairedText("third");
         }, delayTime * 2);
@@ -262,6 +244,11 @@ export default class CanvasBackground extends Vue {
         this.unPairedTexts[this.startNode] = "let's try another connection";
       }, 3000);
     }
+  }
+
+  // life cycle
+  mounted() {
+    this.isAllPaired = this.$store.getters["allPaired"];
   }
 }
 </script>
@@ -361,6 +348,22 @@ export default class CanvasBackground extends Vue {
 
       animation: highlight 2s;
     }
+  }
+}
+
+.transition-text .text__end {
+  background-color: white;
+  font-size: 1.5vw;
+  line-height: 2.5vw;
+
+  &:first-child {
+    padding-top: 24px;
+  }
+  &:last-child {
+    padding-bottom: 24px;
+  }
+  & button {
+    text-decoration: underline;
   }
 }
 

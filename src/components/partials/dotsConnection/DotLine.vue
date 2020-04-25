@@ -27,6 +27,7 @@ export default class DotLine extends Vue {
   @Prop() readonly pairingState!: PairingStates;
 
   // data
+  connectedPairs = this.$store.getters["connectedPairs"];
   connectedPairsCount = 0;
   connectedPairsCoord = [];
 
@@ -34,13 +35,13 @@ export default class DotLine extends Vue {
   get start() {
     return {
       x: `${this.startPoint.x}px`,
-      y: `${this.startPoint.y}px`
+      y: `${this.startPoint.y}px`,
     };
   }
   get end() {
     return {
       x: `${this.endPoint.x}px`,
-      y: `${this.endPoint.y}px`
+      y: `${this.endPoint.y}px`,
     };
   }
   get moduleClasses() {
@@ -52,13 +53,13 @@ export default class DotLine extends Vue {
 
     return "";
   }
-  get windowSize(): WindowSizeState {
+  get windowSize() {
     return this.$store.getters["browser/windowSize"];
   }
   get connectedPairsCountGetter() {
     return this.connectedPairsCount;
   }
-  getComputedCoord(index) {
+  getComputedCoord(index: number) {
     if (this.windowSize) {
       return this.connectedPairsCoord[index];
     }
@@ -75,7 +76,7 @@ export default class DotLine extends Vue {
         return NodeTypes.Neighbor;
     }
   }
-  getConnectedCoord(startType) {
+  getConnectedCoord(startType: NodeTypes) {
     const endNodeType = this.getEndNodeType(startType);
 
     const dotStart = document.querySelector(
@@ -92,7 +93,7 @@ export default class DotLine extends Vue {
       startX,
       startY,
       endX,
-      endY
+      endY,
     };
   }
 
@@ -108,17 +109,15 @@ export default class DotLine extends Vue {
         startX,
         startY,
         endX,
-        endY
+        endY,
       };
     });
   }
 
   // cycle
   mounted() {
-    const pairs = this.$store.getters["connectedPairs"];
-
-    for (const property in pairs) {
-      if (pairs[property] === true) {
+    for (const property in this.connectedPairs) {
+      if (this.connectedPairs[property] === true) {
         this.connectedPairsCount += 1;
         this.connectedPairsCoord.push(this.getConnectedCoord(property));
       }
