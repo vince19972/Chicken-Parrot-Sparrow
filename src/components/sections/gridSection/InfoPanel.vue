@@ -61,7 +61,10 @@
         ></entry-hero>
       </div>
       <div v-else key="end" class="-full-height -full-width">
-        <end-section @onResetStage="onResetBtnClicked"></end-section>
+        <end-section
+          :contentType="contentType"
+          @onResetStage="onResetBtnClicked"
+        ></end-section>
       </div>
     </transition>
   </div>
@@ -117,9 +120,17 @@ export default class InfoPanel extends Vue {
 
   // states
   get viewState() {
-    if (this.isIntoStages && !this.isIntoEnding) {
+    if (
+      this.isIntoStages &&
+      !this.isIntoEnding &&
+      this.contentType !== "sparrow"
+    ) {
       return "stages";
-    } else if (!this.isIntoStages && !this.isIntoEnding) {
+    } else if (
+      !this.isIntoStages &&
+      !this.isIntoEnding &&
+      this.contentType !== "sparrow"
+    ) {
       return "entry";
     } else {
       return "end";
@@ -144,6 +155,7 @@ export default class InfoPanel extends Vue {
       this.isIntoStages ? "" : "-is-full-screen",
       this.isPanelOpened ? "" : "-is-closed",
       this.isIntoEnding ? "-is-full-screen" : "",
+      this.viewState === "end" ? "-is-scrollable" : "",
     ];
   }
   get btnUpClasses() {
@@ -375,6 +387,10 @@ $side-width: 30vw;
     padding: 24px 32px 24px 16px;
   }
 }
+.panel.-is-scrollable {
+  overflow-y: scroll;
+}
+
 .stages__btn.-is-hidden {
   opacity: 0;
   pointer-events: none;
