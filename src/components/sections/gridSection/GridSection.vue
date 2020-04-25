@@ -28,8 +28,8 @@ import ParrotGrid from "@/components/partials/ParrotGrid.vue";
   components: {
     InfoPanel,
     ChickenGrid,
-    ParrotGrid
-  }
+    ParrotGrid,
+  },
 })
 export default class GridSection extends Vue {
   @Prop() readonly contentType!: "chicken" | "sparrow" | "parrot";
@@ -38,7 +38,7 @@ export default class GridSection extends Vue {
   childElementOffsetValue = 0;
 
   // user events
-  onStagePan(offsetValue) {
+  onStagePan(offsetValue: number) {
     this.childElementOffsetValue = offsetValue;
   }
 }
