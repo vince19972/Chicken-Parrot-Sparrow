@@ -29,3 +29,16 @@ $safe-area: calc(1620px - var(--offset) * 2);
 .-safe-container-full {
   @include -safe-container-full;
 }
+
+.-side-main-container {
+  display: flex;
+
+  &__side {
+    width: 20%;
+    min-width: 20%;
+    max-width: 20%;
+  }
+  &__main {
+    flex-grow: 1;
+  }
+}
