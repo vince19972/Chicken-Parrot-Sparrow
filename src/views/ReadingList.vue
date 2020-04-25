@@ -3,40 +3,24 @@
     <div class="page-title">
       <h1 class="page-title__text">Reading List.</h1>
     </div>
-    <div class="list__container -flex">
-      <div class="list__side types" ref="menu">
+    <div class="list__container -side-main-container">
+      <div class="list__side -side-main-container__side types" ref="menu">
         <ul class="types__list">
           <li
-            class="types__list-item -is-active"
-            data-type="general"
+            v-for="(contentType, index) in readingListsTypes"
+            :key="contentType + index"
+            :class="['types__list-item', index === 0 ? '-is-active' : '']"
+            :data-type="contentType"
             @click="onMenuClicked"
           >
-            <button class="types__list-btn">general</button>
-          </li>
-          <li
-            class="types__list-item"
-            data-type="chicken"
-            @click="onMenuClicked"
-          >
-            <button class="types__list-btn">chicken</button>
-          </li>
-          <li
-            class="types__list-item"
-            data-type="parrot"
-            @click="onMenuClicked"
-          >
-            <button class="types__list-btn">parrot</button>
-          </li>
-          <li
-            class="types__list-item"
-            data-type="sparrow"
-            @click="onMenuClicked"
-          >
-            <button class="types__list-btn">sparrow</button>
+            <button class="types__list-btn">{{ contentType }}</button>
           </li>
         </ul>
       </div>
-      <div class="list__main readings" ref="readings">
+      <div
+        class="list__main -side-main-container__main readings"
+        ref="readings"
+      >
         <ul class="readings__list">
           <transition-group name="fade" mode="out-in">
             <li
@@ -74,11 +58,11 @@ enum ContentTypes {
   General = "general",
   Chicken = "chicken",
   Parrot = "parrot",
-  Sparrow = "sparrow"
+  Sparrow = "sparrow",
 }
 
 @Component({
-  name: "ReadingList"
+  name: "ReadingList",
 })
 export default class ReadingList extends Vue {
   // data
@@ -87,7 +71,7 @@ export default class ReadingList extends Vue {
     ContentTypes.General,
     ContentTypes.Chicken,
     ContentTypes.Parrot,
-    ContentTypes.Sparrow
+    ContentTypes.Sparrow,
   ];
 
   // computed
@@ -100,7 +84,7 @@ export default class ReadingList extends Vue {
     this.activeContent = event.currentTarget.dataset.type;
     const items = document.querySelectorAll(".types__list-item");
 
-    items.forEach(item => {
+    items.forEach((item) => {
       if (item.dataset.type === this.activeContent) {
         item.classList.add("-is-active");
       } else {
@@ -123,9 +107,6 @@ export default class ReadingList extends Vue {
 }
 
 .list__side {
-  width: 20%;
-  min-width: 20%;
-  max-width: 20%;
   margin-top: -40px;
   position: sticky;
   top: 0;
@@ -133,7 +114,6 @@ export default class ReadingList extends Vue {
   padding-top: 48px;
 }
 .list__main {
-  flex-grow: 1;
   padding-bottom: 40vh;
 }
 
