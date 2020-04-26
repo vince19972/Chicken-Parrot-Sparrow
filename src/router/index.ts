@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import BirdsAndRoles from "../views/BirdsAndRoles.vue";
 import Chicken from "../views/Chicken.vue";
 import Parrot from "../views/Parrot.vue";
 import Sparrow from "../views/Sparrow.vue";
@@ -13,6 +14,11 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+  },
+  {
+    path: "/birds-and-roles",
+    name: "BirdsAndRoles",
+    component: BirdsAndRoles,
   },
   {
     path: "/chicken",
