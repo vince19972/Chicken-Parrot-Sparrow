@@ -17,10 +17,10 @@
         <p class="cta__text">keep exploring</p>
       </div>
       <div class="ending__btm-actions actions -flex">
-        <router-link class="actions__btn" to="/">
+        <router-link class="actions__btn" to="/reading-list">
           ↪ <span class="actions__btn-text">reading list</span>
         </router-link>
-        <router-link class="actions__btn" to="/">
+        <router-link class="actions__btn" to="/birds-and-roles">
           ↪ <span class="actions__btn-text">explore other birds</span>
         </router-link>
         <button v-if="contentType !== 'sparrow'" class="actions__btn">
