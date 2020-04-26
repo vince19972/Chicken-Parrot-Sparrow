@@ -37,6 +37,9 @@ import DynamicLogo from "../components/comps/DynamicLogo.vue";
   components: {
     DynamicLogo,
   },
+  metaInfo: {
+    title: "Chicken, Parrot and Sparrow",
+  },
 })
 export default class Home extends Vue {
   // state

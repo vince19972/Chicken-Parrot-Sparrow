@@ -63,6 +63,9 @@ enum ContentTypes {
 
 @Component({
   name: "ReadingList",
+  metaInfo: {
+    titleTemplate: "Reading List | %s",
+  },
 })
 export default class ReadingList extends Vue {
   // data

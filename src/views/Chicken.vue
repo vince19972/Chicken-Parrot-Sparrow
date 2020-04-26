@@ -8,8 +8,11 @@ import GridSection from "@/components/sections/gridSection/GridSection.vue";
 
 @Component({
   components: {
-    GridSection
-  }
+    GridSection,
+  },
+  metaInfo: {
+    titleTemplate: "Chicken | %s",
+  },
 })
 export default class Chicken extends Vue {}
 </script>

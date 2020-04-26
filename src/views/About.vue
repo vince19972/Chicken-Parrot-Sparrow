@@ -43,6 +43,9 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component({
   name: "About",
+  metaInfo: {
+    titleTemplate: "About | %s",
+  },
 })
 export default class About extends Vue {}
 </script>

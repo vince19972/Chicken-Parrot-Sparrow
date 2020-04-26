@@ -9,6 +9,9 @@ import GridSection from "@/components/sections/gridSection/GridSection.vue";
 @Component({
   components: {
     GridSection,
+    metaInfo: {
+      titleTemplate: "Parrot | %s",
+    },
   },
 })
 export default class Parrot extends Vue {}
