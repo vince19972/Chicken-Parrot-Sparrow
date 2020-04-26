@@ -92,7 +92,7 @@ export function getOffset(el: HTMLElement) {
 }
 
 export const gifUrls = {
-  chicken: ["https://media.giphy.com/media/MtU53HV4RWccE/giphy.gif"],
+  chicken: ["https://media.giphy.com/media/gpMP6Aim0BD3i/giphy.gif"],
   food: ["https://media.giphy.com/media/jqwk5Jxh8UcbMZbxK7/giphy.gif"],
   sparrow: ["https://media.giphy.com/media/RksrTsDMQJ29O/giphy.gif"],
   neighbor: ["https://media.giphy.com/media/PsLIN8YlKy4rS/giphy.gif"],
