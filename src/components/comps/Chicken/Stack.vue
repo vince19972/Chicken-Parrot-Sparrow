@@ -18,7 +18,9 @@ import { Component, Vue } from "vue-property-decorator";
 import { WindowSize as WindowSizeState } from "@/store/types/browser";
 import { TimelineMax, Power4 } from "gsap";
 
-@Component
+@Component({
+  name: "Stack",
+})
 export default class Stack extends Vue {
   // computed setters
   get windowSize(): WindowSizeState {

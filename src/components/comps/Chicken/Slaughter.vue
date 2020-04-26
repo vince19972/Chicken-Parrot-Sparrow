@@ -15,7 +15,9 @@
 import { Component, Vue } from "vue-property-decorator";
 import { TimelineMax, Linear, Elastic } from "gsap";
 
-@Component
+@Component({
+  name: "Slaughter",
+})
 export default class Slaughter extends Vue {
   // methods
   carouselSet(index: number) {

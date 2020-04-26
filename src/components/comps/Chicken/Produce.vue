@@ -10,7 +10,9 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-@Component
+@Component({
+  name: "Produce",
+})
 export default class Produce extends Vue {}
 </script>
 

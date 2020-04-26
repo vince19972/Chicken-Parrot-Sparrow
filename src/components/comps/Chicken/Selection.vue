@@ -23,7 +23,9 @@ import { Component, Vue } from "vue-property-decorator";
 import { WindowSize as WindowSizeState } from "@/store/types/browser";
 import { TimelineMax, SteppedEase, Back } from "gsap";
 
-@Component
+@Component({
+  name: "Selection",
+})
 export default class Selection extends Vue {
   // computed setters
   get windowSize(): WindowSizeState {
