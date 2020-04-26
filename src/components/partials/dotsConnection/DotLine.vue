@@ -27,7 +27,6 @@ export default class DotLine extends Vue {
   @Prop() readonly pairingState!: PairingStates;
 
   // data
-  connectedPairs = this.$store.getters["connectedPairs"];
   connectedPairsCount = 0;
   connectedPairsCoord = [];
 
@@ -55,6 +54,9 @@ export default class DotLine extends Vue {
   }
   get windowSize() {
     return this.$store.getters["browser/windowSize"];
+  }
+  get connectedPairs() {
+    return this.$store.getters["connectedPairs"];
   }
   get connectedPairsCountGetter() {
     return this.connectedPairsCount;

@@ -36,7 +36,6 @@ export default {
       roles: ["pet", "neighbor", "food"],
       isMouseOver: false,
       isRowClicked: false,
-      connectedPairs: this.$store.getters["connectedPairs"],
     };
   },
   methods: {
@@ -98,6 +97,9 @@ export default {
       return (
         this[this.rowType].filter((type) => type === this.startNode).length > 0
       );
+    },
+    connectedPairs() {
+      return this.$store.getters["connectedPairs"];
     },
   },
   watch: {
