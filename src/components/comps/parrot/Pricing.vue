@@ -34,7 +34,7 @@ export default class Pricing extends Vue {
   timeline: TimelineMax = new TimelineMax({
     repeat: -1,
     ease: Power4.easeInOut,
-    repeatDelay: 1
+    repeatDelay: 1,
   });
 
   // computed
@@ -43,7 +43,7 @@ export default class Pricing extends Vue {
   }
 
   // timeline
-  moveTimeline(tl: TimelineMax) {
+  moveTimeline(tl: TimelineMax | any) {
     const $pricing = ".pricing";
     const $set = ".set";
     const $setPrice = `${$set}__sub-container`;
@@ -54,36 +54,36 @@ export default class Pricing extends Vue {
 
     tl.to($setBar, 1, {
       opacity: 1,
-      y: "100%"
+      y: "100%",
     })
       .to($setBar, 0, {
-        rotate: 180
+        rotate: 180,
       })
       .to($setBar, 0.8, {
         opacity: 1,
-        y: "0%"
+        y: "0%",
       })
       .to($setBar, 0, {
-        opacity: 0
+        opacity: 0,
       });
 
     tl.to($setPrice, 0.1, {
       opacity: 1,
-      ease: Linear
+      ease: Linear,
     })
       .fromTo(
         $setTextLoad,
         0.5,
         {
-          opacity: 0
+          opacity: 0,
         },
         { opacity: 1, repeat: 2 }
       )
       .to($setTextLoad, 0, {
-        display: "none"
+        display: "none",
       })
       .to($setTextMain, 1, {
-        display: "inline"
+        display: "inline",
       });
   }
 

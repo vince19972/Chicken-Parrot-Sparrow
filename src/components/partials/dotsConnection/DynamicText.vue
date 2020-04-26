@@ -66,8 +66,8 @@ enum ModuleStates {
 export default class CanvasBackground extends Vue {
   @Prop() readonly connectState!: ConnectStates;
   @Prop() readonly pairingState!: PairingStates;
-  @Prop() readonly startNode!: NodeTypes | null;
-  @Prop() readonly endNode!: NodeTypes | null;
+  @Prop() readonly startNode!: NodeTypes | any;
+  @Prop() readonly endNode!: NodeTypes | any;
 
   // data
   pairedTexts = {
@@ -142,7 +142,7 @@ export default class CanvasBackground extends Vue {
   }
 
   // user events
-  onMouseEntered(event: Event) {
+  onMouseEntered(event: any) {
     this.$emit("onMouseEnter", event.currentTarget.dataset.pointDirection);
   }
   onMouseLeft() {

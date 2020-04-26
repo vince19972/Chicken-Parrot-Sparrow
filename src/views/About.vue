@@ -40,14 +40,19 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { Meta } from "@/decorator.js";
 
 @Component({
   name: "About",
-  metaInfo: {
-    titleTemplate: "About | %s",
-  },
 })
-export default class About extends Vue {}
+export default class About extends Vue {
+  @Meta
+  metaInfo() {
+    return {
+      titleTemplate: "About | %s",
+    };
+  }
+}
 </script>
 
 <style scoped lang="scss">

@@ -24,7 +24,7 @@ export default class Slaughter extends Vue {
     else return "-three";
   }
 
-  moveTimeline(tl: TimelineMax) {
+  moveTimeline(tl: TimelineMax | any) {
     const parent = ".slaughter";
     const group = ".group";
     const $group = `${parent} ${group}`;

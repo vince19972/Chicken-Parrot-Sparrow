@@ -5,14 +5,19 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import GridSection from "@/components/sections/gridSection/GridSection.vue";
+import { Meta } from "@/decorator.js";
 
 @Component({
   components: {
     GridSection,
-    metaInfo: {
-      titleTemplate: "Sparrow | %s",
-    },
   },
 })
-export default class Sparrow extends Vue {}
+export default class Sparrow extends Vue {
+  @Meta
+  metaInfo() {
+    return {
+      titleTemplate: "Sparrow | %s",
+    };
+  }
+}
 </script>

@@ -27,11 +27,11 @@ export default class Stack extends Vue {
   get textCount() {
     return {
       row: Math.ceil(this.windowSize.height / this.textValue.height),
-      col: Math.ceil(this.windowSize.width / this.textValue.width) * 3
+      col: Math.ceil(this.windowSize.width / this.textValue.width) * 3,
     };
   }
 
-  moveTimeline(tl: TimelineMax) {
+  moveTimeline(tl: TimelineMax | any) {
     const parent = ".stack";
     const textCol = ".text-col";
     const textRow = ".text-row";
@@ -50,7 +50,7 @@ export default class Stack extends Vue {
       {
         amount: 0.5,
         from: "random",
-        ease: Power4.easeIn
+        ease: Power4.easeIn,
       }
     )
       .staggerFromTo(
@@ -76,7 +76,7 @@ export default class Stack extends Vue {
         {
           fontFamily: "HelveticaNeue-CondensedBlack",
           textTransform: "uppercase",
-          fontSize: "200%"
+          fontSize: "200%",
         },
         0.015,
         "caged+=0.5"
@@ -93,11 +93,11 @@ export default class Stack extends Vue {
         $textRow,
         2,
         {
-          x: "100%"
+          x: "100%",
         },
         {
           amount: 0.5,
-          from: "random"
+          from: "random",
         },
         "grown+=1"
       );
@@ -106,7 +106,7 @@ export default class Stack extends Vue {
   // data
   textValue = {
     width: this.windowSize.width,
-    height: this.windowSize.height
+    height: this.windowSize.height,
   };
   timeline: TimelineMax = new TimelineMax({ repeat: -1 });
 

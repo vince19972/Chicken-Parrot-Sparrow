@@ -27,13 +27,13 @@ import { Component, Vue } from "vue-property-decorator";
 import { WindowSize as WindowSizeState } from "@/store/types/browser";
 import { TimelineMax, Bounce, Power4, gsap } from "gsap";
 
-function getRandomInt(min, max) {
+function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-function shuffle(array) {
+function shuffle(array: any) {
   let currentIndex = array.length;
   let temporaryValue;
   let randomIndex;
@@ -56,21 +56,21 @@ function shuffle(array) {
 @Component
 export default class Growth extends Vue {
   // data
-  hiddenTextIndices = [];
+  hiddenTextIndices: any = [];
   textValue = {
     width: this.windowSize.width,
-    height: this.windowSize.height
+    height: this.windowSize.height,
   };
   timeline: TimelineMax = new TimelineMax({
     repeat: -1,
     yoyo: true,
     ease: Power4.easeInOut,
-    onRepeat: this.updateRandomValues
+    onRepeat: this.updateRandomValues,
   });
   timelineSub: TimelineMax = new TimelineMax({
     repeat: -1,
     repeatDelay: 3,
-    ease: Power4.easeIn
+    ease: Power4.easeIn,
   });
 
   // computed
@@ -82,15 +82,15 @@ export default class Growth extends Vue {
       row: Math.floor(this.windowSize.height / this.textValue.height),
       col: Math.floor(
         Math.ceil(this.windowSize.width / this.textValue.width) * 2
-      )
+      ),
     };
   }
 
   // timeline
   updateRandomValues() {
-    this.randomValue = gsap.utils.random(-5, 5, true);
+    return gsap.utils.random(-5, 5, true);
   }
-  moveTimeline(tl: TimelineMax, tl2: TimelineMax) {
+  moveTimeline(tl: TimelineMax | any, tl2: TimelineMax | any) {
     const $growth = ".growth";
     const $cage = ".cage";
     const $cageCellText = `${$cage}__cell-text`;
@@ -112,19 +112,19 @@ export default class Growth extends Vue {
       0.1,
       {
         y: "random(-3, 3)",
-        x: "random(-3, 3)"
+        x: "random(-3, 3)",
       },
       0
     );
 
-    function die(target, time) {
+    function die(target: any, time: any) {
       tl2
         .to(
           target,
           3,
           {
             letterSpacing: "-1rem",
-            scaleX: 0.8
+            scaleX: 0.8,
           },
           time
         )
@@ -132,7 +132,7 @@ export default class Growth extends Vue {
           rotate: 90,
           // fontWeight: "lighter"
           color: "red",
-          ease: Bounce.easeOut
+          ease: Bounce.easeOut,
         });
     }
 
@@ -148,7 +148,7 @@ export default class Growth extends Vue {
     const hiddenCount = textColCount;
 
     for (let r = 0; r < textRowCount; r++) {
-      const textIndices = [];
+      const textIndices: any = [];
 
       for (let i = 0; i < hiddenCount; i++) {
         let randomNumber = getRandomInt(0, hiddenCount);
@@ -163,7 +163,7 @@ export default class Growth extends Vue {
       this.hiddenTextIndices.push(textIndices);
     }
   }
-  setTextClasses(rowIndex: numer, colIndex: number) {
+  setTextClasses(rowIndex: any, colIndex: number) {
     if (this.hiddenTextIndices[rowIndex]) {
       if (this.hiddenTextIndices[rowIndex].includes(colIndex))
         return "-is-dead";

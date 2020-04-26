@@ -5,7 +5,7 @@ import {
   ScrollState,
   MouseState,
   MouseShape,
-  WindowSize
+  WindowSize,
 } from "../types/browser";
 
 export default {
@@ -22,18 +22,18 @@ export default {
       desktop: 1024,
       small: 850,
       tablet: 768,
-      mobile: 550
-    }
+      mobile: 550,
+    },
   },
   getters: {
     windowSize: ({ width, height }: WindowSize): WindowSize => ({
       width,
-      height
+      height,
     }),
-    mouseCoord: ({ mouse }: MouseShape): MouseShape => ({
+    mouseCoord: ({ mouse }): MouseShape => ({
       x: mouse.x,
-      y: mouse.y
-    })
+      y: mouse.y,
+    }),
   },
   mutations: {
     [CommitKey.Scroll]: (state: ScrollState) =>
@@ -45,13 +45,11 @@ export default {
     },
     [CommitKey.Mouse]: (state: MouseState, position: MouseShape) => {
       state.mouse = position;
-    }
-  }
+    },
+  },
 };
 
-export function browserEvent(store: {
-  commit: (arg0: string, arg1: CommitData) => void;
-}) {
+export function browserEvent(store: any): any {
   const throttleWindowEvent = (commitKey: CommitKey) => {
     let start = 0;
 
@@ -84,13 +82,13 @@ export function browserEvent(store: {
 
   window.addEventListener("resize", () => resizeEvent(null));
   window.addEventListener("scroll", () => scrollEvent(null));
-  window.addEventListener("mousemove", e =>
+  window.addEventListener("mousemove", (e) =>
     mouseEvent({ x: e.clientX, y: e.clientY })
   );
 
   return {
     resizeEvent,
     scrollEvent,
-    mouseEvent
+    mouseEvent,
   };
 }

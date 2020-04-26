@@ -42,7 +42,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { WindowSize as WindowSizeState } from "@/store/types/browser";
 import { TimelineMax, Power4 } from "gsap";
 
-function getRandomInt(min, max) {
+function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min;
@@ -53,9 +53,9 @@ export default class Capture extends Vue {
   // data
   textValue = {
     width: this.windowSize.width,
-    height: this.windowSize.height
+    height: this.windowSize.height,
   };
-  hiddenTextIndices = [];
+  hiddenTextIndices: any = [];
   timeline: TimelineMax = new TimelineMax({ repeat: -1 });
 
   // computed
@@ -65,12 +65,12 @@ export default class Capture extends Vue {
   get textCount() {
     return {
       row: Math.floor(this.windowSize.height / 2 / this.textValue.height),
-      col: Math.ceil(this.windowSize.width / this.textValue.width) * 3
+      col: Math.ceil(this.windowSize.width / this.textValue.width) * 3,
     };
   }
 
   // timeline
-  moveTimeline(tl: TimelineMax) {
+  moveTimeline(tl: TimelineMax | any) {
     const $capture = ".capture";
     const $net = ".net";
     const $texts = ".texts";
@@ -83,16 +83,16 @@ export default class Capture extends Vue {
     tl.fromTo($texts, 0.5, { opacity: 0 }, { opacity: 1, ease: Power4.easeIn })
       .staggerTo($gridLines, 1, {
         attr: { y2: "100%" },
-        ease: Power4.easeInOut
+        ease: Power4.easeInOut,
       })
       .to($captureContainer, 1.5, {
         css: {
           overflow: "hidden",
           transform: "scale(0.5, 0.425)",
           border: "1px solid black",
-          padding: "24px"
+          padding: "24px",
         },
-        ease: Power4.easeOut
+        ease: Power4.easeOut,
       })
       .to($texts, 0, { css: { alignItems: "center" } }, "-=1.5")
       .to($textsP, 0, { letterSpacing: "-0.3rem" }, "-=1.5")
@@ -113,7 +113,7 @@ export default class Capture extends Vue {
     const hiddenCount = textColCount;
 
     for (let r = 0; r < textRowCount; r++) {
-      const textIndices = [];
+      const textIndices: any = [];
 
       for (let i = 0; i < hiddenCount / 2; i++) {
         let randomNumber = getRandomInt(0, hiddenCount);
@@ -128,7 +128,7 @@ export default class Capture extends Vue {
       this.hiddenTextIndices.push(textIndices);
     }
   }
-  setTextClasses(rowIndex: numer, colIndex: number) {
+  setTextClasses(rowIndex: number, colIndex: number) {
     if (this.hiddenTextIndices[rowIndex].includes(colIndex))
       return "-is-hidden";
     else return "";

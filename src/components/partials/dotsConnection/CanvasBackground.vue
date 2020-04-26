@@ -12,7 +12,7 @@ import {
   ConnectStates,
   NodeTypes,
   PairingStates,
-  gifUrls
+  gifUrls,
 } from "./DotsConnection";
 
 enum ModuleStates {
@@ -20,7 +20,7 @@ enum ModuleStates {
   AllNodesActive,
   TempNodeActive,
   NotActive,
-  isPaired
+  isPaired,
 }
 
 @Component
@@ -36,18 +36,34 @@ export default class CanvasBackground extends Vue {
       this.moduleStates === ModuleStates.StartNodeActive ||
       this.moduleStates === ModuleStates.isPaired
     ) {
-      const url = gifUrls[this.startNode][0];
+      // const url = gifUrls[this.startNode][0];
+      let url = "";
+      switch (this.startNode) {
+        case "chicken":
+          url = gifUrls.chicken[0];
+          break;
+        case "parrot":
+          url = gifUrls.parrot[0];
+          break;
+        case "sparrow":
+          url = gifUrls.sparrow[0];
+          break;
+        default:
+          url = gifUrls.chicken[0];
+          break;
+      }
 
       return {
-        backgroundImage: `url("${url}")`
-      };
-    } else if (this.moduleStates === ModuleStates.TempNodeActive) {
-      const url = gifUrls[this.tempNode][0];
-
-      return {
-        backgroundImage: `url("${url}")`
+        backgroundImage: `url("${url}")`,
       };
     }
+    // else if (this.moduleStates === ModuleStates.TempNodeActive) {
+    //   const url = gifUrls[this.tempNode][0];
+
+    //   return {
+    //     backgroundImage: `url("${url}")`,
+    //   };
+    // }
 
     return "";
   }
@@ -72,7 +88,7 @@ export default class CanvasBackground extends Vue {
         return ModuleStates.StartNodeActive;
       }
     } else if (this.connectState === ConnectStates.Connected) {
-      if (this.startNode && this.endNode) {
+      if (this.startNode) {
         if (this.isPaired === PairingStates.Paired) {
           return ModuleStates.isPaired;
         } else {

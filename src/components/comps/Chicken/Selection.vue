@@ -32,7 +32,7 @@ export default class Selection extends Vue {
   get textCount() {
     return {
       row: Math.ceil(this.windowSize.height / this.textValue.height),
-      col: Math.ceil(this.windowSize.width / this.textValue.width) * 4
+      col: Math.ceil(this.windowSize.width / this.textValue.width) * 4,
     };
   }
 
@@ -43,7 +43,7 @@ export default class Selection extends Vue {
   textType(index: number) {
     return this.isUseless(index) ? "chIcken" : "chicken";
   }
-  moveTimeline(tl: TimelineMax) {
+  moveTimeline(tl: TimelineMax | any) {
     const selection = ".selection";
     const textCol = ".text-col";
     const text = `${selection} ${textCol}__text`;
@@ -73,7 +73,7 @@ export default class Selection extends Vue {
         {
           amount: 1,
           from: "random",
-          ease: Back.easeOut.config(1.7)
+          ease: Back.easeOut.config(1.7),
         },
         "filtered+=0.25"
       )
@@ -96,7 +96,7 @@ export default class Selection extends Vue {
   // data
   textValue = {
     width: this.windowSize.width,
-    height: this.windowSize.height
+    height: this.windowSize.height,
   };
   timeline: TimelineMax = new TimelineMax({ repeat: -1 });
 

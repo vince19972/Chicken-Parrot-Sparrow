@@ -17,6 +17,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import HamBtn from "@/components/comps/HamBtn.vue";
 import FullMenu from "@/components/partials/FullMenu.vue";
+import { Meta } from "@/decorator.js";
 
 @Component({
   name: "App",
@@ -24,11 +25,15 @@ import FullMenu from "@/components/partials/FullMenu.vue";
     HamBtn,
     FullMenu,
   },
-  metaInfo: {
-    title: "Chicken, Parrot and Sparrow",
-  },
 })
 export default class App extends Vue {
+  @Meta
+  metaInfo() {
+    return {
+      title: "Chicken, Parrot and Sparrow",
+    };
+  }
+
   // style getters
   get stateClass() {
     return this.$store.getters["isMenuOpened"] ? "-is-frozen" : "";

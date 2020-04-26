@@ -28,7 +28,7 @@ export default class DotLine extends Vue {
 
   // data
   connectedPairsCount = 0;
-  connectedPairsCoord = [];
+  connectedPairsCoord: any = [];
 
   // computed
   get start() {
@@ -68,7 +68,7 @@ export default class DotLine extends Vue {
   }
 
   // getters
-  getEndNodeType(startType: NodeTypes) {
+  getEndNodeType(startType: NodeTypes | string) {
     switch (startType) {
       case NodeTypes.Chicken:
         return NodeTypes.Food;
@@ -78,13 +78,13 @@ export default class DotLine extends Vue {
         return NodeTypes.Neighbor;
     }
   }
-  getConnectedCoord(startType: NodeTypes) {
+  getConnectedCoord(startType: NodeTypes | string) {
     const endNodeType = this.getEndNodeType(startType);
 
-    const dotStart = document.querySelector(
+    const dotStart: any = document.querySelector(
       `.nodes__node[data-node-type='${startType}'] .nodes__node-dot`
     );
-    const dotEnd = document.querySelector(
+    const dotEnd: any = document.querySelector(
       `.nodes__node[data-node-type='${endNodeType}'] .nodes__node-dot`
     );
     const { x: startX, y: startY } = getOffset(dotStart);
@@ -102,7 +102,7 @@ export default class DotLine extends Vue {
   // watchers
   @Watch("windowSize")
   watchWindowSize() {
-    this.connectedPairsCoord.forEach((pair, index) => {
+    this.connectedPairsCoord.forEach((pair: any, index: number) => {
       const { startX, startY, endX, endY } = this.getConnectedCoord(
         pair.startType
       );

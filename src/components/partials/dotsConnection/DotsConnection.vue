@@ -71,7 +71,7 @@ import {
   Payloads,
   LocalStates,
   PairingStates,
-  checkPairingState
+  checkPairingState,
 } from "./DotsConnection";
 
 @Component({
@@ -79,8 +79,8 @@ import {
     TextRow,
     DotLine,
     CanvasBackground,
-    DynamicText
-  }
+    DynamicText,
+  },
 })
 export default class DotsConnection extends Vue {
   // computed
@@ -90,7 +90,7 @@ export default class DotsConnection extends Vue {
   get lineCoord() {
     return {
       start: this.startCoord,
-      end: this.endCoord
+      end: this.endCoord,
     };
   }
   get connectState() {
@@ -113,7 +113,7 @@ export default class DotsConnection extends Vue {
     endNode: null,
     pairingState: PairingStates.Pending,
     dynamicTextTarget: null,
-    hoverNodeTarget: null
+    hoverNodeTarget: null,
   };
   startCoord: MouseShape = { x: 0, y: 0 };
   endCoord: MouseShape = { x: 0, y: 0 };
@@ -224,7 +224,7 @@ export default class DotsConnection extends Vue {
   onNodeHovered(nodeType: NodeTypes | null) {
     this.states.hoverNodeTarget = nodeType;
   }
-  onCanvasClicked(event: Event) {
+  onCanvasClicked(event: any) {
     if (event.target && this.states.pairingState !== PairingStates.Paired) {
       const targetClassNames = event.target.classList;
       const isNode =
@@ -237,7 +237,7 @@ export default class DotsConnection extends Vue {
       }
     }
   }
-  onMouseOverDynamicText(target) {
+  onMouseOverDynamicText(target: any) {
     this.states.dynamicTextTarget = target;
   }
 

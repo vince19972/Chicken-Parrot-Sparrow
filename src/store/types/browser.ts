@@ -1,7 +1,7 @@
 export enum CommitKey {
   Resize = "resize",
   Scroll = "scroll",
-  Mouse = "mouse"
+  Mouse = "mouse",
 }
 
 export interface MouseShape {

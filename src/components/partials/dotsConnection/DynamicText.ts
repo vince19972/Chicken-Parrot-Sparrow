@@ -36,6 +36,7 @@ export const pairedTextSets = {
     // here's my words to sparrow, my favorite neighbor.
     first: `${wrapperClass.pre} correct. sparrows are our neighbors in modern society. ${wrapperClass.suf}`,
     second: `${wrapperClass.pre} now, let's talk about our sparrow neighbors for a while. ${wrapperClass.suf}`,
+    third: "",
   },
 };
 

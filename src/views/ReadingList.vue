@@ -53,6 +53,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import readingLists from "@/assets/content/readingList.json";
+import { Meta } from "@/decorator.js";
 
 enum ContentTypes {
   General = "general",
@@ -63,11 +64,15 @@ enum ContentTypes {
 
 @Component({
   name: "ReadingList",
-  metaInfo: {
-    titleTemplate: "Reading List | %s",
-  },
 })
 export default class ReadingList extends Vue {
+  @Meta
+  metaInfo() {
+    return {
+      titleTemplate: "Reading List | %s",
+    };
+  }
+
   // data
   activeContent: ContentTypes = ContentTypes.General;
   readingListsTypes = [
@@ -83,11 +88,11 @@ export default class ReadingList extends Vue {
   }
 
   // user events
-  onMenuClicked(event) {
+  onMenuClicked(event: any) {
     this.activeContent = event.currentTarget.dataset.type;
     const items = document.querySelectorAll(".types__list-item");
 
-    items.forEach((item) => {
+    items.forEach((item: any) => {
       if (item.dataset.type === this.activeContent) {
         item.classList.add("-is-active");
       } else {
