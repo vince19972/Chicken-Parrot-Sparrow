@@ -39,8 +39,8 @@
       </p>
       <p class="text__end">
         Read more about the
-        <router-link to="/"> stories of the birds </router-link>,
-        <router-link to="/">the project</router-link>, or try
+        <router-link to="/reading-list"> stories of the birds </router-link>,
+        <router-link to="/about">the project</router-link>, or try
         <button @click="onRestartBtnClicked">
           connecting all the dots again</button
         >.
@@ -196,7 +196,7 @@ export default class CanvasBackground extends Vue {
   @Watch("moduleState")
   watchPairingState() {
     if (this.moduleState === ModuleStates.Paired) {
-      const delayTime = 500;
+      const delayTime = 4500;
       const isShortPair =
         this.startNode === NodeTypes.Sparrow ||
         this.startNode === NodeTypes.Neighbor ||
