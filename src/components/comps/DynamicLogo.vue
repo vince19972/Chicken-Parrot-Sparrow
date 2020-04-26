@@ -17,19 +17,9 @@ import { Prop, Component, Vue } from "vue-property-decorator";
 export default class DynamicLogo extends Vue {
   @Prop() readonly toExpand!: boolean;
 
-  // state
-  // isExpanded = false;
-
   // styles
   get logoClasses() {
     return [this.toExpand ? "-is-expanded" : ""];
-  }
-
-  // cycle
-  mounted() {
-    setTimeout(() => {
-      // this.isExpanded = true;
-    }, 1000);
   }
 }
 </script>

@@ -58,6 +58,7 @@ export default class Home extends Vue {
 
 .home {
   padding: 5vh 5vw;
+
   &__side {
     height: 50%;
   }

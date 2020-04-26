@@ -17,6 +17,7 @@ enum pairType {
 }
 interface StateShape {
   connectedPairs: ConnectedPairsShape;
+  isMenuOpened: boolean;
 }
 
 export default new Vuex.Store({
@@ -26,6 +27,7 @@ export default new Vuex.Store({
       parrot: false,
       sparrow: false,
     },
+    isMenuOpened: false,
   },
   getters: {
     connectedPairs: ({ connectedPairs }) => connectedPairs,
@@ -34,6 +36,7 @@ export default new Vuex.Store({
       if (chicken && parrot && sparrow) return true;
       else return false;
     },
+    isMenuOpened: ({ isMenuOpened }) => isMenuOpened,
   },
   mutations: {
     addConnectedPair: (state: StateShape, pairType: pairType) => {
@@ -43,6 +46,9 @@ export default new Vuex.Store({
       state.connectedPairs.chicken = false;
       state.connectedPairs.parrot = false;
       state.connectedPairs.sparrow = false;
+    },
+    toggleMenu: (state: StateShape, toState: boolean) => {
+      state.isMenuOpened = toState === undefined ? true : toState;
     },
   },
   modules: {
