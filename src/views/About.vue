@@ -5,10 +5,12 @@
     </div>
     <div class="about__main content">
       <p class="content__text">
-        This website is built in 2020 by me, Vince MingPu Shao, as the graduate
-        thesis project at Interaction Telecommunications Program (ITP), New York
-        University (NYU). Learn more about the building process and stories
-        behind the project <a href="vinceshao.com">at my website</a>.
+        This website is built in 2020 by me,
+        <a href="vinceshao.com" target="_blank">Vince MingPu Shao</a>, as the
+        graduate thesis project at Interaction Telecommunications Program (ITP),
+        New York University (NYU). Learn more about the building process and
+        stories of the project
+        <a href="vinceshao.com" target="_blank">at my website</a>.
       </p>
       <p class="content__text">
         I love birds, especially sparrows. My biggest joy as walking on the
