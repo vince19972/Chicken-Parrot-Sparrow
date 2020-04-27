@@ -13,7 +13,9 @@
             :data-type="contentType"
             @click="onMenuClicked"
           >
-            <button class="types__list-btn">{{ contentType }}</button>
+            <button class="types__list-btn">
+              {{ getFmtTypeText(contentType) }}
+            </button>
           </li>
         </ul>
       </div>
@@ -56,7 +58,7 @@ import readingLists from "@/assets/content/readingList.json";
 import { Meta } from "@/decorator.js";
 
 enum ContentTypes {
-  General = "general",
+  Icon = "icon",
   Chicken = "chicken",
   Parrot = "parrot",
   Sparrow = "sparrow",
@@ -74,17 +76,33 @@ export default class ReadingList extends Vue {
   }
 
   // data
-  activeContent: ContentTypes = ContentTypes.General;
+  activeContent: ContentTypes = ContentTypes.Chicken;
   readingListsTypes = [
-    ContentTypes.General,
     ContentTypes.Chicken,
     ContentTypes.Parrot,
     ContentTypes.Sparrow,
+    ContentTypes.Icon,
   ];
 
   // computed
   get activeReadingList() {
     return readingLists[this.activeContent];
+  }
+
+  // getter methods
+  getFmtTypeText(text: ContentTypes) {
+    switch (text) {
+      case ContentTypes.Chicken:
+        return "chicken / meat";
+      case ContentTypes.Parrot:
+        return "parrot / pet";
+      case ContentTypes.Sparrow:
+        return "sparrow / city";
+      case ContentTypes.Icon:
+        return "seeing / boundary";
+      default:
+        return "general";
+    }
   }
 
   // user events
@@ -147,7 +165,7 @@ export default class ReadingList extends Vue {
 }
 .types__list-btn {
   @include -f-main-b;
-  font-size: 40px;
+  font-size: 1.8vw;
   letter-spacing: -1.25px;
 
   transition: all 0.3s;
@@ -155,7 +173,7 @@ export default class ReadingList extends Vue {
 
 .readings {
   @include -f-main-b;
-  font-size: 80px;
+  font-size: 4vw;
 }
 .readings__list-item {
   &:not(:last-child) {
