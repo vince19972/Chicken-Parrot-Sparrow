@@ -40,7 +40,8 @@
                     v-for="(tag, tagIndex) in item.tag"
                     :key="index + tagIndex + tag"
                     class="__info-text"
-                    >{{ tag }}</span
+                    >{{ tag
+                    }}{{ tagIndex === item.tag.length - 1 ? "" : ", " }}</span
                   >
                 </p>
               </div>
