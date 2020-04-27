@@ -1,202 +1,284 @@
 {
-  "general": [
+  "list": [
     {
-      "url": "test.com",
-      "title": "Conubia nascetur per eros tempor montes cursus",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://storymaps.arcgis.com/stories/58ae71f58fd7418294f34c4f841895d8",
+      "title": "(Farm) Animal Planet",
+      "type": ["meat"],
+      "tag": ["article"],
+      "author": "Esri's StoryMaps team"
     },
     {
-      "url": "test.com",
-      "title": "Conubia nascetur per eros tempor montes cursus",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://www.ranker.com/list/grape-kun-the-penguin/laura-allan",
+      "title": "The Sweet And Tragic Tale Of Grape-kun The Penguin",
+      "type": ["pet"],
+      "tag": ["news"],
+      "author": "Laura Allan"
     },
     {
-      "url": "test.com",
-      "title": "Conubia nascetur per eros tempor montes cursus",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://ourworldindata.org/meat-production",
+      "title": "Meat and Dairy Production (data)",
+      "type": ["meat"],
+      "tag": ["paper"],
+      "author": "Hannah Ritchie and Max Roser"
     },
     {
-      "url": "test.com",
-      "title": "Conubia nascetur per eros tempor montes cursus",
-      "type": "book",
-      "author": "someone who"
+      "url": "http://td-architects.eu/projects/show/slaughter-house/#txt",
+      "title": "Slaughter House",
+      "type": ["meat"],
+      "tag": ["essay"],
+      "author": "TD"
     },
     {
-      "url": "test.com",
-      "title": "Conubia nascetur per eros tempor montes cursus",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://www.fredsandbackarchive.org/",
+      "title": "FRED SANDBACK ARCHIVE",
+      "type": ["boundary"],
+      "tag": ["art"],
+      "author": "Fred Sandback"
     },
     {
-      "url": "test.com",
-      "title": "Conubia nascetur per eros tempor montes cursus",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://www.youtube.com/watch?v=KyMEKUg3788",
+      "title": "Butchering 5 Pigs + a Steer On Farm (In a Day)",
+      "type": ["meat"],
+      "tag": ["video"],
+      "author": "Justin Rhodes"
     },
     {
-      "url": "test.com",
-      "title": "Conubia nascetur per eros tempor montes cursus",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://www.architectural-review.com/buildings/from-slaughter-to-laughter-the-renovation-of-a-slaughterhouse-in-shanghai-by-ippr/10036361.article",
+      "title": "From slaughter to laughter: the renovation of a slaughterhouse in Shanghai by IPPR",
+      "type": ["meat", "city", "boundary"],
+      "tag": ["article"],
+      "author": "AUSTIN WILLIAMS"
     },
     {
-      "url": "test.com",
-      "title": "Conubia nascetur per eros tempor montes cursus",
-      "type": "book",
-      "author": "someone who"
-    }
-  ],
-  "chicken": [
-    {
-      "url": "test.com",
-      "title": "Dui posuere metus venenatis tincidunt vulputate nullam",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://www.iconeye.com/architecture/features/item/11061-slaughterhouses-meat-is-modernism",
+      "title": "Slaughterhouses: Meat is modernism",
+      "type": ["meat"],
+      "tag": ["article"],
+      "author": "Will Wiles"
     },
     {
-      "url": "test.com",
-      "title": "Dui posuere metus venenatis tincidunt vulputate nullam",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://www.theguardian.com/lifeandstyle/gallery/2010/jul/08/slaughter",
+      "title": "Slaughterhouse to steakhouse",
+      "type": ["meat"],
+      "tag": ["article"],
+      "author": "Christopher Thomond"
     },
     {
-      "url": "test.com",
-      "title": "Dui posuere metus venenatis tincidunt vulputate nullam",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://modernfarmer.com/2013/04/this-is-what-humane-slaughter-looks-like-is-it-good-enough/",
+      "title": "This is what humane slaughter looks like",
+      "type": ["meat"],
+      "tag": ["article"],
+      "author": "Mac McClelland"
     },
     {
-      "url": "test.com",
-      "title": "Dui posuere metus venenatis tincidunt vulputate nullam",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://aaa.org.hk/en/collection/search/library/manufacturing-meaning-discourse-power-and-cultural-politics-in-realist-photography",
+      "title": "Manufacturing Meaning: Discourse, Power and Cultural Politics in Realist Photography",
+      "type": ["boundary"],
+      "tag": ["book"],
+      "author": "Li-Hsin Kuo"
     },
     {
-      "url": "test.com",
-      "title": "Dui posuere metus venenatis tincidunt vulputate nullam",
-      "type": "book",
-      "author": "someone who"
+      "url": "http://www.xubing.com/en/exhibition/details/420?year=2016#420",
+      "title": "Book from the Ground",
+      "type": ["boundary"],
+      "tag": ["art"],
+      "author": "Xu Bing"
     },
     {
-      "url": "test.com",
-      "title": "Dui posuere metus venenatis tincidunt vulputate nullam",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://www.youtube.com/watch?v=WDIz7mEJOeA",
+      "title": "Sirens of the lambs",
+      "type": ["boundary", "meat", "city"],
+      "tag": ["art"],
+      "author": "Banksy"
     },
     {
-      "url": "test.com",
-      "title": "Dui posuere metus venenatis tincidunt vulputate nullam",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://www.amazon.com/Duel-Photography-Asahi-Bunko-ISBN/dp/4022610859",
+      "title": "Duel on Photography",
+      "type": ["boundary"],
+      "tag": ["book"],
+      "author": "NAKAHIRA Takuma and SHINOYAMA Kishin"
     },
     {
-      "url": "test.com",
-      "title": "Dui posuere metus venenatis tincidunt vulputate nullam",
-      "type": "book",
-      "author": "someone who"
-    }
-  ],
-  "parrot": [
-    {
-      "url": "test.com",
-      "title": "Lacus mi aptent himenaeos lectus habitant dolor",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://www.citylab.com/design/2019/12/migratory-bird-conservation-safe-window-design-architecture/603394/",
+      "title": "New York City Will Require Bird-Friendly Glass on Buildings",
+      "type": ["city"],
+      "tag": ["news"],
+      "author": "LINDA POON"
     },
     {
-      "url": "test.com",
-      "title": "Lacus mi aptent himenaeos lectus habitant dolor",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://aflacchildhoodcancer.org/",
+      "title": "My Special Aflac Duck",
+      "type": ["pet"],
+      "tag": ["product"],
+      "author": "AFLAC INCORPORATED"
     },
     {
-      "url": "test.com",
-      "title": "Lacus mi aptent himenaeos lectus habitant dolor",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://www.buzzfeednews.com/article/rosalindadams/aibo-robot-dogs-japan",
+      "title": "All Robot Dogs Go To The Cloud",
+      "type": ["pet"],
+      "tag": ["article"],
+      "author": "Rosalind Adams"
     },
     {
-      "url": "test.com",
-      "title": "Lacus mi aptent himenaeos lectus habitant dolor",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://chriswoebken.com/Animal-Superpowers",
+      "title": "Animal Superpowers",
+      "type": ["city", "boundary"],
+      "tag": ["art"],
+      "author": "Chris Woebken"
     },
     {
-      "url": "test.com",
-      "title": "Lacus mi aptent himenaeos lectus habitant dolor",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://theparliamentofthings.org/",
+      "title": "Parliament of Things",
+      "type": ["boundary"],
+      "tag": ["art", "research"],
+      "author": "The Parliament of Things"
     },
     {
-      "url": "test.com",
-      "title": "Lacus mi aptent himenaeos lectus habitant dolor",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://www.shengwenlo.com/whitebear",
+      "title": "White Bear",
+      "type": ["pet"],
+      "tag": ["art"],
+      "author": "SHENG WEN LO"
     },
     {
-      "url": "test.com",
-      "title": "Lacus mi aptent himenaeos lectus habitant dolor",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://www.books.com.tw/products/0010800614",
+      "title": "Animals as Mirrors",
+      "type": ["city", "pet", "boundary"],
+      "tag": ["book"],
+      "author": "Huang, Zong-Hui"
     },
     {
-      "url": "test.com",
-      "title": "Lacus mi aptent himenaeos lectus habitant dolor",
-      "type": "book",
-      "author": "someone who"
-    }
-  ],
-  "sparrow": [
-    {
-      "url": "test.com",
-      "title": "Per consequat scelerisque vestibulum lorem fringilla pharetra",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://www.cnn.com/2019/12/10/us/pigeons-cowboy-hats-las-vegas-trnd/index.html",
+      "title": "Pigeons in tiny cowboy hats",
+      "type": ["pet", "city"],
+      "tag": ["news"],
+      "author": "Christina Zdanowicz and Amanda Jackson"
     },
     {
-      "url": "test.com",
-      "title": "Per consequat scelerisque vestibulum lorem fringilla pharetra",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://www.bloomsbury.com/us/food-and-animal-welfare-9780857857071/?__cf_chl_jschl_tk__=797b348dceb6f39aeefac95dcfeceefffd967d43-1575854466-0-AVxTC2bBDl5vkzH8IY6LcaGHdJkYevP_kGFSGtsQ_cbUgHas9s0N-7qeGzIpKutTJPrqI-xkTNlNq_sZWmBmWfFGNC4Owr5mxInfanVUrzVPux5OV-c6S8MhygLNfTm37n6jdxF3ZQ_jCUWDPN4TZ339-XA2z9U4T3lkWwigmeCkIqgUeBrnwXyUDZbTlmiFNX051Xm-AwyMPAoifD03M8WhehiOcHFRFAfaION6Ue3_8J2UOOWIFBAOPPNp6NsHbobwbMBjBLLojDbQxz5YENTQJors9Awf_tIqd877mOV-PpfBbiKVNBTo1MNR-t3gBA",
+      "title": "Food and Animal Welfare",
+      "type": ["meat"],
+      "tag": ["book"],
+      "author": "Henry Buller, Emma Roe"
     },
     {
-      "url": "test.com",
-      "title": "Per consequat scelerisque vestibulum lorem fringilla pharetra",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://www.usatoday.com/story/money/2016/07/21/pet-industry-hopes-sales-lift-hit-movies/87333910/",
+      "title": "Pet industry, movies and sales",
+      "type": ["pet"],
+      "tag": ["article"],
+      "author": "Rui Ellie Miao"
     },
     {
-      "url": "test.com",
-      "title": "Per consequat scelerisque vestibulum lorem fringilla pharetra",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://www.mentalfloss.com/article/71877/10-movies-inspired-pet-trends",
+      "title": "10 Movies That Inspired Pet Trends",
+      "type": ["pet"],
+      "tag": ["article"],
+      "author": "MICHELE DEBCZAK"
     },
     {
-      "url": "test.com",
-      "title": "Per consequat scelerisque vestibulum lorem fringilla pharetra",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4160180/",
+      "title": "Dog Movie Stars and Dog Breed Popularity: A Case Study in Media Influence on Choice",
+      "type": ["pet"],
+      "tag": ["paper"],
+      "author": "Stefano Ghirlanda, Alberto Acerbi, and Harold Herzog"
     },
     {
-      "url": "test.com",
-      "title": "Per consequat scelerisque vestibulum lorem fringilla pharetra",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://en.wikipedia.org/wiki/Her_(film)",
+      "title": "Her",
+      "type": ["city"],
+      "tag": ["movie"],
+      "author": "Spike Jonze"
     },
     {
-      "url": "test.com",
-      "title": "Per consequat scelerisque vestibulum lorem fringilla pharetra",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://www.facebook.com/mercyforanimals/videos/10155441851109475/",
+      "title": "Bird's Eye View of Slaughter",
+      "type": ["meat"],
+      "tag": ["video"],
+      "author": "Mercy For Animals"
     },
     {
-      "url": "test.com",
-      "title": "Per consequat scelerisque vestibulum lorem fringilla pharetra",
-      "type": "book",
-      "author": "someone who"
+      "url": "https://www.cowspiracy.com/",
+      "title": "Cowspiracy",
+      "type": ["meat"],
+      "tag": ["documentary"],
+      "author": "A.U.M. Films and Media"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Okja",
+      "title": "Okja",
+      "type": ["meat", "pet"],
+      "tag": ["movie"],
+      "author": "Bong Joon-ho"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Silver_Spoon_(manga)",
+      "title": "Silver Spoon",
+      "type": ["pet", "meat", "city"],
+      "tag": ["manga"],
+      "author": "Hiromu Arakawa"
+    },
+    {
+      "url": "https://www.amazon.com/Worlds-Slaughterhouse-Tour-Sekai-tochiku/dp/4759251332",
+      "title": "The World's Slaughterhouse Tour",
+      "type": ["meat", "city"],
+      "tag": ["book"],
+      "author": "Junko Uchizawa"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Silent_Spring",
+      "title": "Silent Spring",
+      "type": ["city"],
+      "tag": ["book"],
+      "author": "Rachel Carson"
+    },
+    {
+      "url": "https://www.amazon.com/Animal-Liberation-Definitive-Classic-Movement/dp/0061711306",
+      "title": "Animal Liberation: The Definitive Classic of the Animal Movement",
+      "type": ["meat"],
+      "tag": ["book"],
+      "author": "Peter Singer"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Ways_of_Seeing",
+      "title": "Ways of Seeing",
+      "type": ["boundary"],
+      "tag": ["book"],
+      "author": "John Berger"
+    },
+    {
+      "url": "https://www.amazon.com/On-Photography/dp/B005KOL1YK/ref=sr_1_1?crid=EMA8F451JBGQ&dchild=1&keywords=susan+sontag+on+photography&qid=1588002371&s=books&sprefix=susan+sontag%2Cstripbooks%2C135&sr=1-1",
+      "title": "On Photography",
+      "type": ["boundary"],
+      "tag": ["book"],
+      "author": "Susan Sontag"
+    },
+    {
+      "url": "https://www.smithsonianmag.com/smart-news/story-real-canary-coal-mine-180961570/",
+      "title": "The Story of the Real Canary in the Coal Mine",
+      "type": ["city", "pet"],
+      "tag": ["article"],
+      "author": "Kat Eschner"
+    },
+    {
+      "url": "https://przekroj.pl/en/society/mao-and-the-sparrows-agata-kasprolewicz",
+      "title": "Mao and the Sparrows - A Communist State's War Against Nature",
+      "type": ["city"],
+      "tag": ["article"],
+      "author": "Agata Kasprolewicz"
+    },
+    {
+      "url": "https://hongkongfp.com/2020/02/19/coronavirus-need-rethink-relationship-wild-animals/",
+      "title": "Coronavirus: Why we need to rethink about our relationship with wild animals",
+      "type": ["meat", "city"],
+      "tag": ["article", "news"],
+      "author": "GUEST CONTRIBUTOR"
+    },
+    {
+      "url": "https://youtu.be/AD6khyFbBcQ?t=789",
+      "title": "Andrés Jaque and Ivan Munuera premiere film exploring the visual landscape of Covid-19",
+      "type": ["city", "pet"],
+      "tag": ["video", "art"],
+      "author": "Dezeen"
     }
   ]
 }

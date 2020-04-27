@@ -40,5 +40,6 @@ $safe-area: calc(1620px - var(--offset) * 2);
   }
   &__main {
     flex-grow: 1;
+    max-width: 80%;
   }
 }

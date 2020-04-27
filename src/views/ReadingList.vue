@@ -35,7 +35,13 @@
                   author: <span class="__info-text">{{ item.author }}</span>
                 </p>
                 <p class="__info-title">
-                  type: <span class="__info-text">{{ item.type }}</span>
+                  type:
+                  <span
+                    v-for="(tag, tagIndex) in item.tag"
+                    :key="index + tagIndex + tag"
+                    class="__info-text"
+                    >{{ tag }}</span
+                  >
                 </p>
               </div>
               <a
@@ -58,7 +64,7 @@ import readingLists from "@/assets/content/readingList.json";
 import { Meta } from "@/decorator.js";
 
 enum ContentTypes {
-  Icon = "icon",
+  Seeing = "seeing",
   Chicken = "chicken",
   Parrot = "parrot",
   Sparrow = "sparrow",
@@ -81,12 +87,29 @@ export default class ReadingList extends Vue {
     ContentTypes.Chicken,
     ContentTypes.Parrot,
     ContentTypes.Sparrow,
-    ContentTypes.Icon,
+    ContentTypes.Seeing,
   ];
+  fmtReadingLists = {
+    meat: [],
+    pet: [],
+    city: [],
+    boundary: [],
+  };
 
   // computed
   get activeReadingList() {
-    return readingLists[this.activeContent];
+    switch (this.activeContent) {
+      case ContentTypes.Chicken:
+        return this.fmtReadingLists.meat;
+      case ContentTypes.Parrot:
+        return this.fmtReadingLists.pet;
+      case ContentTypes.Sparrow:
+        return this.fmtReadingLists.city;
+      case ContentTypes.Seeing:
+        return this.fmtReadingLists.boundary;
+      default:
+        return this.fmtReadingLists.meat;
+    }
   }
 
   // getter methods
@@ -98,7 +121,7 @@ export default class ReadingList extends Vue {
         return "parrot / pet";
       case ContentTypes.Sparrow:
         return "sparrow / city";
-      case ContentTypes.Icon:
+      case ContentTypes.Seeing:
         return "seeing / boundary";
       default:
         return "general";
@@ -118,6 +141,15 @@ export default class ReadingList extends Vue {
       }
     });
   }
+
+  // cycle
+  mounted() {
+    readingLists.list.forEach((item) => {
+      item.type.forEach((type) => {
+        this.fmtReadingLists[type].push(item);
+      });
+    });
+  }
 }
 </script>
 
@@ -130,6 +162,10 @@ export default class ReadingList extends Vue {
   font-size: 64px;
   margin: 48px 0 200px 0;
   text-decoration: underline;
+}
+
+.list {
+  max-width: 100vw;
 }
 
 .list__side {
@@ -175,6 +211,9 @@ export default class ReadingList extends Vue {
   @include -f-main-b;
   font-size: 4vw;
 }
+.readings__list {
+  margin-right: 2vw;
+}
 .readings__list-item {
   &:not(:last-child) {
     margin-bottom: 88px;
@@ -201,6 +240,8 @@ export default class ReadingList extends Vue {
   margin-bottom: 24px;
 
   & .__info-title {
+    word-wrap: break-word;
+
     &:not(:last-child) {
       position: relative;
       margin-right: 16px;
