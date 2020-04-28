@@ -59,7 +59,13 @@ export default class DotLine extends Vue {
     return this.$store.getters["connectedPairs"];
   }
   get connectedPairsCountGetter() {
+    if (this.storeConnectedPairsCount === 0) {
+      this.connectedPairsCount = 0;
+    }
     return this.connectedPairsCount;
+  }
+  get storeConnectedPairsCount() {
+    return this.$store.getters["connectedPairsCount"];
   }
   getComputedCoord(index: number) {
     if (this.windowSize) {
