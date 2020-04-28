@@ -284,6 +284,9 @@ $connect-dot-size: 16px;
     transition: all 0.3s;
     opacity: 0.5;
   }
+  &:not(.-is-glowing) .nodes__node {
+    pointer-events: none;
+  }
 }
 .nodes {
   &.-is-highlighted {
