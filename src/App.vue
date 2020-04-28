@@ -25,14 +25,56 @@ import { Meta } from "@/decorator.js";
     HamBtn,
     FullMenu,
   },
-})
-export default class App extends Vue {
-  @Meta
   metaInfo() {
     return {
       title: "Chicken, Parrot and Sparrow",
+      meta: [
+        {
+          key: "description",
+          name: "description",
+          property: "description",
+          content:
+            "An interactive website features typography animation that inspires audiences to review why and how certain birds in modern urban life aren't living as birds but being objectified as food or products.",
+        },
+        {
+          key: "author",
+          name: "author",
+          property: "author",
+          content: "Vince MingPu Shao",
+        },
+        {
+          key: "og:title",
+          name: "og:title",
+          property: "og:title",
+          content: "Chicken, Parrot and Sparrow",
+        },
+        {
+          name: "og:site_name",
+          property: "og:site_name",
+          content: "Chicken, Parrot and Sparrow",
+        },
+        {
+          name: "og:type",
+          property: "og:type",
+          content: "website",
+        },
+        {
+          key: "og:url",
+          name: "og:url",
+          property: "og:url",
+          content: "https://www.chicken-parrot-sparrow.com/",
+        },
+      ],
     };
-  }
+  },
+})
+export default class App extends Vue {
+  // @Meta
+  // metaInfo() {
+  //   return {
+  //     title: "Chicken, Parrot and Sparrow",
+  //   };
+  // }
 
   // style getters
   get stateClass() {
