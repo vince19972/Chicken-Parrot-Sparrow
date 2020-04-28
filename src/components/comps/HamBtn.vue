@@ -38,6 +38,12 @@ export default class HamBtn extends Vue {
   watchRoute(to, from) {
     this.currentRoute = to.name.toLowerCase();
   }
+
+  mounted() {
+    this.currentRoute = this.$route.name
+      ? this.$route.name.toLowerCase()
+      : "home";
+  }
 }
 </script>
 
