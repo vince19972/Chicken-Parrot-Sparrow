@@ -242,7 +242,7 @@ export default class CanvasBackground extends Vue {
 
       setTimeout(() => {
         this.unPairedTexts[this.startNode] = "let's try another connection";
-      }, 3000);
+      }, 4000);
     }
   }
 

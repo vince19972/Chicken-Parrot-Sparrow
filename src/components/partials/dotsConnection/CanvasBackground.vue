@@ -108,8 +108,8 @@ export default class CanvasBackground extends Vue {
 
 .img-wrapper {
   overflow: hidden;
-  height: 16%;
-  width: 8%;
+  height: 15vw;
+  width: 15vw;
   background-position: center;
 
   transition: all 1s;

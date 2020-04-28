@@ -101,6 +101,9 @@ export default {
     connectedPairs() {
       return this.$store.getters["connectedPairs"];
     },
+    connectedPairsCount() {
+      return this.$store.getters["connectedPairsCount"];
+    },
   },
   watch: {
     connectState() {
@@ -138,6 +141,13 @@ export default {
         }
       }
     },
+    connectedPairsCount() {
+      if (this.connectedPairsCount === 0) {
+        this.$refs.node.forEach((node) => {
+          node.classList.remove("-is-connected");
+        });
+      }
+    },
   },
   // life cycle
   mounted() {
@@ -150,7 +160,6 @@ export default {
     }
 
     // disable connected pairs
-
     for (const pairType in this.connectedPairs) {
       if (this.connectedPairs[pairType] === true) {
         this.$refs.node.forEach((node) => {

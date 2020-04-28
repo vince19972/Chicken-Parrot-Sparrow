@@ -31,6 +31,17 @@ export default new Vuex.Store({
   },
   getters: {
     connectedPairs: ({ connectedPairs }) => connectedPairs,
+    connectedPairsCount: ({ connectedPairs }) => {
+      let connectedPairsCount = 0;
+
+      for (const property in connectedPairs) {
+        if (connectedPairs[property] === true) {
+          connectedPairsCount += 1;
+        }
+      }
+
+      return connectedPairsCount;
+    },
     allPaired: ({ connectedPairs }) => {
       const { chicken, parrot, sparrow } = connectedPairs;
       if (chicken && parrot && sparrow) return true;
