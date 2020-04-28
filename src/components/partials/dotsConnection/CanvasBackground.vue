@@ -111,6 +111,7 @@ export default class CanvasBackground extends Vue {
   height: 15vw;
   width: 15vw;
   background-position: center;
+  background-size: cover;
 
   transition: all 1s;
 }
