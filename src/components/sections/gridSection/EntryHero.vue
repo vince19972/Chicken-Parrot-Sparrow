@@ -2,13 +2,13 @@
   <div
     :class="[
       'entry -full-height -full-width -f-main -flex-column-between',
-      getEntryClasses
+      getEntryClasses,
     ]"
     ref="entry"
   >
     <div class="entry__intro">
       <p class="entry__intro-text">
-        the journery of <br /><span class="-keyword">{{ getKeywords[0] }}</span>
+        the journey of <br /><span class="-keyword">{{ getKeywords[0] }}</span>
         <br />
         being objectified as <br /><span class="-keyword">{{
           getKeywords[1]
@@ -22,32 +22,6 @@
         following section DOSE NOT contain any bloody or violent content.
       </p>
     </div>
-    <!-- <div class="entry__intro -full-height -flex-column">
-      <div class="entry__intro-top">
-        <p class="entry__intro-text">The journey of :</p>
-      </div>
-      <div class="entry__intro-main hero -flex-column-between">
-        <p class="hero__text -top -flex-between hero__line -horizontal">
-          <span class="hero__text-span -front hero__text-keyword -f-main-b"
-            >CHICKEN</span
-          >
-          <span class="hero__text-span -back">being objectified as</span>
-        </p>
-        <div class="hero__text-btm -flex-between">
-          <p class="hero__text -note -flex">
-            <span class="hero__text-span -btm -note">
-              * following section DOSE NOT contain any bloody or violent
-              content.
-            </span>
-          </p>
-          <p class="hero__text -btm hero__line -vertical -flex">
-            <span class="hero__text-span -btm hero__text-keyword -f-main-b"
-              >FOOD</span
-            >
-          </p>
-        </div>
-      </div>
-    </div> -->
     <button
       class="entry__cta -f-main"
       @click="onBtnClicked"
@@ -63,7 +37,7 @@
 import { Prop, Component, Vue } from "vue-property-decorator";
 
 @Component({
-  name: "EntryHero"
+  name: "EntryHero",
 })
 export default class EntryHero extends Vue {
   @Prop() readonly contentType!: "chicken" | "sparrow" | "parrot";

@@ -170,7 +170,7 @@ $cell-border-size-h: 6px;
 
 .set__sub {
   z-index: 1;
-  font-size: $f-size-sub;
+  font-size: 2.5vw;
   position: absolute;
   bottom: 6%;
   left: 0;
