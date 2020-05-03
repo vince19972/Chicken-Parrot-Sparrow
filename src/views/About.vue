@@ -5,12 +5,18 @@
     </div>
     <div class="about__main content">
       <p class="content__text">
-        This website is built in 2020 by me,
-        <a href="vinceshao.com" target="_blank">Vince MingPu Shao</a>, as the
-        graduate thesis project at Interaction Telecommunications Program (ITP),
-        New York University (NYU). Learn more about the building process and
+        This website is
+        <a href="vinceshao.com" target="_blank">Vince MingPu Shao's</a>
+        Master's degree thesis project for Interaction Telecommunications
+        Program
+        <a href="http://itp.nyu.edu/" target="_blank">(ITP)</a> at New York
+        University (NYU) in 2020. Learn more about the building process and
         stories of the project
-        <a href="vinceshao.com" target="_blank">at my website</a>.
+        <a
+          href="https://www.vinceshao.com/works/chicken-parrot-and-sparrow"
+          target="_blank"
+          >at my website</a
+        >.
       </p>
       <p class="content__text">
         I love birds, especially sparrows. My biggest joy as walking on the
