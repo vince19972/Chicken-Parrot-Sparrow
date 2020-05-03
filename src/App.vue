@@ -28,91 +28,91 @@ import { Meta } from "@/decorator.js";
   metaInfo() {
     return {
       title: "Chicken, Parrot and Sparrow",
-      meta: [
-        {
-          key: "description",
-          name: "description",
-          property: "description",
-          content:
-            "An interactive website features typography animation that inspires audiences to review why and how certain birds in modern urban life aren't living as birds but being objectified as food or products.",
-        },
-        {
-          key: "author",
-          name: "author",
-          property: "author",
-          content: "Vince MingPu Shao",
-        },
-        {
-          key: "og:title",
-          name: "og:title",
-          property: "og:title",
-          content: "Chicken, Parrot and Sparrow",
-        },
-        {
-          key: "og:site_name",
-          name: "og:site_name",
-          property: "og:site_name",
-          content: "Chicken, Parrot and Sparrow",
-        },
-        {
-          key: "og:type",
-          name: "og:type",
-          property: "og:type",
-          content: "website",
-        },
-        {
-          key: "og:url",
-          name: "og:url",
-          property: "og:url",
-          content: "https://www.chicken-parrot-sparrow.com/",
-        },
-        {
-          key: "og:image",
-          name: "og:image",
-          property: "og:image",
-          content:
-            "https://a.storyblok.com/f/52464/5001x2626/230576232d/og.jpg",
-        },
-        {
-          key: "og:description",
-          name: "og:description",
-          property: "og:description",
-          content:
-            "An interactive website features typography animation that inspires audiences to review why and how certain birds in modern urban life aren't living as birds but being objectified as food or products.",
-        },
-        {
-          key: "twitter:card",
-          name: "twitter:card",
-          content: "summary_large_image",
-        },
-        {
-          key: "twitter:site",
-          name: "twitter:site",
-          content: "@vincemingpushao",
-        },
-        {
-          key: "twitter:title",
-          name: "twitter:title",
-          content: "Chicken, Parrot and Sparrow",
-        },
-        {
-          key: "twitter:description",
-          name: "twitter:description",
-          content:
-            "An interactive website features typography animation that inspires audiences to review why and how certain birds in modern urban life aren't living as birds but being objectified as food or products.",
-        },
-        {
-          key: "twitter:creator",
-          name: "twitter:creator",
-          content: "@vincemingpushao",
-        },
-        {
-          key: "twitter:image",
-          name: "twitter:image",
-          content:
-            "https://a.storyblok.com/f/52464/5001x2626/230576232d/og.jpg",
-        },
-      ],
+      // meta: [
+      //   {
+      //     key: "description",
+      //     name: "description",
+      //     property: "description",
+      //     content:
+      //       "An interactive website features typography animation that inspires audiences to review why and how certain birds in modern urban life aren't living as birds but being objectified as food or products.",
+      //   },
+      //   {
+      //     key: "author",
+      //     name: "author",
+      //     property: "author",
+      //     content: "Vince MingPu Shao",
+      //   },
+      //   {
+      //     key: "og:title",
+      //     name: "og:title",
+      //     property: "og:title",
+      //     content: "Chicken, Parrot and Sparrow",
+      //   },
+      //   {
+      //     key: "og:site_name",
+      //     name: "og:site_name",
+      //     property: "og:site_name",
+      //     content: "Chicken, Parrot and Sparrow",
+      //   },
+      //   {
+      //     key: "og:type",
+      //     name: "og:type",
+      //     property: "og:type",
+      //     content: "website",
+      //   },
+      //   {
+      //     key: "og:url",
+      //     name: "og:url",
+      //     property: "og:url",
+      //     content: "https://www.chicken-parrot-sparrow.com/",
+      //   },
+      //   {
+      //     key: "og:image",
+      //     name: "og:image",
+      //     property: "og:image",
+      //     content:
+      //       "https://a.storyblok.com/f/52464/5001x2626/230576232d/og.jpg",
+      //   },
+      //   {
+      //     key: "og:description",
+      //     name: "og:description",
+      //     property: "og:description",
+      //     content:
+      //       "An interactive website features typography animation that inspires audiences to review why and how certain birds in modern urban life aren't living as birds but being objectified as food or products.",
+      //   },
+      //   {
+      //     key: "twitter:card",
+      //     name: "twitter:card",
+      //     content: "summary_large_image",
+      //   },
+      //   {
+      //     key: "twitter:site",
+      //     name: "twitter:site",
+      //     content: "@vincemingpushao",
+      //   },
+      //   {
+      //     key: "twitter:title",
+      //     name: "twitter:title",
+      //     content: "Chicken, Parrot and Sparrow",
+      //   },
+      //   {
+      //     key: "twitter:description",
+      //     name: "twitter:description",
+      //     content:
+      //       "An interactive website features typography animation that inspires audiences to review why and how certain birds in modern urban life aren't living as birds but being objectified as food or products.",
+      //   },
+      //   {
+      //     key: "twitter:creator",
+      //     name: "twitter:creator",
+      //     content: "@vincemingpushao",
+      //   },
+      //   {
+      //     key: "twitter:image",
+      //     name: "twitter:image",
+      //     content:
+      //       "https://a.storyblok.com/f/52464/5001x2626/230576232d/og.jpg",
+      //   },
+      // ],
     };
   },
 })
