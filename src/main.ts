@@ -13,6 +13,7 @@ Vue.config.productionTip = false;
 import "./assets/styles/main.scss";
 
 Vue.use(VueMeta, {
+  ssrAttribute: "data-vue-meta-server-rendered",
   refreshOnceOnNavigation: true,
 });
 

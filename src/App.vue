@@ -49,11 +49,13 @@ import { Meta } from "@/decorator.js";
           content: "Chicken, Parrot and Sparrow",
         },
         {
+          key: "og:site_name",
           name: "og:site_name",
           property: "og:site_name",
           content: "Chicken, Parrot and Sparrow",
         },
         {
+          key: "og:type",
           name: "og:type",
           property: "og:type",
           content: "website",
@@ -79,6 +81,7 @@ import { Meta } from "@/decorator.js";
             "An interactive website features typography animation that inspires audiences to review why and how certain birds in modern urban life aren't living as birds but being objectified as food or products.",
         },
         {
+          key: "twitter:card",
           name: "twitter:card",
           content: "summary_large_image",
         },
