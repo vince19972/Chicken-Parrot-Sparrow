@@ -68,7 +68,8 @@ import { Meta } from "@/decorator.js";
           key: "og:image",
           name: "og:image",
           property: "og:image",
-          content: "./assets/imgs/og.jpg",
+          content:
+            "https://a.storyblok.com/f/52464/5001x2626/230576232d/og.jpg",
         },
         {
           key: "og:description",
@@ -105,7 +106,8 @@ import { Meta } from "@/decorator.js";
         {
           key: "twitter:image",
           name: "twitter:image",
-          content: "./assets/imgs/og.jpg",
+          content:
+            "https://a.storyblok.com/f/52464/5001x2626/230576232d/og.jpg",
         },
       ],
     };
