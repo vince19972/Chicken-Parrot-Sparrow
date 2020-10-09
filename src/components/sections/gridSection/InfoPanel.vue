@@ -293,7 +293,6 @@ $side-width: 30vw;
 }
 .stages__btn-text {
   @include -f-main-b;
-  height: 100%;
   width: 50%;
   margin: 0 auto;
 }
